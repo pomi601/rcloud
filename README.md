@@ -29,8 +29,8 @@ available. Rather than include the source code of external
 dependencies in this repository, we include logic to retrieve them
 from package libraries and compare their checksums to what we expect.
 
-In order to build rcloud, these tarballs must be fetched using a
-special `make` target prior to building.
+In order to build rcloud, these tarballs will be fetched by `make`
+prior to building the first time.
 
 # Building locally
 
@@ -57,6 +57,19 @@ $ make vendor-copy
 
 This will copy the downloaded tarballs into your source directory, at
 `vendor/dist`.
+
+## JavaScript
+
+Currently, the JavaScript portions of this project are not built by
+`make`, so you will have to build them manually:
+
+```sh
+# From the root of the repo, install all javascript dependencies
+$ npm ci
+
+# Build the javascript runtime files
+$ node_modules/grunt-cli/bin/grunt
+```
 
 ## Configure rcloud and rserve
 
@@ -90,6 +103,11 @@ $ make
 $ make run
 ```
 
+## Not working?
+
+Please refer to the [debian.Dockerfile](./debian.Dockerfile) for
+system requirements and build instructions that may not be correctly
+documented in this README.
 
 # Building and running a docker image
 
@@ -130,3 +148,9 @@ $ scripts/devcontainer.sh run
 This puts you in a bash shell at the root of the project, with your
 development directory bind-mounted in the container. From there, you
 can follow the instructions for [building locally](#building-locally)
+
+# Using nix-shell
+
+If you have Nix installed, a simple `nix-shell` will create the
+necessary environment to build, with all system requirements
+installed. This is detailed in the file [shell.nix](./shell.nix).

@@ -94,6 +94,7 @@ COPY m4 m4
 COPY Makefile.am .
 COPY VERSION .
 COPY vendor/Makefile.am vendor/
+COPY vendor/depend.mk vendor/
 COPY vendor/dist/cran/checksums.txt vendor/dist/cran/checksums.txt
 COPY vendor/dist/cran/*.tar.gz vendor/dist/cran/
 COPY vendor/dist/rforge/checksums.txt vendor/dist/rforge/checksums.txt
@@ -132,7 +133,7 @@ COPY README.md       .
 COPY package-lock.json    .
 COPY package.json    .
 RUN --mount=type=cache,target=/data/rcloud/build \
-    cd build && make && make late && make install
+    cd build && make && make install
 
 #
 # build-js: this stage builds the rcloud JavaScript bundles and its dependencies.

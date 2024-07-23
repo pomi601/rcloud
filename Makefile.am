@@ -396,7 +396,10 @@ $(PKGS_DIR)/rcloud.sh.tar.gz:        $(RCLOUD_SH_DIR)      $(rcloud_sh_deps)
 $(PKGS_DIR)/rcloud.viewer.tar.gz:    $(VIEWER_DIR)         $(rcloud_viewer_deps)
 $(PKGS_DIR)/rcloud.web.tar.gz:       $(WEB_DIR)            $(rcloud_web_deps)
 
-all-local: $(RCLOUD_OUT)
+# Make all targets. Run this after `make vendor-fetch`. First builds
+# rcloud packages, then builds the `late` target, which are vendored
+# dependencies which also depend on rcloud packages.
+all-local: | $(RCLOUD_OUT) late
 
 
 #

@@ -39,11 +39,24 @@ Assuming you have just cloned the repository, do the following:
 ```sh
 $ autoreconf --install
 $ mkdir build && cd build
-$ ../configure
-$ make vendor-fetch
+$ ../configure  # --help for options, --prefix etc
 $ make
 $ (sudo) make install
 ```
+
+## Caching the downloaded R package dependencies
+
+You will notice many `WGET` lines when making the project the first
+time, as the build system downloads its dependencies. To avoid doing
+this repeatedly if you delete your `build` directory, run the
+`vendor-copy` target:
+
+```sh
+$ make vendor-copy
+```
+
+This will copy the downloaded tarballs into your source directory, at
+`vendor/dist`.
 
 ## Configure rcloud and rserve
 
@@ -53,39 +66,28 @@ working example that is used by the docker image.
 
 ## Running
 
-Start the redis server:
+Use the `make run` target defined in [Makefile.am](./Makefile.am).
+This will start a redis server and start the Rserve process to host
+rcloud.
 
 ```sh
-$ redis-server &
+$ make run
 ```
 
-Set up correct isolated R package environment:
+To stop the service, use the `make stop` target.
 
 ```sh
-$ export R_LIBS_USER=/usr/local/lib/rcloud/site-library
-```
-
-Start rserve and rcloud:
-
-```sh
-$ sh conf/start
+$ make stop
 ```
 
 ## Edit - compile - run
 
 Subsequently, to rebuild only what is necessary and to run the
-service, it is more convenient to use an uninstalled R package
-library:
-
-```sh
-export R_LIBS_USER=`cd build/out/lib && pwd`
-```
-
-And then:
+service:
 
 ```sh
 $ make
-$ sh conf/start
+$ make run
 ```
 
 

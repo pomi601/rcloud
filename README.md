@@ -1,34 +1,130 @@
-# RCloud: Integrated Exploratory Analysis, Visualization, and Deployment on the Web
+# RCloud
+
+See [upstream's README](README-upstream.md).
+
+# About this fork
+
+This fork of [rcloud](https://github.com/att/rcloud) provides an
+updated and reproducible build system targeted to Debian 12 Bookworm
+with tools to make it easier to develop and test enhancements to
+rcloud as well as to deploy it.
+
+There are two main components to the build system: autotools and
+docker. The use of docker is optional, but has many advantages.
+
+The autotools system provides the traditional `configure && make &&
+make install` experience for end users. Detailed instructions follow,
+however, because rcloud has a few additional required steps due to its
+many external dependencies.
+
+# Vendored dependencies
+
+In order to provide a reproducible build, we explicitly version every
+one of rcloud's external dependencies. For the JavaScript
+dependencies, these are in the traditional `package-lock.json` file.
+
+For R package dependencies, since there were no version requirements
+in the upstream at the time of this fork, we took the latest versions
+available. Rather than include the source code of external
+dependencies in this repository, we include logic to retrieve them
+from package libraries and compare their checksums to what we expect.
+
+In order to build rcloud, these tarballs must be fetched using a
+special `make` target prior to building.
+
+# Building locally
+
+Assuming you have just cloned the repository, do the following:
+
+```sh
+$ autoreconf --install
+$ mkdir build && cd build
+$ ../configure
+$ make vendor-fetch
+$ make
+$ (sudo) make install
+```
+
+## Configure rcloud and rserve
+
+Ensure the files `conf/rcloud.conf` and `conf/rserve.conf` are
+correct. Reference `rcloud.conf.docker` and `rserve.conf.docker` for a
+working example that is used by the docker image.
+
+## Running
+
+Start the redis server:
+
+```sh
+$ redis-server &
+```
+
+Set up correct isolated R package environment:
+
+```sh
+$ export R_LIBS_USER=/usr/local/lib/rcloud/site-library
+```
+
+Start rserve and rcloud:
+
+```sh
+$ sh conf/start
+```
+
+## Edit - compile - run
+
+Subsequently, to rebuild only what is necessary and to run the
+service, it is more convenient to use an uninstalled R package
+library:
+
+```sh
+export R_LIBS_USER=`cd build/out/lib && pwd`
+```
+
+And then:
+
+```sh
+$ make
+$ sh conf/start
+```
 
 
-[RCloud](http://rcloud.social/) is an environment for collaboratively creating and sharing data
-analysis scripts. RCloud lets you mix analysis code in R, HTML5, Markdown, Python, and others.
-Much like
-[Jupyter notebooks](http://jupyter.org/), [Beaker notebook](http://beakernotebook.com/),
-[Apache Zeppelin](https://zeppelin.apache.org/),
-[Sage](http://www.sagemath.org/), and [Mathematica](http://www.wolfram.com/mathematica/), RCloud
-provides a notebook interface that lets you easily record a session
-and annotate it with text, equations, and supporting images.
+# Building and running a docker image
 
-Unlike these other systems, RCloud:
+First ensure docker is properly installed and works:
 
-* lets you easily browse and search other users's notebooks. You can
-  comment on notebooks, fork them, star them, and use them as function
-  calls in your own notebooks.
+```sh
+$ docker run hello-world
+```
 
-* lets you interpret notebooks as web services: your exploratory data
-  analysis are one step away from an automated dashboard.
+Then use the utility makefile to build an image tagged `rcloud`:
+```sh
+$ make -f docker.Makefile build
+```
 
-* provides an environment in which R packages can create rich HTML
-  content (using, for example, [d3](http://d3js.org) and
-  [dc.js](http://dc-js.github.io/dc.js/)).
+After a few minutes, if the build is successful, you may:
+```sh
+$ make -f docker.Makefile run
+```
 
-* provides a transparent, integrated version control system. In
-  essence, RCloud never forgets what you did. If you need low-level
-  access to RCloud notebooks, you can simply clone the associated git
-  repository. This is because RCloud notebooks are
-  [Github gists](https://gist.github.com)
+# Using a devcontainer
 
-Interested? Try RCloud on the public instance on [rcloud.social](http://rcloud.social/), or
-install the [Docker image](https://hub.docker.com/r/rcl0ud/rcloud/).
+In order to keep your local development environment clean, you may
+wish to use a devcontainer to build and run (for testing purposes)
+rcloud:
 
+First, build the devcontainer. This only needs to be done once, unless
+new system dependencies are added:
+```sh
+$ scripts/devcontainer.sh build
+```
+
+Then, run the container:
+
+```sh
+$ scripts/devcontainer.sh run
+```
+
+This puts you in a bash shell at the root of the project, with your
+development directory bind-mounted in the container. From there, you
+can follow the instructions for [building locally](#building-locally)

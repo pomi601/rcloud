@@ -1,5 +1,6 @@
 let
   pkgs = import <nixpkgs> { config = {}; overlays = []; };
+  pkgsUnstable = import <nixpkgs-unstable> { config = {}; overlays = [  ]; };
 in
 pkgs.mkShell {
   packages = with pkgs; [
@@ -21,7 +22,9 @@ pkgs.mkShell {
     rPackages.codetools
     rPackages.Matrix
     wget
-  ];
+  ] ++ (with pkgsUnstable; [
+    zig
+  ]);
 
   LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];
 

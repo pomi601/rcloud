@@ -10,17 +10,13 @@ pub fn build(b: *std.Build) !void {
 
     const wf = b.addWriteFiles();
 
-    // const r_build_lib_dir = b.path("out/lib");
-
     std.debug.print("b.exe_dir = {?s}\n", .{b.exe_dir});
     std.debug.print("b.lib_dir = {?s}\n", .{b.lib_dir});
     std.debug.print("b.dest_dir = {?s}\n", .{b.dest_dir});
 
     for (lib_tarballs) |tarball| {
-        const r_build = b.addSystemCommand(&.{"R"});
+        const r_build = b.addSystemCommand(&.{"scripts/r-cmd-install.sh"});
         r_build.addArgs(&.{
-            "CMD",
-            "INSTALL",
             "--no-docs",
             "--no-multiarch",
             "--no-staged-install",
@@ -35,43 +31,15 @@ pub fn build(b: *std.Build) !void {
         var iter = std.mem.split(u8, base, "_");
         const lib_name = iter.next() orelse unreachable;
 
-        const lib_generated = b.addWriteFiles();
-        _ = lib_generated.add(b.fmt("zig-generated-{s}", .{
-            lib_name,
-        }), "now");
-        lib_generated.step.dependOn(&r_build.step);
-
-        // const lib_built_step = b.step(lib_name, "built the library");
-        // lib_built_step.dependOn(&run.step);
-
-        // add library build to default default step
-        // b.default_step.dependOn(lib_built_step);
-
-        // b.getInstallStep().dependOn(lib_built_step);
-
         const install_sys = b.addInstallDirectory(.{
             .source_dir = wf.getDirectory().path(b, lib_name),
             .install_dir = .lib,
             .install_subdir = lib_name,
         });
-        install_sys.step.dependOn(&lib_generated.step);
+        install_sys.step.dependOn(&r_build.step);
 
         b.getInstallStep().dependOn(&install_sys.step);
     }
-
-    // const path = try std.fs.path.join(arena, &.{ b.lib_dir, "sys" });
-    // defer arena.free(path);
-
-    // install_sys.step.dependOn(&r_build.step);
-
-    // b.getInstallStep().dependOn(&b.addInstallDirectory(.{
-    //     .source_dir = r_build_lib_dir.path(
-    //         b,
-    //         "sys",
-    //     ),
-    //     .install_dir = .lib,
-    //     .install_subdir = "sys",
-    // }).step);
 }
 
 const lib_tarballs = [_][]const u8{

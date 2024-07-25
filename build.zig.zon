@@ -118,6 +118,11 @@
             .url = "https://github.com/cran/markdown/archive/refs/tags/1.13.tar.gz",
             .hash = "1220b8041e7587a76046da735e1271ea101b68f68be7b06019be25eaef1ae839f1f4",
         },
+        .r_Matrix = .{
+            .url = "https://github.com/cran/Matrix/archive/refs/tags/1.7-0.tar.gz",
+            .hash = "1220020dc4012abd08c81ff4f1f624ae83602d578cc21382b7ebbcceabb35345ff3d",
+        },
+
         .r_memoise = .{
             .url = "https://github.com/cran/memoise/archive/refs/tags/2.0.1.tar.gz",
             .hash = "12204efb42c4e5fe07d6d65e5c87b50762d7cc48cb6fb93ac34abe747c452ef6eca9",
@@ -127,6 +132,10 @@
             .hash = "12208eff194c55e519aba148381821e53ede01490b799da0fefc577dc39a192b16ac",
         },
         .r_openssl = .{
+            // .url = "https://cran.r-project.org/src/contrib/Archive/openssl/openssl_2.1.2.tar.gz",
+            // .hash = "122093576dd65aa0a267ba50c235f656eb1bdb29ce0b47e0b8f0322d9e0502ec48ca",
+            // .url = "https://github.com/cran/openssl/archive/refs/tags/2.1.1.tar.gz",
+            // .hash = "1220f64b84b82eede0d45015cad377340c0cf878e50d3fe88883c53ade891122e4db",
             .url = "https://github.com/cran/openssl/archive/refs/tags/2.2.0.tar.gz",
             .hash = "1220f7464c19bb8e05c6854531093b0e7999d288c2d89ed83d9ead3c227be90712b7",
         },
@@ -259,6 +268,29 @@
         .r_rcloud_solr = .{
             .url = "https://www.rforge.net/rcloud.solr/snapshot/rcloud.solr_0.3.8.tar.gz",
             .hash = "1220e122f2537ef7fe3c52c537702945003f40e68917213508f3ff2c5b2e105a6019",
+        },
+
+        //
+        // OUR PACKAGES
+        //
+
+        .rcloud_gist = .{
+            .path = "./packages/gist",
+        },
+
+        .rcloud_gitgist = .{
+            .path = "./packages/gist",
+        },
+
+        .rcloud_githubgist = .{
+            .path = "./packages/gist",
+        },
+
+        .rcloud_client = .{
+            .path = "./rcloud.client",
+        },
+        .rcloud_support = .{
+            .path = "./rcloud.support",
         },
     },
     .paths = .{

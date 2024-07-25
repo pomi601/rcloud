@@ -1,0 +1,268 @@
+.{
+    .name = "rcloud",
+    .version = "2.3.0-zig",
+    .dependencies = .{
+        .r_askpass = .{
+            .url = "https://github.com/r-lib/askpass/archive/refs/tags/1.2.0.tar.gz",
+            .hash = "1220041671cc52623278ff3af046be9e6fbce890afc60c6eddbcd700703c389b02ca",
+        },
+        .r_base64enc = .{
+            .url = "https://github.com/cran/base64enc/archive/refs/tags/0.1-3.tar.gz",
+            .hash = "1220ead7245397be7db9bd54df61721f5098d5081467e7a7129d4afe5ce1bbaa667a",
+        },
+        .r_bh = .{
+            .url = "https://github.com/cran/BH/archive/refs/tags/1.84.0-0.tar.gz",
+            .hash = "122070656a109c495622e9c2546aa9777eb908064a8ef37709a5f3c5bc0341f1fa6e",
+        },
+        .r_bitops = .{
+            .url = "https://github.com/cran/bitops/archive/refs/tags/1.0-7.tar.gz",
+            .hash = "12209b2025c9f95feb772f8b664fbac4af1ddbe879c6ce6ebbe6364ec54049f034a3",
+        },
+        .r_brew = .{
+            .url = "https://github.com/cran/brew/archive/refs/tags/1.0-10.tar.gz",
+            .hash = "122055de3a918768a91f6f0aacda64bdf1a9cbfc9010c1fc87309c5e9eb27bc0e5ee",
+        },
+        .r_bslib = .{
+            .url = "https://github.com/cran/bslib/archive/refs/tags/0.7.0.tar.gz",
+            .hash = "1220633d2887ef21143555a01d494648b76c9e54f70ccb896908a43b16237ca6d225",
+        },
+        .r_cachem = .{
+            .url = "https://github.com/cran/cachem/archive/refs/tags/1.1.0.tar.gz",
+            .hash = "12203fd863bb041db67bd5c7883e4733d644ee8502e0a057a8323fa88d2efc9eb5d8",
+        },
+        .r_Cairo = .{
+            .url = "https://github.com/cran/Cairo/archive/refs/tags/1.6-2.tar.gz",
+            .hash = "12209caeba408445871ed9311bd45b0987de745506785f97f63ce5749b4a65fc50d4",
+        },
+        .r_cli = .{
+            .url = "https://github.com/cran/cli/archive/refs/tags/3.6.3.tar.gz",
+            .hash = "12209ffe6f959451a1416182d7d9ebcedbc16e125b2c783acea8c339b1450f6c76ae",
+        },
+        .r_commonmark = .{
+            .url = "https://github.com/cran/commonmark/archive/refs/tags/1.9.1.tar.gz",
+            .hash = "12206df944b83ec20107bef5ee0d5c0e29b3afad93afba3f34cfd3716e29593fb2ba",
+        },
+        .r_curl = .{
+            .url = "https://github.com/cran/curl/archive/refs/tags/5.2.1.tar.gz",
+            .hash = "12203095282e3f221e068551bc8fa6ec96e29db532732689b63e8575591ff266b3a8",
+        },
+        .r_digest = .{
+            .url = "https://github.com/cran/digest/archive/refs/tags/0.6.36.tar.gz",
+            .hash = "122058d43287d5555ceeb5bb58a3fe05af35f56e949949449b89f8a0642a2d0d0675",
+        },
+        .r_evaluate = .{
+            .url = "https://github.com/cran/evaluate/archive/refs/tags/0.24.0.tar.gz",
+            .hash = "12209f2f5b7f0566e247d5aa241b18fcc62789b0819872599f0e43cf6d9a8b73174c",
+        },
+        .r_fastmap = .{
+            .url = "https://github.com/cran/fastmap/archive/refs/tags/1.2.0.tar.gz",
+            .hash = "1220c41b095cfde7ff9552b8a0beef5fb8ee94331732a7a92bd0f1da452323991304",
+        },
+        .r_FastRWeb = .{
+            .hash = "1220cd7e9859ece417fcfa62cc721a1d37b7465867534e0107026f228b9a155be1c1",
+            .url = "https://github.com/cran/FastRWeb/archive/refs/tags/1.2-1.tar.gz",
+        },
+        .r_fontawesome = .{
+            .url = "https://github.com/cran/fontawesome/archive/refs/tags/0.5.2.tar.gz",
+            .hash = "1220e166dda6008774f408a2f232ac6adf77b840935170e5fca10207e0d20aff17c0",
+        },
+        .r_fs = .{
+            .url = "https://github.com/cran/fs/archive/refs/tags/1.6.4.tar.gz",
+            .hash = "12206069eee656c99465b4da99ecc6ace2776b2a4777e7e3eef80c731f2c8b494911",
+        },
+        .r_glue = .{
+            .url = "https://github.com/cran/glue/archive/refs/tags/1.7.0.tar.gz",
+            .hash = "1220e86ac67371d78a92032d21a2cea8dd9662df8455155743f8461f5d1d872af711",
+        },
+        .r_here = .{
+            .url = "https://github.com/cran/here/archive/refs/tags/1.0.1.tar.gz",
+            .hash = "1220a22b36400a53273d517c72228941f3174cf8395b1cd139e7c1a8db268eebb187",
+        },
+        .r_highr = .{
+            .url = "https://github.com/cran/highr/archive/refs/tags/0.11.tar.gz",
+            .hash = "1220a36f558ab750e7a28b41d5450d60547fe6fea2a0ab3f42bda7733c02487ce6fb",
+        },
+        .r_htmltools = .{
+            .url = "https://github.com/cran/htmltools/archive/refs/tags/0.5.8.1.tar.gz",
+            .hash = "1220becf5a1132ded308d2ddad858916cec54040ed36292ef17ee9ca4af2dc648be1",
+        },
+        .r_httr = .{
+            .url = "https://github.com/cran/httr/archive/refs/tags/1.4.7.tar.gz",
+            .hash = "12204de1b5326f975f82158c09728e96fb5624f06b488bf9bdbc7c4ca736bb10486e",
+        },
+        .r_jquerylib = .{
+            .url = "https://github.com/cran/jquerylib/archive/refs/tags/0.1.4.tar.gz",
+            .hash = "12203b19a8e077edba362f72da49f645d759c1ee7881a24328b1d98e28ca6abbd3bf",
+        },
+        .r_knitr = .{
+            .url = "https://github.com/cran/knitr/archive/refs/tags/1.48.tar.gz",
+            .hash = "1220a780fe6d3221c7a6b2846040bea98130d58f60ed05851c486fd1edc82e754172",
+        },
+        .r_jsonlite = .{
+            .url = "https://github.com/cran/jsonlite/archive/refs/tags/1.8.8.tar.gz",
+            .hash = "1220d8f3cd6646c57e3c17f1dfde53b578ae6f3c49b8bd90504bf59f1d141ce52e9d",
+        },
+        .r_lattice = .{
+            .url = "https://github.com/cran/lattice/archive/refs/tags/0.22-6.tar.gz",
+            .hash = "12205bf547f05f00b6d534a3dd5fd2b596f3ebf87339358dc4e477080a3fa4f8df12",
+        },
+        .r_lifecycle = .{
+            .url = "https://github.com/cran/lifecycle/archive/refs/tags/1.0.4.tar.gz",
+            .hash = "12203a48ccfed8ea6cb349a11fc9a62568524b01e56c437bc34f8e95f41cd43cd6fa",
+        },
+        .r_magrittr = .{
+            .url = "https://github.com/cran/magrittr/archive/refs/tags/2.0.3.tar.gz",
+            .hash = "12207d5871118e2555c6faa3623e3706c14509b8b6f766ac309a99d18cd2888d9a8f",
+        },
+        .r_markdown = .{
+            .url = "https://github.com/cran/markdown/archive/refs/tags/1.13.tar.gz",
+            .hash = "1220b8041e7587a76046da735e1271ea101b68f68be7b06019be25eaef1ae839f1f4",
+        },
+        .r_memoise = .{
+            .url = "https://github.com/cran/memoise/archive/refs/tags/2.0.1.tar.gz",
+            .hash = "12204efb42c4e5fe07d6d65e5c87b50762d7cc48cb6fb93ac34abe747c452ef6eca9",
+        },
+        .r_mime = .{
+            .url = "https://github.com/cran/mime/archive/refs/tags/0.12.tar.gz",
+            .hash = "12208eff194c55e519aba148381821e53ede01490b799da0fefc577dc39a192b16ac",
+        },
+        .r_openssl = .{
+            .url = "https://github.com/cran/openssl/archive/refs/tags/2.2.0.tar.gz",
+            .hash = "1220f7464c19bb8e05c6854531093b0e7999d288c2d89ed83d9ead3c227be90712b7",
+        },
+        .r_png = .{
+            .url = "https://github.com/cran/png/archive/refs/tags/0.1-8.tar.gz",
+            .hash = "12201a4c91c213321b59da655b8dd4e35ebaf13cc31599ea416751a18e68f68f97e8",
+        },
+        .r_PKI = .{
+            .url = "https://github.com/cran/PKI/archive/refs/tags/0.1-14.tar.gz",
+            .hash = "12202fe0cc771a3a258258a21101c1e64ed7ab45a9a65bc30971a5d995d1da7d90a4",
+        },
+        .r_rappdirs = .{
+            .url = "https://github.com/cran/rappdirs/archive/refs/tags/0.3.3.tar.gz",
+            .hash = "12204ceed53495abf27dfaf918d0bb8d5803a47a6746aee18d73832ba1586b0c3142",
+        },
+        .r_Rcpp = .{
+            .url = "https://github.com/cran/Rcpp/archive/refs/tags/1.0.13.tar.gz",
+            .hash = "12203a6c783986df95c2d18fbe3f9922308c6ee7604155f79aa3284f8013a03c8773",
+        },
+        .r_RcppTOML = .{
+            .url = "https://github.com/cran/RcppTOML/archive/refs/tags/0.2.2.tar.gz",
+            .hash = "1220df3e1a7a3e060b7d526908f907c5ce8d0fe5db243e27aa2633033f8a4dcf2580",
+        },
+        .r_RCurl = .{
+            .url = "https://github.com/cran/RCurl/archive/refs/tags/1.98-1.16.tar.gz",
+            .hash = "12205ec096041c6936afdf14ede184f7369ca756382752fba16aa2cd9fc63f72543b",
+        },
+        .r_reticulate = .{
+            .url = "https://github.com/cran/reticulate/archive/refs/tags/1.38.0.tar.gz",
+            .hash = "122052baa4e54de1d1b321df52cfe0d7ba2fe3b7eb9d536086670b65287e7a1c6d4e",
+        },
+        .r_rlang = .{
+            .url = "https://github.com/cran/rlang/archive/refs/tags/1.1.4.tar.gz",
+            .hash = "1220e936a8b4048041e9bf955ef2231ec382cc6847db902b3fecf62a183fd979ca8d",
+        },
+        .r_rmarkdown = .{
+            .url = "https://github.com/cran/rmarkdown/archive/refs/tags/2.27.tar.gz",
+            .hash = "1220b27d7019c4b563f2e65ae789bcb1711f0165b4cc23e48f2967296bb181683078",
+        },
+        .r_rprojroot = .{
+            .url = "https://github.com/cran/rprojroot/archive/refs/tags/2.0.4.tar.gz",
+            .hash = "12208d2369a23e2dba67f9469d6cbac96a62e7742cb7ba15ed31b74c254139b64846",
+        },
+        .r_rjson = .{
+            .url = "https://github.com/cran/rjson/archive/refs/tags/0.2.21.tar.gz",
+            .hash = "1220bd42a54fa28d0fad3275ac6d45d18b55bcf057f414a5a2acbd20f83be14e0662",
+        },
+        .r_Rook = .{
+            .url = "https://github.com/cran/Rook/archive/refs/tags/1.2.tar.gz",
+            .hash = "12202e0f606843e33329a4ee360300dc9373ecfe6ad249d7e85b9bb91a4b74dfd15d",
+        },
+        .r_RSclient = .{
+            .url = "https://github.com/cran/RSclient/archive/refs/tags/0.7-10.tar.gz",
+            .hash = "122061b01d1c91e867f1cc0b42a7e32e154db2a276535dc377a83caf2351fc442f43",
+        },
+        .r_Rserve = .{
+            .url = "https://github.com/cran/Rserve/archive/refs/tags/1.8-13.tar.gz",
+            .hash = "1220355a41a96df995595f9909aadc0aab100c9e4ce8d08372bec85fd1349c17ea8b",
+        },
+        .r_R6 = .{
+            .url = "https://github.com/cran/R6/archive/refs/tags/2.5.1.tar.gz",
+            .hash = "1220816be23ab9df70356676debb2d87eb4696f71aff5423b9fdd46bc9c4aae16f9f",
+        },
+        .r_sass = .{
+            .url = "https://github.com/cran/sass/archive/refs/tags/0.4.9.tar.gz",
+            .hash = "12209fa92fb2a6cdc3a8ca0bed03f7a700f7044a9c4ee2fa7ce05fa70e69c3e9f741",
+        },
+        .r_sendmailR = .{
+            .url = "https://github.com/cran/sendmailR/archive/refs/tags/1.4-0.tar.gz",
+            .hash = "122047022f30baeb5f03a8bb01e13296ae367a4062b6fadd3342484fb355887f2078",
+        },
+        .r_stringi = .{
+            .url = "https://github.com/cran/stringi/archive/refs/tags/1.8.4.tar.gz",
+            .hash = "12204c7afa4cc36d2752bb3b5fd6652453330eb2c58e4921830d995a68f20c11dee2",
+        },
+        .r_stringr = .{
+            .url = "https://github.com/cran/stringr/archive/refs/tags/1.5.1.tar.gz",
+            .hash = "1220e44694d49d0f7f09e6e24adf935ea340ccb597bcda32b0995f53c664a6980716",
+        },
+        .r_sys = .{
+            .url = "https://cran.r-project.org/src/contrib/sys_3.4.2.tar.gz",
+            .hash = "12208a2948203412ff507c540b9f92ba3e6beb3314307b11e9daf5d300df0da547dc",
+        },
+        .r_tinytex = .{
+            .url = "https://github.com/cran/tinytex/archive/refs/tags/0.52.tar.gz",
+            .hash = "1220e0d533b5228691eff306391f0601edfdfa4c2a288fed1d6037601649c8e270bb",
+        },
+        .r_uuid = .{
+            .url = "https://github.com/cran/uuid/archive/refs/tags/1.2-0.tar.gz",
+            .hash = "1220b46f64904594f73f22779a0bd316158e5e23450c7e048e1d53002e343555307e",
+        },
+        .r_vctrs = .{
+            .url = "https://github.com/cran/vctrs/archive/refs/tags/0.6.5.tar.gz",
+            .hash = "122016760a79a33a7f296fe3bf7bf13e9812b8de2122524c1f20e113de068addad8b",
+        },
+        .r_withr = .{
+            .url = "https://github.com/cran/withr/archive/refs/tags/3.0.0.tar.gz",
+            .hash = "12208e59bd4ad734006e4435f27d15d99747430bdd9f10a94547cc580c80ec3c7fc4",
+        },
+        .r_xfun = .{
+            .url = "https://github.com/cran/xfun/archive/refs/tags/0.46.tar.gz",
+            .hash = "1220627e5bc2941c8b3268b4467cfa508640b607f34ea30b2713e4d88bf8df8ddfa9",
+        },
+        .r_yaml = .{
+            .url = "https://github.com/cran/yaml/archive/refs/tags/2.3.9.tar.gz",
+            .hash = "122012f3cfb89583d24a3ec3996b1d1c2be47de7b675e74629ed85e479d9fe770160",
+        },
+
+        .r_guitar = .{
+            .url = "https://www.rforge.net/src/contrib/guitar_0.0.3.1.tar.gz",
+            .hash = "1220f7244ff660512f7707f2e2d6822cc481a3ecd7374db2d78274fa51dcbd7222f2",
+        },
+        .r_github = .{
+            .url = "https://www.rforge.net/src/contrib/github_0.9.12.tar.gz",
+            .hash = "12202eb7984530f34087cd91f4e2f20bbcf2b8de0975dd3bddc3f27866f5a0259634",
+        },
+        .r_rediscc = .{
+            .url = "https://www.rforge.net/rediscc/snapshot/rediscc_0.1-6.tar.gz",
+            .hash = "1220e37d4d8af4d90412d5965e7788c29e4d0478184cbd4124da2978f782d19a7cc4",
+        },
+        .r_unixtools = .{
+            .url = "https://www.rforge.net/unixtools/snapshot/unixtools_0.1-1.tar.gz",
+            .hash = "1220c3910fa6c1f34abcdbdff53b5a219b851909b45a9f3c6882039d84382e214543",
+        },
+        .r_ulog = .{
+            .url = "https://www.rforge.net/ulog/snapshot/ulog_0.1-2.tar.gz",
+            .hash = "122016f343f0d7495d067d908cea5cc639b0bd100b01ca5941afc09852333e71c99e",
+        },
+
+        .r_rcloud_solr = .{
+            .url = "https://www.rforge.net/rcloud.solr/snapshot/rcloud.solr_0.3.8.tar.gz",
+            .hash = "1220e122f2537ef7fe3c52c537702945003f40e68917213508f3ff2c5b2e105a6019",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+    },
+}

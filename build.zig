@@ -618,7 +618,15 @@ pub fn build(b: *std.Build) !void {
     // -------------------------------------------------------------
 
     const src_rcloud_gist = b.addWriteFiles();
-    _ = src_rcloud_gist.addCopyDirectory(b.path("packages/gist"), "", .{});
+    _ = src_rcloud_gist.addCopyFile(b.path("packages/gist/R/auth.R"), "R/auth.R");
+    _ = src_rcloud_gist.addCopyFile(b.path("packages/gist/R/comments.R"), "R/comments.R");
+    _ = src_rcloud_gist.addCopyFile(b.path("packages/gist/R/gists.R"), "R/gists.R");
+    _ = src_rcloud_gist.addCopyFile(b.path("packages/gist/R/static.R"), "R/static.R");
+    _ = src_rcloud_gist.addCopyFile(b.path("packages/gist/DESCRIPTION"), "DESCRIPTION");
+    _ = src_rcloud_gist.addCopyFile(b.path("packages/gist/NAMESPACE"), "NAMESPACE");
+    // _ = src_rcloud_gist.addCopyDirectory(b.path("packages/gist"), "", .{});
+    b.default_step.dependOn(&src_rcloud_gist.step);
+
     const rcloud_gist = r_install_steps(
         b,
         src_rcloud_gist.getDirectory(),

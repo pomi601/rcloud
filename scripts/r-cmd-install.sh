@@ -80,7 +80,7 @@ else
             mtime1="$((mtime1-1))"
 
             if [[ "$mtime1" -gt "$mtime2" ]]; then
-                echo "REBUILD: NEWER file found in source: $stem: $package $libpath $file1 $mtime1 $file2 $mtime2"
+                # echo "REBUILD: NEWER file found in source: $stem: $package $libpath $file1 $mtime1 $file2 $mtime2"
                 rebuild="yes"
                 break
             fi

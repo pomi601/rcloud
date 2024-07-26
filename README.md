@@ -193,28 +193,6 @@ After a few minutes, if the build is successful, you may:
 $ make -f docker.Makefile run
 ```
 
-# Using a devcontainer
-
-In order to keep your local development environment clean, you may
-wish to use a devcontainer to build and run (for testing purposes)
-rcloud:
-
-First, build the devcontainer. This only needs to be done once, unless
-new system dependencies are added:
-```sh
-$ scripts/devcontainer.sh build
-```
-
-Then, run the container:
-
-```sh
-$ scripts/devcontainer.sh run
-```
-
-This puts you in a bash shell at the root of the project, with your
-development directory bind-mounted in the container. From there, you
-can follow the instructions for [building locally](#building-locally)
-
 # Using nix-shell
 
 If you have Nix installed, a simple `nix-shell` will create the

@@ -653,7 +653,7 @@ pub fn build(b: *std.Build) !void {
     // b.default_step.dependOn(&rcloud_githubgist.step);
 
     const src_rcloud_client = b.addWriteFiles();
-    _ = src_rcloud_client.addCopyDirectory(b.path("rcloud.client"), "", .{});
+    _ = src_rcloud_client.addCopyDirectory(b.path("./rcloud.client"), "", .{});
     const rcloud_client = r_install_steps(
         b,
         src_rcloud_client.getDirectory(),
@@ -665,7 +665,7 @@ pub fn build(b: *std.Build) !void {
     // b.default_step.dependOn(&rcloud_client.step);
 
     const src_rcloud_support = b.addWriteFiles();
-    _ = src_rcloud_support.addCopyDirectory(b.path("rcloud.support"), "", .{});
+    _ = src_rcloud_support.addCopyDirectory(b.path("./rcloud.support"), "", .{});
     const rcloud_support = r_install_steps(
         b,
         src_rcloud_support.getDirectory(),
@@ -768,6 +768,7 @@ fn r_install_steps(
     name: []const u8,
 ) struct { build: *std.Build.Step.Run, inst: *std.Build.Step.InstallDir } {
     const r_build = r_build_step(b, libdir, src);
+    r_build.step.name = name;
     const r_install = b.addInstallDirectory(.{
         .source_dir = libdir.getDirectory().path(b, name),
         .install_dir = .lib,

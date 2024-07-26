@@ -3,7 +3,7 @@
     .version = "2.3.0-zig",
     .dependencies = .{
         .r_askpass = .{
-            .url = "https://github.com/r-lib/askpass/archive/refs/tags/1.2.0.tar.gz",
+            .url = "https://github.com/cran/askpass/archive/refs/tags/1.2.0.tar.gz",
             .hash = "1220041671cc52623278ff3af046be9e6fbce890afc60c6eddbcd700703c389b02ca",
         },
         .r_base64enc = .{

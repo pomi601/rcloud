@@ -269,29 +269,6 @@
             .url = "https://www.rforge.net/rcloud.solr/snapshot/rcloud.solr_0.3.8.tar.gz",
             .hash = "1220e122f2537ef7fe3c52c537702945003f40e68917213508f3ff2c5b2e105a6019",
         },
-
-        //
-        // OUR PACKAGES
-        //
-
-        .rcloud_gist = .{
-            .path = "./packages/gist",
-        },
-
-        .rcloud_gitgist = .{
-            .path = "./packages/gist",
-        },
-
-        .rcloud_githubgist = .{
-            .path = "./packages/gist",
-        },
-
-        .rcloud_client = .{
-            .path = "./rcloud.client",
-        },
-        .rcloud_support = .{
-            .path = "./rcloud.support",
-        },
     },
     .paths = .{
         "build.zig",

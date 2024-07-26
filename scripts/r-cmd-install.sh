@@ -1,4 +1,34 @@
 #!/bin/bash
+#
+# This script wraps R CMD INSTALL to intelligently avoid calling it if
+# the destination library appears to already be up to date. This is
+# important because many packages will needlessly re-run lengthy
+# configure scripts before realising that the build artifacts still
+# present from a prior build are still valid.
+#
+# It also fixes up the mysteriously recurring problem of
+# non-executable `configure' files. (Yes, it does happen on
+# filesystems that don't have noexec set. No, I don't know why.)
+#
+# Version: 0.0.1
+#
+# Required arguments
+#
+#   -l or --library
+#
+#   This argument is required, because the script doesn't try to guess
+#   where your library directory is. Currently, the script will
+#   silently fail in mysterious ways if you don't provide it.
+#
+# If the package to install is provided as a tarball, it will be
+# passed to R CMD INSTALL without further processing.
+#
+# If the package to install is provided as a directory, the script
+# will check the modification times of every file in the directory,
+# compared against the DESCRIPTION file (if present) in the library
+# directory. It will invoke R CMD INSTALL only if any source file is
+# newer.
+#
 
 set -euo pipefail
 
@@ -74,6 +104,7 @@ else
             mtime2=$(stat -c %Y "$file2")
 
             # echo "Checking $file1 $mtime1 vs $mtime2 ..."
+
             # Due to problems with subsecond accuracy, subtract 1
             # second from mtime1 to avoid unnecessary rebuilds except
             # in the extreme case.

@@ -59,8 +59,10 @@
             .hash = "1220c41b095cfde7ff9552b8a0beef5fb8ee94331732a7a92bd0f1da452323991304",
         },
         .r_FastRWeb = .{
-            .hash = "1220cd7e9859ece417fcfa62cc721a1d37b7465867534e0107026f228b9a155be1c1",
-            .url = "https://github.com/cran/FastRWeb/archive/refs/tags/1.2-1.tar.gz",
+            .url = "https://github.com/pomi601/FastRWeb/archive/refs/heads/feat/pomi/mkdir-p.zip",
+            .hash = "122016f7cc5c04f2ffb2c1f5d3fba4e7bfdd5d2b705f70d60e77f671c6cbccadd520",
+            // .hash = "1220cd7e9859ece417fcfa62cc721a1d37b7465867534e0107026f228b9a155be1c1",
+            // .url = "https://github.com/cran/FastRWeb/archive/refs/tags/1.2-1.tar.gz",
         },
         .r_fontawesome = .{
             .url = "https://github.com/cran/fontawesome/archive/refs/tags/0.5.2.tar.gz",

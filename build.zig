@@ -161,15 +161,6 @@ pub fn build(b: *std.Build) !void {
     );
     // b.default_step.dependOn(&r_magrittr.step);
 
-    const r_markdown = r_install_steps(
-        b,
-        b.dependency("r_markdown", .{}).path(""),
-        r_libdir,
-        "markdown",
-    );
-    r_markdown.build.step.dependOn(&r_commonmark.build.step);
-    // b.default_step.dependOn(&r_markdown.step);
-
     const r_Matrix = r_install_steps(
         b,
         b.dependency("r_Matrix", .{}).path(""),
@@ -441,6 +432,16 @@ pub fn build(b: *std.Build) !void {
         "xfun",
     );
     // b.default_step.dependOn(&r_xfun.step);
+
+    const r_markdown = r_install_steps(
+        b,
+        b.dependency("r_markdown", .{}).path(""),
+        r_libdir,
+        "markdown",
+    );
+    r_markdown.build.step.dependOn(&r_commonmark.build.step);
+    r_markdown.build.step.dependOn(&r_xfun.build.step);
+    // b.default_step.dependOn(&r_markdown.step);
 
     const r_tinytex = r_install_steps(
         b,

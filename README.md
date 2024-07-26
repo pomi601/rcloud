@@ -34,7 +34,54 @@ prior to building the first time.
 
 # Building locally
 
-Assuming you have just cloned the repository, do the following:
+## Using Docker
+
+Using a docker "devcontainer" is the simplest approach to enure your
+system has all the necessary requirements and provides a consistent
+and reproducible development environment. There is a
+[devcontainer.sh](scripts/devcontainer.sh) script to make this easy.
+
+A devcontainer binds to your local filesystem, but uses its own system
+tools. There is a one-time build process that may take several
+minutes, to initially create the docker image. Subsequently, you "run"
+the devcontainer in order to get a bash shell with your local
+development directory mounted, so you can build the software.
+
+Initially, build the devcontainer:
+
+```sh
+$ scripts/devcontainer.sh build -f debian.Dockerfile --target dev --tag rcloud-dev
+```
+
+This uses the [debian.Dockerfile](debian.Dockerfile) to build the
+`dev` target (one of the multi-stage builds in the Dockerfile) and
+tags it `rcloud-dev`.
+
+The Dockerfile includes stages to fully obtain all third-party
+dependencies, checksum them, and build all the RCloud software for a
+single-user deployment. So we want to specify the `dev` stage to skip
+all of that.
+
+Next, run the devcontainer:
+
+```sh
+$ scripts/devcontainer.sh run rcloud-dev
+```
+
+This will bind to your local filesystem and also bind a random port
+number you can use for testing and drop you in a bash shell. See
+`--help` for more information. From here you can use the build system
+to build new versions of RCloud after editing the code.
+
+```sh
+$ scripts/devcontainer.sh --help
+```
+
+## Building locally (or via devcontainer)
+
+Assuming you have just cloned the repository and are either in a
+devcontainer or have installed all the necessary system requirements,
+do the following:
 
 ```sh
 $ autoreconf --install

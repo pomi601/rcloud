@@ -127,7 +127,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "jsonlite",
     );
-    // b.default_step.dependOn(&r_jsonlite.step);
 
     const r_lattice = r_install_steps(
         b,
@@ -135,7 +134,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "lattice",
     );
-    // b.default_step.dependOn(&r_lattice.step);
 
     const r_magrittr = r_install_steps(
         b,
@@ -143,7 +141,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "magrittr",
     );
-    // b.default_step.dependOn(&r_magrittr.step);
 
     const r_Matrix = r_install_steps(
         b,
@@ -152,7 +149,6 @@ pub fn build(b: *std.Build) !void {
         "Matrix",
     );
     r_Matrix.build.step.dependOn(&r_lattice.build.step);
-    // b.default_step.dependOn(&r_Matrix.step);
 
     const r_mime = r_install_steps(
         b,
@@ -160,7 +156,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "mime",
     );
-    // b.default_step.dependOn(&r_mime.step);
 
     const r_openssl = r_install_steps(
         b,
@@ -169,7 +164,6 @@ pub fn build(b: *std.Build) !void {
         "openssl",
     );
     r_openssl.build.step.dependOn(&r_askpass.build.step);
-    // b.default_step.dependOn(&r_openssl.step);
 
     const r_png = r_install_steps(
         b,
@@ -177,7 +171,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "png",
     );
-    // b.default_step.dependOn(&r_png.step);
 
     const r_PKI = r_install_steps(
         b,
@@ -186,7 +179,6 @@ pub fn build(b: *std.Build) !void {
         "PKI",
     );
     r_PKI.build.step.dependOn(&r_base64enc.build.step);
-    // b.default_step.dependOn(&r_PKI.step);
 
     const r_rappdirs = r_install_steps(
         b,
@@ -194,7 +186,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "rappdirs",
     );
-    // b.default_step.dependOn(&r_rappdirs.step);
 
     const r_Rcpp = r_install_steps(
         b,
@@ -202,7 +193,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "Rcpp",
     );
-    // b.default_step.dependOn(&r_Rcpp.step);
 
     const r_RcppTOML = r_install_steps(
         b,
@@ -211,7 +201,6 @@ pub fn build(b: *std.Build) !void {
         "RcppTOML",
     );
     r_RcppTOML.build.step.dependOn(&r_Rcpp.build.step);
-    // b.default_step.dependOn(&r_RcppTOML.step);
 
     const r_RCurl = r_install_steps(
         b,
@@ -220,7 +209,6 @@ pub fn build(b: *std.Build) !void {
         "RCurl",
     );
     r_RCurl.build.step.dependOn(&r_bitops.build.step);
-    // b.default_step.dependOn(&r_RCurl.step);
 
     const r_rlang = r_install_steps(
         b,
@@ -228,7 +216,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "rlang",
     );
-    // b.default_step.dependOn(&r_rlang.step);
 
     const r_lifecycle = r_install_steps(
         b,
@@ -239,7 +226,6 @@ pub fn build(b: *std.Build) !void {
     r_lifecycle.build.step.dependOn(&r_cli.build.step);
     r_lifecycle.build.step.dependOn(&r_glue.build.step);
     r_lifecycle.build.step.dependOn(&r_rlang.build.step);
-    // b.default_step.dependOn(&r_lifecycle.step);
 
     const r_rprojroot = r_install_steps(
         b,
@@ -247,7 +233,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "rprojroot",
     );
-    // b.default_step.dependOn(&r_rprojroot.step);
 
     const r_here = r_install_steps(
         b,
@@ -256,7 +241,6 @@ pub fn build(b: *std.Build) !void {
         "here",
     );
     r_here.build.step.dependOn(&r_rprojroot.build.step);
-    // b.default_step.dependOn(&r_here.step);
 
     const r_rjson = r_install_steps(
         b,
@@ -264,7 +248,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "rjson",
     );
-    // b.default_step.dependOn(&r_rjson.step);
 
     const r_Rook = r_install_steps(
         b,
@@ -273,7 +256,6 @@ pub fn build(b: *std.Build) !void {
         "Rook",
     );
     r_Rook.build.step.dependOn(&r_brew.build.step);
-    // b.default_step.dependOn(&r_Rook.step);
 
     const r_RSclient = r_install_steps(
         b,
@@ -281,7 +263,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "RSclient",
     );
-    // b.default_step.dependOn(&r_RSclient.step);
 
     const r_Rserve = r_install_steps(
         b,
@@ -289,7 +270,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "Rserve",
     );
-    // b.default_step.dependOn(&r_Rserve.step);
 
     const r_R6 = r_install_steps(
         b,
@@ -297,7 +277,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "R6",
     );
-    // b.default_step.dependOn(&r_R6.step);
 
     const r_httr = r_install_steps(
         b,
@@ -310,7 +289,6 @@ pub fn build(b: *std.Build) !void {
     r_httr.build.step.dependOn(&r_mime.build.step);
     r_httr.build.step.dependOn(&r_openssl.build.step);
     r_httr.build.step.dependOn(&r_R6.build.step);
-    // b.default_step.dependOn(&r_httr.step);
 
     const r_cachem = r_install_steps(
         b,
@@ -320,7 +298,6 @@ pub fn build(b: *std.Build) !void {
     );
     r_cachem.build.step.dependOn(&r_fastmap.build.step);
     r_cachem.build.step.dependOn(&r_rlang.build.step);
-    // b.default_step.dependOn(&r_cachem.step);
 
     const r_memoise = r_install_steps(
         b,
@@ -330,7 +307,6 @@ pub fn build(b: *std.Build) !void {
     );
     r_memoise.build.step.dependOn(&r_cachem.build.step);
     r_memoise.build.step.dependOn(&r_rlang.build.step);
-    // b.default_step.dependOn(&r_memoise.step);
 
     const r_sendmailR = r_install_steps(
         b,
@@ -339,7 +315,6 @@ pub fn build(b: *std.Build) !void {
         "sendmailR",
     );
     r_sendmailR.build.step.dependOn(&r_base64enc.build.step);
-    // b.default_step.dependOn(&r_sendmailR.step);
 
     const r_stringi = r_install_steps(
         b,
@@ -347,7 +322,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "stringi",
     );
-    // b.default_step.dependOn(&r_stringi.step);
 
     const r_uuid = r_install_steps(
         b,
@@ -355,7 +329,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "uuid",
     );
-    // b.default_step.dependOn(&r_uuid.step);
 
     const r_vctrs = r_install_steps(
         b,
@@ -367,7 +340,6 @@ pub fn build(b: *std.Build) !void {
     r_vctrs.build.step.dependOn(&r_glue.build.step);
     r_vctrs.build.step.dependOn(&r_lifecycle.build.step);
     r_vctrs.build.step.dependOn(&r_rlang.build.step);
-    // b.default_step.dependOn(&r_vctrs.step);
 
     const r_stringr = r_install_steps(
         b,
@@ -382,7 +354,6 @@ pub fn build(b: *std.Build) !void {
     r_stringr.build.step.dependOn(&r_rlang.build.step);
     r_stringr.build.step.dependOn(&r_stringi.build.step);
     r_stringr.build.step.dependOn(&r_vctrs.build.step);
-    // b.default_build.step.dependOn(&r_stringr.build.step);
 
     const r_withr = r_install_steps(
         b,
@@ -390,7 +361,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "withr",
     );
-    // b.default_step.dependOn(&r_withr.step);
 
     const r_reticulate = r_install_steps(
         b,
@@ -407,7 +377,6 @@ pub fn build(b: *std.Build) !void {
     r_reticulate.build.step.dependOn(&r_RcppTOML.build.step);
     r_reticulate.build.step.dependOn(&r_rlang.build.step);
     r_reticulate.build.step.dependOn(&r_withr.build.step);
-    // b.default_step.dependOn(&r_reticulate.step);
 
     const r_xfun = r_install_steps(
         b,
@@ -415,7 +384,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "xfun",
     );
-    // b.default_step.dependOn(&r_xfun.step);
 
     const r_markdown = r_install_steps(
         b,
@@ -425,7 +393,6 @@ pub fn build(b: *std.Build) !void {
     );
     r_markdown.build.step.dependOn(&r_commonmark.build.step);
     r_markdown.build.step.dependOn(&r_xfun.build.step);
-    // b.default_step.dependOn(&r_markdown.step);
 
     const r_tinytex = r_install_steps(
         b,
@@ -434,7 +401,6 @@ pub fn build(b: *std.Build) !void {
         "tinytex",
     );
     r_tinytex.build.step.dependOn(&r_xfun.build.step);
-    // b.default_step.dependOn(&r_tinytex.step);
 
     const r_highr = r_install_steps(
         b,
@@ -443,7 +409,6 @@ pub fn build(b: *std.Build) !void {
         "highr",
     );
     r_highr.build.step.dependOn(&r_xfun.build.step);
-    // b.default_step.dependOn(&r_highr.step);
 
     const r_yaml = r_install_steps(
         b,
@@ -451,7 +416,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "yaml",
     );
-    // b.default_step.dependOn(&r_yaml.step);
 
     const r_knitr = r_install_steps(
         b,
@@ -463,7 +427,6 @@ pub fn build(b: *std.Build) !void {
     r_knitr.build.step.dependOn(&r_highr.build.step);
     r_knitr.build.step.dependOn(&r_xfun.build.step);
     r_knitr.build.step.dependOn(&r_yaml.build.step);
-    // b.default_step.dependOn(&r_knitr.step);
 
     const r_htmltools = r_install_steps(
         b,
@@ -476,7 +439,6 @@ pub fn build(b: *std.Build) !void {
     r_htmltools.build.step.dependOn(&r_fastmap.build.step);
     r_htmltools.build.step.dependOn(&r_knitr.build.step);
     r_htmltools.build.step.dependOn(&r_rlang.build.step);
-    // b.default_step.dependOn(&r_htmltools.step);
 
     const r_sass = r_install_steps(
         b,
@@ -489,7 +451,6 @@ pub fn build(b: *std.Build) !void {
     r_sass.build.step.dependOn(&r_R6.build.step);
     r_sass.build.step.dependOn(&r_rappdirs.build.step);
     r_sass.build.step.dependOn(&r_rlang.build.step);
-    // b.default_step.dependOn(&r_sass.step);
 
     const r_fontawesome = r_install_steps(
         b,
@@ -499,7 +460,6 @@ pub fn build(b: *std.Build) !void {
     );
     r_fontawesome.build.step.dependOn(&r_htmltools.build.step);
     r_fontawesome.build.step.dependOn(&r_rlang.build.step);
-    // b.default_step.dependOn(&r_fontawesome.step);
 
     const r_jquerylib = r_install_steps(
         b,
@@ -508,7 +468,6 @@ pub fn build(b: *std.Build) !void {
         "jquerylib",
     );
     r_jquerylib.build.step.dependOn(&r_htmltools.build.step);
-    // b.default_step.dependOn(&r_jquerylib.step);
 
     const r_bslib = r_install_steps(
         b,
@@ -527,7 +486,6 @@ pub fn build(b: *std.Build) !void {
     r_bslib.build.step.dependOn(&r_mime.build.step);
     r_bslib.build.step.dependOn(&r_rlang.build.step);
     r_bslib.build.step.dependOn(&r_sass.build.step);
-    // b.default_step.dependOn(&r_bslib.step);
 
     const r_rmarkdown = r_install_steps(
         b,
@@ -545,7 +503,6 @@ pub fn build(b: *std.Build) !void {
     r_rmarkdown.build.step.dependOn(&r_tinytex.build.step);
     r_rmarkdown.build.step.dependOn(&r_xfun.build.step);
     r_rmarkdown.build.step.dependOn(&r_yaml.build.step);
-    // b.default_step.dependOn(&r_rmarkdown.step);
 
     //
 
@@ -557,7 +514,6 @@ pub fn build(b: *std.Build) !void {
     );
     r_guitar.build.step.dependOn(&r_Rcpp.build.step);
     r_guitar.build.step.dependOn(&r_BH.build.step);
-    // b.default_step.dependOn(&r_guitar.step);
 
     const r_github = r_install_steps(
         b,
@@ -569,7 +525,6 @@ pub fn build(b: *std.Build) !void {
     r_github.build.step.dependOn(&r_jsonlite.build.step);
     r_github.build.step.dependOn(&r_Rook.build.step);
     r_github.build.step.dependOn(&r_stringr.build.step);
-    // b.default_step.dependOn(&r_github.step);
 
     const r_rediscc = r_install_steps(
         b,
@@ -577,7 +532,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "rediscc",
     );
-    // b.default_step.dependOn(&r_rediscc.step);
 
     const r_unixtools = r_install_steps(
         b,
@@ -585,7 +539,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "unixtools",
     );
-    // b.default_step.dependOn(&r_unixtools.step);
 
     const r_ulog = r_install_steps(
         b,
@@ -593,7 +546,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "ulog",
     );
-    // b.default_step.dependOn(&r_ulog.step);
 
     // -------------------------------------------------------------
     //
@@ -606,6 +558,10 @@ pub fn build(b: *std.Build) !void {
     // using addCopyDirectory() vs addCopyFile(). This is corrected in
     // 0.14.0-dev.
     // TODO: remove this note when 0.14.0 is released.
+
+    // To build our packages, first copy them into a cache directory,
+    // because we don't want build artifacts to pollute our source
+    // tree.
 
     const src_rcloud_gist = b.addWriteFiles();
     _ = src_rcloud_gist.addCopyDirectory(b.path("packages/gist"), ".", .{});
@@ -692,25 +648,39 @@ pub fn build(b: *std.Build) !void {
     r_rcloud_solr.build.step.dependOn(&r_R6.build.step);
 
     //
-    // Root installations
+    // INSTALLATION
     //
-    b.getInstallStep().dependOn(&rcloud_support.inst.step);
+    // Copy r_libdir to $prefix
+    //
+    const install_libs = b.addInstallDirectory(.{
+        .source_dir = r_libdir.getDirectory(),
+        .install_dir = .prefix,
+        .install_subdir = "lib",
+    });
+    b.getInstallStep().dependOn(&install_libs.step);
 
-    // for (rcloud_support.step.dependencies.items) |d| {
-    //     std.debug.print("step: {s}\n", .{d.name});
-    // }
+    //
+    // ROOT of dependency graph
+    //
+    // Before we can install r_libdir, we have to build these packages
+    // and all their dependencies.
+    //
+    install_libs.step.dependOn(&rcloud_support.stage.step);
 
     //
     // run command
     //
     const run_step = b.step("run", "Run it");
-    run_step.dependOn(&rcloud_support.inst.step);
+    run_step.dependOn(&install_libs.step);
 }
 
+/// Create a step which builds and stages the given src to libdir in
+/// the .zig-cache.
 fn r_build_step(
     b: *std.Build,
     libdir: *std.Build.Step.WriteFile,
     src: std.Build.LazyPath,
+    name: []const u8,
 ) *std.Build.Step.Run {
     const r_build = b.addSystemCommand(&.{"scripts/r-cmd-install.sh"});
     r_build.addArgs(&.{
@@ -722,23 +692,19 @@ fn r_build_step(
     r_build.addDirectoryArg(libdir.getDirectory());
     r_build.addDirectoryArg(src);
 
-    // build depends on generation of src
-    src.addStepDependencies(&r_build.step);
+    r_build.step.name = name;
 
-    // To experiment with replacing gcc with zig cc
-    // r_build.setEnvironmentVariable("CC", "'zig cc'");
-    // r_build.setEnvironmentVariable("CXX", "'zig c++'");
     return r_build;
 }
 
+/// Create staging and installation steps all in one go.
 fn r_install_steps(
     b: *std.Build,
     src: std.Build.LazyPath,
     libdir: *std.Build.Step.WriteFile,
     name: []const u8,
-) struct { build: *std.Build.Step.Run, inst: *std.Build.Step.InstallDir } {
-    const r_build = r_build_step(b, libdir, src);
-    r_build.step.name = name;
+) struct { build: *std.Build.Step.Run, stage: *std.Build.Step.InstallDir } {
+    const r_build = r_build_step(b, libdir, src, name);
 
     const r_install = b.addInstallDirectory(.{
         .source_dir = libdir.getDirectory().path(b, name),
@@ -746,8 +712,7 @@ fn r_install_steps(
         .install_subdir = name,
     });
 
-    // install depends on build step
     r_install.step.dependOn(&r_build.step);
     r_install.step.name = name;
-    return .{ .build = r_build, .inst = r_install };
+    return .{ .build = r_build, .stage = r_install };
 }

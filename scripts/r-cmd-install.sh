@@ -130,9 +130,8 @@ if [[ "$rebuild" == "yes" ]]; then
     fi
 
     if ! R CMD INSTALL "$@"; then
-        err=$?
         echo "ERROR: $0: failed to R CMD INSTALL $package" >&2
-        exit $err
+        exit 1
     else
         # touch every installed file to fix up modification dates
         files=$(find "$libpath" -type f)

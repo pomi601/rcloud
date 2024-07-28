@@ -12,7 +12,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "sys",
     );
-    // b.default_step.dependOn(&r_sys.build.step);
 
     const r_askpass = r_install_steps(
         b,
@@ -21,7 +20,6 @@ pub fn build(b: *std.Build) !void {
         "askpass",
     );
     r_askpass.build.step.dependOn(&r_sys.build.step);
-    // b.default_step.dependOn(&r_askpass.step);
 
     const r_base64enc = r_install_steps(
         b,
@@ -29,7 +27,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "base64enc",
     );
-    // b.default_step.dependOn(&r_base64enc.step);
 
     const r_BH = r_install_steps(
         b,
@@ -37,7 +34,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "bh",
     );
-    // b.default_step.dependOn(&r_BH.step);
 
     const r_bitops = r_install_steps(
         b,
@@ -45,7 +41,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "bitops",
     );
-    // b.default_step.dependOn(&r_bitops.step);
 
     const r_brew = r_install_steps(
         b,
@@ -53,7 +48,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "brew",
     );
-    // b.default_step.dependOn(&r_brew.step);
 
     const r_Cairo = r_install_steps(
         b,
@@ -61,7 +55,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "Cairo",
     );
-    // b.default_step.dependOn(&r_Cairo.step);
 
     const r_cli = r_install_steps(
         b,
@@ -69,7 +62,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "cli",
     );
-    // b.default_step.dependOn(&r_cli.step);
 
     const r_commonmark = r_install_steps(
         b,
@@ -77,7 +69,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "commonmark",
     );
-    // b.default_step.dependOn(&r_commonmark.step);
 
     const r_curl = r_install_steps(
         b,
@@ -85,7 +76,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "curl",
     );
-    // b.default_step.dependOn(&r_curl.step);
 
     const r_digest = r_install_steps(
         b,
@@ -93,7 +83,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "digest",
     );
-    // b.default_step.dependOn(&r_digest.step);
 
     const r_evaluate = r_install_steps(
         b,
@@ -101,7 +90,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "evaluate",
     );
-    // b.default_step.dependOn(&r_evaluate.step);
 
     const r_fastmap = r_install_steps(
         b,
@@ -109,7 +97,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "fastmap",
     );
-    // b.default_step.dependOn(&r_fastmap.step);
 
     const r_FastRWeb = r_install_steps(
         b,
@@ -119,7 +106,6 @@ pub fn build(b: *std.Build) !void {
     );
     r_FastRWeb.build.step.dependOn(&r_base64enc.build.step);
     r_FastRWeb.build.step.dependOn(&r_Cairo.build.step);
-    // b.default_step.dependOn(&r_FastRWeb.step);
 
     const r_fs = r_install_steps(
         b,
@@ -127,7 +113,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "fs",
     );
-    // b.default_step.dependOn(&r_fs.step);
 
     const r_glue = r_install_steps(
         b,
@@ -135,7 +120,6 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "glue",
     );
-    // b.default_step.dependOn(&r_glue.step);
 
     const r_jsonlite = r_install_steps(
         b,
@@ -617,23 +601,20 @@ pub fn build(b: *std.Build) !void {
     //
     // -------------------------------------------------------------
 
-    const src_rcloud_gist = b.addWriteFiles();
-    _ = src_rcloud_gist.addCopyFile(b.path("packages/gist/R/auth.R"), "R/auth.R");
-    _ = src_rcloud_gist.addCopyFile(b.path("packages/gist/R/comments.R"), "R/comments.R");
-    _ = src_rcloud_gist.addCopyFile(b.path("packages/gist/R/gists.R"), "R/gists.R");
-    _ = src_rcloud_gist.addCopyFile(b.path("packages/gist/R/static.R"), "R/static.R");
-    _ = src_rcloud_gist.addCopyFile(b.path("packages/gist/DESCRIPTION"), "DESCRIPTION");
-    _ = src_rcloud_gist.addCopyFile(b.path("packages/gist/NAMESPACE"), "NAMESPACE");
-    // _ = src_rcloud_gist.addCopyDirectory(b.path("packages/gist"), "", .{});
-    b.default_step.dependOn(&src_rcloud_gist.step);
+    // FIXME: There is a bug in zig 0.13.0 which causes the cache to
+    // become out of date with respect to the source directory when
+    // using addCopyDirectory() vs addCopyFile(). This is corrected in
+    // 0.14.0-dev.
+    // TODO: remove this note when 0.14.0 is released.
 
+    const src_rcloud_gist = b.addWriteFiles();
+    _ = src_rcloud_gist.addCopyDirectory(b.path("packages/gist"), ".", .{});
     const rcloud_gist = r_install_steps(
         b,
         src_rcloud_gist.getDirectory(),
         r_libdir,
         "gist",
     );
-    // b.default_step.dependOn(&rcloud_gist.step);
 
     const src_rcloud_gitgist = b.addWriteFiles();
     _ = src_rcloud_gitgist.addCopyDirectory(b.path("packages/gitgist"), "", .{});
@@ -645,7 +626,6 @@ pub fn build(b: *std.Build) !void {
     );
     rcloud_gitgist.build.step.dependOn(&r_guitar.build.step);
     rcloud_gitgist.build.step.dependOn(&r_PKI.build.step);
-    // b.default_step.dependOn(&rcloud_gitgist.step);
 
     const src_rcloud_githubgist = b.addWriteFiles();
     _ = src_rcloud_githubgist.addCopyDirectory(b.path("packages/githubgist"), "", .{});
@@ -658,7 +638,6 @@ pub fn build(b: *std.Build) !void {
     rcloud_githubgist.build.step.dependOn(&rcloud_gist.build.step);
     rcloud_githubgist.build.step.dependOn(&r_github.build.step);
     rcloud_githubgist.build.step.dependOn(&r_httr.build.step);
-    // b.default_step.dependOn(&rcloud_githubgist.step);
 
     const src_rcloud_client = b.addWriteFiles();
     _ = src_rcloud_client.addCopyDirectory(b.path("./rcloud.client"), "", .{});
@@ -670,7 +649,6 @@ pub fn build(b: *std.Build) !void {
     );
     rcloud_client.build.step.dependOn(&r_RSclient.build.step);
     rcloud_client.build.step.dependOn(&r_FastRWeb.build.step);
-    // b.default_step.dependOn(&rcloud_client.step);
 
     const src_rcloud_support = b.addWriteFiles();
     _ = src_rcloud_support.addCopyDirectory(b.path("./rcloud.support"), "", .{});
@@ -699,7 +677,6 @@ pub fn build(b: *std.Build) !void {
     rcloud_support.build.step.dependOn(&r_RSclient.build.step);
     rcloud_support.build.step.dependOn(&rcloud_client.build.step);
     rcloud_support.build.step.dependOn(&rcloud_gist.build.step);
-    // b.default_step.dependOn(&rcloud_support.step);
 
     const r_rcloud_solr = r_install_steps(
         b,
@@ -713,7 +690,6 @@ pub fn build(b: *std.Build) !void {
     r_rcloud_solr.build.step.dependOn(&r_httr.build.step);
     r_rcloud_solr.build.step.dependOn(&r_ulog.build.step);
     r_rcloud_solr.build.step.dependOn(&r_R6.build.step);
-    // b.default_step.dependOn(&r_rcloud_solr.step);
 
     //
     // Root installations
@@ -723,6 +699,12 @@ pub fn build(b: *std.Build) !void {
     // for (rcloud_support.step.dependencies.items) |d| {
     //     std.debug.print("step: {s}\n", .{d.name});
     // }
+
+    //
+    // run command
+    //
+    const run_step = b.step("run", "Run it");
+    run_step.dependOn(&rcloud_support.inst.step);
 }
 
 fn r_build_step(
@@ -732,16 +714,9 @@ fn r_build_step(
 ) *std.Build.Step.Run {
     const r_build = b.addSystemCommand(&.{"scripts/r-cmd-install.sh"});
     r_build.addArgs(&.{
-        // remove files created during previous runs, because FastRWeb
-        // fails due to a mkdir without the -p option (directory
-        // exists)
-        "--clean",
-        "--preclean",
-
         // don't bother building things we don't need
         "--no-docs",
         "--no-multiarch",
-        // "--no-staged-install",
         "-l",
     });
     r_build.addDirectoryArg(libdir.getDirectory());
@@ -751,22 +726,6 @@ fn r_build_step(
     // r_build.setEnvironmentVariable("CC", "'zig cc'");
     // r_build.setEnvironmentVariable("CXX", "'zig c++'");
     return r_build;
-}
-
-fn r_install_step_2(
-    b: *std.Build,
-    build_step: *std.Build.Step.Run,
-    libdir: *std.Build.Step.WriteFile,
-    name: []const u8,
-) *std.Build.Step.InstallDir {
-    const r_install = b.addInstallDirectory(.{
-        .source_dir = libdir.getDirectory().path(b, name),
-        .install_dir = .lib,
-        .install_subdir = name,
-    });
-    r_install.step.dependOn(&build_step.step);
-    r_install.step.name = name;
-    return r_install;
 }
 
 fn r_install_steps(

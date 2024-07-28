@@ -722,6 +722,9 @@ fn r_build_step(
     r_build.addDirectoryArg(libdir.getDirectory());
     r_build.addDirectoryArg(src);
 
+    // build depends on generation of src
+    src.addStepDependencies(&r_build.step);
+
     // To experiment with replacing gcc with zig cc
     // r_build.setEnvironmentVariable("CC", "'zig cc'");
     // r_build.setEnvironmentVariable("CXX", "'zig c++'");
@@ -736,11 +739,14 @@ fn r_install_steps(
 ) struct { build: *std.Build.Step.Run, inst: *std.Build.Step.InstallDir } {
     const r_build = r_build_step(b, libdir, src);
     r_build.step.name = name;
+
     const r_install = b.addInstallDirectory(.{
         .source_dir = libdir.getDirectory().path(b, name),
         .install_dir = .lib,
         .install_subdir = name,
     });
+
+    // install depends on build step
     r_install.step.dependOn(&r_build.step);
     r_install.step.name = name;
     return .{ .build = r_build, .inst = r_install };

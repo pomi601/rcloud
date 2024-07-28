@@ -564,6 +564,12 @@ pub fn build(b: *std.Build) !void {
     // because we don't want build artifacts to pollute our source
     // tree.
 
+    // NOTE: when separating the build into two steps (depend and
+    // install), we commented disabled the dependencies between our
+    // source packages (which will change frequently) and our external
+    // dependencies (which will not). This speeds up repeated builds.
+    // But we preserve the disabled code for documentation purposes.
+
     const src_rcloud_gist = b.addWriteFiles();
     _ = src_rcloud_gist.addCopyDirectory(b.path("packages/gist"), ".", .{});
     const rcloud_gist = r_install_steps(
@@ -581,8 +587,8 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "gitgist",
     );
-    rcloud_gitgist.build.step.dependOn(&r_guitar.build.step);
-    rcloud_gitgist.build.step.dependOn(&r_PKI.build.step);
+    // rcloud_gitgist.build.step.dependOn(&r_guitar.build.step);
+    // rcloud_gitgist.build.step.dependOn(&r_PKI.build.step);
 
     const src_rcloud_githubgist = b.addWriteFiles();
     _ = src_rcloud_githubgist.addCopyDirectory(b.path("packages/githubgist"), "", .{});
@@ -593,8 +599,8 @@ pub fn build(b: *std.Build) !void {
         "githubgist",
     );
     rcloud_githubgist.build.step.dependOn(&rcloud_gist.build.step);
-    rcloud_githubgist.build.step.dependOn(&r_github.build.step);
-    rcloud_githubgist.build.step.dependOn(&r_httr.build.step);
+    // rcloud_githubgist.build.step.dependOn(&r_github.build.step);
+    // rcloud_githubgist.build.step.dependOn(&r_httr.build.step);
 
     const src_rcloud_client = b.addWriteFiles();
     _ = src_rcloud_client.addCopyDirectory(b.path("./rcloud.client"), "", .{});
@@ -604,8 +610,8 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "rcloud.client",
     );
-    rcloud_client.build.step.dependOn(&r_RSclient.build.step);
-    rcloud_client.build.step.dependOn(&r_FastRWeb.build.step);
+    // rcloud_client.build.step.dependOn(&r_RSclient.build.step);
+    // rcloud_client.build.step.dependOn(&r_FastRWeb.build.step);
 
     const src_rcloud_support = b.addWriteFiles();
     _ = src_rcloud_support.addCopyDirectory(b.path("./rcloud.support"), "", .{});
@@ -615,25 +621,28 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "rcloud.support",
     );
-    rcloud_support.build.step.dependOn(&r_Cairo.build.step);
-    rcloud_support.build.step.dependOn(&r_FastRWeb.build.step);
-    rcloud_support.build.step.dependOn(&r_httr.build.step);
-    rcloud_support.build.step.dependOn(&r_jsonlite.build.step);
-    rcloud_support.build.step.dependOn(&r_knitr.build.step);
-    rcloud_support.build.step.dependOn(&r_markdown.build.step);
-    rcloud_support.build.step.dependOn(&r_mime.build.step);
-    rcloud_support.build.step.dependOn(&r_PKI.build.step);
-    rcloud_support.build.step.dependOn(&r_png.build.step);
-    rcloud_support.build.step.dependOn(&r_RCurl.build.step);
-    rcloud_support.build.step.dependOn(&r_Rserve.build.step);
-    rcloud_support.build.step.dependOn(&r_rediscc.build.step);
-    rcloud_support.build.step.dependOn(&r_rjson.build.step);
-    rcloud_support.build.step.dependOn(&r_sendmailR.build.step);
-    rcloud_support.build.step.dependOn(&r_unixtools.build.step);
-    rcloud_support.build.step.dependOn(&r_uuid.build.step);
-    rcloud_support.build.step.dependOn(&r_RSclient.build.step);
+    // rcloud_support.build.step.dependOn(&r_Cairo.build.step);
+    // rcloud_support.build.step.dependOn(&r_FastRWeb.build.step);
+    // rcloud_support.build.step.dependOn(&r_httr.build.step);
+    // rcloud_support.build.step.dependOn(&r_jsonlite.build.step);
+    // rcloud_support.build.step.dependOn(&r_knitr.build.step);
+    // rcloud_support.build.step.dependOn(&r_markdown.build.step);
+    // rcloud_support.build.step.dependOn(&r_mime.build.step);
+    // rcloud_support.build.step.dependOn(&r_PKI.build.step);
+    // rcloud_support.build.step.dependOn(&r_png.build.step);
+    // rcloud_support.build.step.dependOn(&r_RCurl.build.step);
+    // rcloud_support.build.step.dependOn(&r_Rserve.build.step);
+    // rcloud_support.build.step.dependOn(&r_rediscc.build.step);
+    // rcloud_support.build.step.dependOn(&r_rjson.build.step);
+    // rcloud_support.build.step.dependOn(&r_sendmailR.build.step);
+    // rcloud_support.build.step.dependOn(&r_unixtools.build.step);
+    // rcloud_support.build.step.dependOn(&r_uuid.build.step);
+    // rcloud_support.build.step.dependOn(&r_RSclient.build.step);
     rcloud_support.build.step.dependOn(&rcloud_client.build.step);
     rcloud_support.build.step.dependOn(&rcloud_gist.build.step);
+
+    // add this even though it's not declared as a dependency
+    rcloud_support.build.step.dependOn(&rcloud_gitgist.build.step);
 
     const r_rcloud_solr = r_install_steps(
         b,
@@ -641,12 +650,12 @@ pub fn build(b: *std.Build) !void {
         r_libdir,
         "rcloud_solr",
     );
-    r_rcloud_solr.build.step.dependOn(&r_rjson.build.step);
+    // r_rcloud_solr.build.step.dependOn(&r_rjson.build.step);
+    // r_rcloud_solr.build.step.dependOn(&r_Rserve.build.step);
+    // r_rcloud_solr.build.step.dependOn(&r_httr.build.step);
+    // r_rcloud_solr.build.step.dependOn(&r_ulog.build.step);
+    // r_rcloud_solr.build.step.dependOn(&r_R6.build.step);
     r_rcloud_solr.build.step.dependOn(&rcloud_support.build.step);
-    r_rcloud_solr.build.step.dependOn(&r_Rserve.build.step);
-    r_rcloud_solr.build.step.dependOn(&r_httr.build.step);
-    r_rcloud_solr.build.step.dependOn(&r_ulog.build.step);
-    r_rcloud_solr.build.step.dependOn(&r_R6.build.step);
 
     //
     // INSTALLATION
@@ -666,7 +675,43 @@ pub fn build(b: *std.Build) !void {
     // Before we can install r_libdir, we have to build these packages
     // and all their dependencies.
     //
-    install_libs.step.dependOn(&rcloud_support.stage.step);
+    // Note that this does NOT depend on depend_step, which is
+    // technically not correct -- but we separate the steps to avoid
+    // needless repeated processing of dependencies that haven't
+    // changed -- zig version 0.14.0-dev
+    //
+    install_libs.step.dependOn(&rcloud_support.build.step);
+
+    //
+    // depend command
+    //
+    // builds dependencies (defined in build.zig.zon)
+    //
+    const depend_step = b.step("depend", "Build dependencies. " ++
+        "Run this if build.zig.zon changes.");
+
+    depend_step.dependOn(&r_Cairo.build.step);
+    depend_step.dependOn(&r_FastRWeb.build.step);
+    depend_step.dependOn(&r_httr.build.step);
+    depend_step.dependOn(&r_jsonlite.build.step);
+    depend_step.dependOn(&r_knitr.build.step);
+    depend_step.dependOn(&r_markdown.build.step);
+    depend_step.dependOn(&r_mime.build.step);
+    depend_step.dependOn(&r_PKI.build.step);
+    depend_step.dependOn(&r_png.build.step);
+    depend_step.dependOn(&r_RCurl.build.step);
+    depend_step.dependOn(&r_Rserve.build.step);
+    depend_step.dependOn(&r_rediscc.build.step);
+    depend_step.dependOn(&r_rjson.build.step);
+    depend_step.dependOn(&r_sendmailR.build.step);
+    depend_step.dependOn(&r_unixtools.build.step);
+    depend_step.dependOn(&r_uuid.build.step);
+    depend_step.dependOn(&r_RSclient.build.step);
+    depend_step.dependOn(&r_ulog.build.step);
+
+    // required by gitgist:
+    depend_step.dependOn(&r_guitar.build.step);
+    depend_step.dependOn(&r_PKI.build.step);
 
     //
     // run command
@@ -685,6 +730,7 @@ fn r_build_step(
 ) *std.Build.Step.Run {
     const r_build = b.addSystemCommand(&.{"scripts/r-cmd-install.sh"});
     r_build.addArgs(&.{
+        "--clean",
         // don't bother building things we don't need
         "--no-docs",
         "--no-multiarch",
@@ -704,7 +750,7 @@ fn r_install_steps(
     src: std.Build.LazyPath,
     libdir: *std.Build.Step.WriteFile,
     name: []const u8,
-) struct { build: *std.Build.Step.Run, stage: *std.Build.Step.InstallDir } {
+) struct { build: *std.Build.Step.Run, inst: *std.Build.Step.InstallDir } {
     const r_build = r_build_step(b, libdir, src, name);
 
     const r_install = b.addInstallDirectory(.{
@@ -715,5 +761,5 @@ fn r_install_steps(
 
     r_install.step.dependOn(&r_build.step);
     r_install.step.name = name;
-    return .{ .build = r_build, .stage = r_install };
+    return .{ .build = r_build, .inst = r_install };
 }

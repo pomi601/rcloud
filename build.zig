@@ -514,6 +514,7 @@ pub fn build(b: *std.Build) !void {
     );
     r_guitar.build.step.dependOn(&r_Rcpp.build.step);
     r_guitar.build.step.dependOn(&r_BH.build.step);
+    r_guitar.build.step.dependOn(&r_stringr.build.step);
 
     const r_github = r_install_steps(
         b,

@@ -60,150 +60,150 @@ INSTALL_RFORGE_LATE  = $(addprefix $(R_SITE_LIB)/,$(DIST_RFORGE_PACKAGES_LATE))
 # vendor package dependencies, to get the build order right
 #
 $(PKGS_DIR)/askpass.tar.gz: \
-	$(PKGS_DIR)/sys.tar.gz
+	$(BUILD_DEP_DIR)/sys
 
 $(PKGS_DIR)/FastRWeb.tar.gz: \
-	$(PKGS_DIR)/base64enc.tar.gz \
-	$(PKGS_DIR)/Cairo.tar.gz
+	$(BUILD_DEP_DIR)/base64enc \
+	$(BUILD_DEP_DIR)/Cairo
 
 $(PKGS_DIR)/openssl.tar.gz: \
-	$(PKGS_DIR)/askpass.tar.gz
+	$(BUILD_DEP_DIR)/askpass
 
 $(PKGS_DIR)/PKI.tar.gz: \
-	$(PKGS_DIR)/base64enc.tar.gz
+	$(BUILD_DEP_DIR)/base64enc
 
 $(PKGS_DIR)/RcppTOML.tar.gz: \
-	$(PKGS_DIR)/Rcpp.tar.gz
+	$(BUILD_DEP_DIR)/Rcpp
 
 $(PKGS_DIR)/RCurl.tar.gz: \
-	$(PKGS_DIR)/bitops.tar.gz
+	$(BUILD_DEP_DIR)/bitops
 
 $(PKGS_DIR)/lifecycle.tar.gz: \
-	$(PKGS_DIR)/cli.tar.gz \
-	$(PKGS_DIR)/glue.tar.gz \
-	$(PKGS_DIR)/rlang.tar.gz
+	$(BUILD_DEP_DIR)/cli \
+	$(BUILD_DEP_DIR)/glue \
+	$(BUILD_DEP_DIR)/rlang
 
 $(PKGS_DIR)/here.tar.gz: \
-	$(PKGS_DIR)/rprojroot.tar.gz
+	$(BUILD_DEP_DIR)/rprojroot
 
 $(PKGS_DIR)/Rook.tar.gz: \
-	$(PKGS_DIR)/brew.tar.gz
+	$(BUILD_DEP_DIR)/brew
 
 $(PKGS_DIR)/httr.tar.gz: \
-	$(PKGS_DIR)/curl.tar.gz \
-	$(PKGS_DIR)/jsonlite.tar.gz \
-	$(PKGS_DIR)/mime.tar.gz \
-	$(PKGS_DIR)/openssl.tar.gz \
-	$(PKGS_DIR)/R6.tar.gz
+	$(BUILD_DEP_DIR)/curl \
+	$(BUILD_DEP_DIR)/jsonlite \
+	$(BUILD_DEP_DIR)/mime \
+	$(BUILD_DEP_DIR)/openssl \
+	$(BUILD_DEP_DIR)/R6
 
 $(PKGS_DIR)/cachem.tar.gz: \
-	$(PKGS_DIR)/fastmap.tar.gz \
-	$(PKGS_DIR)/rlang.tar.gz
+	$(BUILD_DEP_DIR)/fastmap \
+	$(BUILD_DEP_DIR)/rlang
 
 $(PKGS_DIR)/memoise.tar.gz: \
-	$(PKGS_DIR)/cachem.tar.gz \
-	$(PKGS_DIR)/rlang.tar.gz
+	$(BUILD_DEP_DIR)/cachem \
+	$(BUILD_DEP_DIR)/rlang
 
 $(PKGS_DIR)/sendmailR.tar.gz: \
-	$(PKGS_DIR)/base64enc.tar.gz
+	$(BUILD_DEP_DIR)/base64enc
 
 $(PKGS_DIR)/vctrs.tar.gz: \
-	$(PKGS_DIR)/cli.tar.gz \
-	$(PKGS_DIR)/glue.tar.gz \
-	$(PKGS_DIR)/lifecycle.tar.gz \
-	$(PKGS_DIR)/rlang.tar.gz
+	$(BUILD_DEP_DIR)/cli \
+	$(BUILD_DEP_DIR)/glue \
+	$(BUILD_DEP_DIR)/lifecycle \
+	$(BUILD_DEP_DIR)/rlang
 
 $(PKGS_DIR)/stringr.tar.gz: \
-	$(PKGS_DIR)/cli.tar.gz \
-	$(PKGS_DIR)/glue.tar.gz \
-	$(PKGS_DIR)/lifecycle.tar.gz \
-	$(PKGS_DIR)/magrittr.tar.gz \
-	$(PKGS_DIR)/rlang.tar.gz \
-	$(PKGS_DIR)/stringi.tar.gz \
-	$(PKGS_DIR)/vctrs.tar.gz
+	$(BUILD_DEP_DIR)/cli \
+	$(BUILD_DEP_DIR)/glue \
+	$(BUILD_DEP_DIR)/lifecycle \
+	$(BUILD_DEP_DIR)/magrittr \
+	$(BUILD_DEP_DIR)/rlang \
+	$(BUILD_DEP_DIR)/stringi \
+	$(BUILD_DEP_DIR)/vctrs
 
 $(PKGS_DIR)/reticulate.tar.gz: \
-	$(PKGS_DIR)/here.tar.gz \
-	$(PKGS_DIR)/jsonlite.tar.gz \
-	$(PKGS_DIR)/png.tar.gz \
-	$(PKGS_DIR)/rappdirs.tar.gz \
-	$(PKGS_DIR)/Rcpp.tar.gz \
-	$(PKGS_DIR)/RcppTOML.tar.gz \
-	$(PKGS_DIR)/rlang.tar.gz \
-	$(PKGS_DIR)/withr.tar.gz
+	$(BUILD_DEP_DIR)/here \
+	$(BUILD_DEP_DIR)/jsonlite \
+	$(BUILD_DEP_DIR)/png \
+	$(BUILD_DEP_DIR)/rappdirs \
+	$(BUILD_DEP_DIR)/Rcpp \
+	$(BUILD_DEP_DIR)/RcppTOML \
+	$(BUILD_DEP_DIR)/rlang \
+	$(BUILD_DEP_DIR)/withr
 
 $(PKGS_DIR)/markdown.tar.gz: \
-	$(PKGS_DIR)/commonmark.tar.gz \
-	$(PKGS_DIR)/xfun.tar.gz
+	$(BUILD_DEP_DIR)/commonmark \
+	$(BUILD_DEP_DIR)/xfun
 
 $(PKGS_DIR)/tinytex.tar.gz: \
-	$(PKGS_DIR)/xfun.tar.gz
+	$(BUILD_DEP_DIR)/xfun
 
 $(PKGS_DIR)/highr.tar.gz: \
-	$(PKGS_DIR)/xfun.tar.gz
+	$(BUILD_DEP_DIR)/xfun
 
 $(PKGS_DIR)/knitr.tar.gz: \
-	$(PKGS_DIR)/evaluate.tar.gz \
-	$(PKGS_DIR)/highr.tar.gz \
-	$(PKGS_DIR)/xfun.tar.gz \
-	$(PKGS_DIR)/yaml.tar.gz
+	$(BUILD_DEP_DIR)/evaluate \
+	$(BUILD_DEP_DIR)/highr \
+	$(BUILD_DEP_DIR)/xfun \
+	$(BUILD_DEP_DIR)/yaml
 
 $(PKGS_DIR)/htmltools.tar.gz: \
-	$(PKGS_DIR)/base64enc.tar.gz \
-	$(PKGS_DIR)/digest.tar.gz \
-	$(PKGS_DIR)/fastmap.tar.gz \
-	$(PKGS_DIR)/knitr.tar.gz \
-	$(PKGS_DIR)/rlang.tar.gz
+	$(BUILD_DEP_DIR)/base64enc \
+	$(BUILD_DEP_DIR)/digest \
+	$(BUILD_DEP_DIR)/fastmap \
+	$(BUILD_DEP_DIR)/knitr \
+	$(BUILD_DEP_DIR)/rlang
 
 $(PKGS_DIR)/sass.tar.gz: \
-	$(PKGS_DIR)/fs.tar.gz \
-	$(PKGS_DIR)/htmltools.tar.gz \
-	$(PKGS_DIR)/R6.tar.gz \
-	$(PKGS_DIR)/rappdirs.tar.gz \
-	$(PKGS_DIR)/rlang.tar.gz
+	$(BUILD_DEP_DIR)/fs \
+	$(BUILD_DEP_DIR)/htmltools \
+	$(BUILD_DEP_DIR)/R6 \
+	$(BUILD_DEP_DIR)/rappdirs \
+	$(BUILD_DEP_DIR)/rlang
 
 $(PKGS_DIR)/fontawesome.tar.gz: \
-	$(PKGS_DIR)/htmltools.tar.gz \
-	$(PKGS_DIR)/rlang.tar.gz
+	$(BUILD_DEP_DIR)/htmltools \
+	$(BUILD_DEP_DIR)/rlang
 
 $(PKGS_DIR)/jquerylib.tar.gz: \
-	$(PKGS_DIR)/htmltools.tar.gz
+	$(BUILD_DEP_DIR)/htmltools
 
 $(PKGS_DIR)/bslib.tar.gz: \
-	$(PKGS_DIR)/base64enc.tar.gz \
-	$(PKGS_DIR)/cachem.tar.gz \
-	$(PKGS_DIR)/fastmap.tar.gz \
-	$(PKGS_DIR)/htmltools.tar.gz \
-	$(PKGS_DIR)/jquerylib.tar.gz \
-	$(PKGS_DIR)/jsonlite.tar.gz \
-	$(PKGS_DIR)/lifecycle.tar.gz \
-	$(PKGS_DIR)/memoise.tar.gz \
-	$(PKGS_DIR)/mime.tar.gz \
-	$(PKGS_DIR)/rlang.tar.gz \
-	$(PKGS_DIR)/sass.tar.gz
+	$(BUILD_DEP_DIR)/base64enc \
+	$(BUILD_DEP_DIR)/cachem \
+	$(BUILD_DEP_DIR)/fastmap \
+	$(BUILD_DEP_DIR)/htmltools \
+	$(BUILD_DEP_DIR)/jquerylib \
+	$(BUILD_DEP_DIR)/jsonlite \
+	$(BUILD_DEP_DIR)/lifecycle \
+	$(BUILD_DEP_DIR)/memoise \
+	$(BUILD_DEP_DIR)/mime \
+	$(BUILD_DEP_DIR)/rlang \
+	$(BUILD_DEP_DIR)/sass
 
 $(PKGS_DIR)/rmarkdown.tar.gz: \
-	$(PKGS_DIR)/bslib.tar.gz \
-	$(PKGS_DIR)/evaluate.tar.gz \
-	$(PKGS_DIR)/fontawesome.tar.gz \
-	$(PKGS_DIR)/htmltools.tar.gz \
-	$(PKGS_DIR)/jquerylib.tar.gz \
-	$(PKGS_DIR)/jsonlite.tar.gz \
-	$(PKGS_DIR)/knitr.tar.gz \
-	$(PKGS_DIR)/tinytex.tar.gz \
-	$(PKGS_DIR)/xfun.tar.gz \
-	$(PKGS_DIR)/yaml.tar.gz
+	$(BUILD_DEP_DIR)/bslib \
+	$(BUILD_DEP_DIR)/evaluate \
+	$(BUILD_DEP_DIR)/fontawesome \
+	$(BUILD_DEP_DIR)/htmltools \
+	$(BUILD_DEP_DIR)/jquerylib \
+	$(BUILD_DEP_DIR)/jsonlite \
+	$(BUILD_DEP_DIR)/knitr \
+	$(BUILD_DEP_DIR)/tinytex \
+	$(BUILD_DEP_DIR)/xfun \
+	$(BUILD_DEP_DIR)/yaml
 
 $(PKGS_DIR)/guitar.tar.gz: \
-	$(PKGS_DIR)/Rcpp.tar.gz \
-	$(PKGS_DIR)/BH.tar.gz \
-	$(PKGS_DIR)/stringr.tar.gz
+	$(BUILD_DEP_DIR)/Rcpp \
+	$(BUILD_DEP_DIR)/BH \
+	$(BUILD_DEP_DIR)/stringr
 
 $(PKGS_DIR)/github.tar.gz: \
-	$(PKGS_DIR)/httr.tar.gz \
-	$(PKGS_DIR)/jsonlite.tar.gz \
-	$(PKGS_DIR)/Rook.tar.gz \
-	$(PKGS_DIR)/stringr.tar.gz
+	$(BUILD_DEP_DIR)/httr \
+	$(BUILD_DEP_DIR)/jsonlite \
+	$(BUILD_DEP_DIR)/Rook \
+	$(BUILD_DEP_DIR)/stringr
 
 
 #

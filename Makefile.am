@@ -396,6 +396,44 @@ $(PKGS_DIR)/rcloud.sh.tar.gz:        $(RCLOUD_SH_DIR)      $(rcloud_sh_deps)
 $(PKGS_DIR)/rcloud.viewer.tar.gz:    $(VIEWER_DIR)         $(rcloud_viewer_deps)
 $(PKGS_DIR)/rcloud.web.tar.gz:       $(WEB_DIR)            $(rcloud_web_deps)
 
+
+$(PKGS_DIR)/gitgist.tar.gz: \
+	$(BUILD_DEP_DIR)/guitar \
+	$(BUILD_DEP_DIR)/PKI
+
+$(PKGS_DIR)/githubgist.tar.gz: \
+	$(BUILD_DEP_DIR)/gist \
+	$(BUILD_DEP_DIR)/github \
+	$(BUILD_DEP_DIR)/httr
+
+$(PKGS_DIR)/rcloud.client.tar.gz: \
+	$(BUILD_DEP_DIR)/RSclient \
+	$(BUILD_DEP_DIR)/FastRWeb
+
+$(PKGS_DIR)/rcloud.support.tar.gz: \
+	$(BUILD_DEP_DIR)/Cairo \
+	$(BUILD_DEP_DIR)/FastRWeb \
+	$(BUILD_DEP_DIR)/httr \
+	$(BUILD_DEP_DIR)/jsonlite \
+	$(BUILD_DEP_DIR)/knitr \
+	$(BUILD_DEP_DIR)/markdown \
+	$(BUILD_DEP_DIR)/mime \
+	$(BUILD_DEP_DIR)/PKI \
+	$(BUILD_DEP_DIR)/png \
+	$(BUILD_DEP_DIR)/RCurl \
+	$(BUILD_DEP_DIR)/Rserve \
+	$(BUILD_DEP_DIR)/rediscc \
+	$(BUILD_DEP_DIR)/rjson \
+	$(BUILD_DEP_DIR)/sendmailR \
+	$(BUILD_DEP_DIR)/unixtools \
+	$(BUILD_DEP_DIR)/uuid \
+	$(BUILD_DEP_DIR)/RSclient \
+	$(BUILD_DEP_DIR)/rcloud.client \
+	$(BUILD_DEP_DIR)/gist \
+	$(BUILD_DEP_DIR)/gitgist
+
+
+
 # Make all targets. Run this after `make vendor-fetch`. First builds
 # rcloud packages, then builds the `late` target, which are vendored
 # dependencies which also depend on rcloud packages.

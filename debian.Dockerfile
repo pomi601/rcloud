@@ -2,6 +2,8 @@
 # needed for COPY --exclude
 # build with: docker buildx build -f debian.Dockerfile -t rcloud .
 
+ARG BUILD_JOBS=8
+
 #
 # base: this stage is a minimal debian installation with an rcloud user created
 #
@@ -103,12 +105,17 @@ COPY vendor/dist/rforge/*.tar.gz vendor/dist/rforge/
 # set up autoconf and make a build directory, then fetch all our
 # vendored dependencies, which are defined in vendor/Makefile.am.
 # checksums are verified in the make all step.
+#
+# NOTE: it's not necessary to split the `make` into two steps like
+# this, we just do it for the sake of Docker incremental development.
+# When building locally, all you need to do is `make`, which will
+# fetch the dependencies, verify checksums, and build everything.
 RUN --mount=type=cache,target=/data/rcloud/build \
     autoreconf --install \
     && mkdir -p ./build \
     && cd build \
     && ../configure \
-    && make vendor-fetch
+    && make -j${BUILD_JOBS} vendor-fetch
 
 # build and install rcloud sources and remaining ("late") vendored
 # dependents.
@@ -133,7 +140,7 @@ COPY README.md       .
 COPY package-lock.json    .
 COPY package.json    .
 RUN --mount=type=cache,target=/data/rcloud/build \
-    cd build && make && make install
+    cd build && make -j${BUILD_JOBS} && make install
 
 #
 # build-js: this stage builds the rcloud JavaScript bundles and its dependencies.

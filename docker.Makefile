@@ -1,18 +1,19 @@
-DEBIAN_DOCKERFILE := debian.Dockerfile
-DEBIAN_TAG := rcloud
-HOST_PORT := 8080
-CONTAINER_PORT := 8080
+DEBIAN_DOCKERFILE = debian.Dockerfile
+DEBIAN_TAG = rcloud
+HOST_PORT = 8080
+CONTAINER_PORT = 8080
+BUILD_JOBS = 16
 
 help:
 	@echo "This Makefile provides access and a reference to docker-related commands."
 
 build:
 	@echo "Building..."
-	docker buildx build -f $(DEBIAN_DOCKERFILE) -t $(DEBIAN_TAG) .
+	docker buildx build --build-arg BUILD_JOBS=$(BUILD_JOBS) -f $(DEBIAN_DOCKERFILE) -t $(DEBIAN_TAG) .
 
 build-no-cache:
 	@echo "Building with --no-cache..."
-	docker buildx build --no-cache -f $(DEBIAN_DOCKERFILE) -t $(DEBIAN_TAG) .
+	docker buildx build --no-cache --build-arg BUILD_JOBS=$(BUILD_JOBS) -f $(DEBIAN_DOCKERFILE) -t $(DEBIAN_TAG) .
 
 run:
 	@echo "Running ephemeral container..."

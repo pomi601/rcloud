@@ -93,22 +93,13 @@ $ (sudo) make install
 
 ## Parallel build
 
-Currently the build system is not robust to parallel builds, but it
-will significantly speed up your first build of all the external
-dependencies from source if you're willing to repeatedly invoke `make`
-until it succeeds without doing any work. In other words:
+You are encouraged to use parallel builds:
 
 ```sh
 $ make -j8
-... some error
-$ make -j8
-... another error
-$ make -j8
-... no error, let's run it!
-$ make run
 ```
 
-Yes this is a bit silly in 2024 but here we are.
+If this doesn't work, please file an issue.
 
 ## Caching the downloaded R package dependencies
 

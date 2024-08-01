@@ -213,8 +213,11 @@ $(PKGS_DIR)/rcloud.solr.tar.gz: \
 	$(BUILD_DEP_DIR)/Rserve \
 	$(BUILD_DEP_DIR)/httr \
 	$(BUILD_DEP_DIR)/ulog \
-	$(BUILD_DEP_DIR)/R6 \
-	$(BUILD_DEP_DIR)/rcloud.support
+	$(BUILD_DEP_DIR)/R6
+
+# Can't make rcloud.solr dependent on rcloud.support in this makefile
+# because it's in the parent.
+# $(BUILD_DEP_DIR)/rcloud.support
 
 
 #

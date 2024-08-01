@@ -57,6 +57,170 @@ INSTALL_RFORGE       = $(addprefix $(R_SITE_LIB)/,$(DIST_RFORGE_PACKAGES))
 INSTALL_RFORGE_LATE  = $(addprefix $(R_SITE_LIB)/,$(DIST_RFORGE_PACKAGES_LATE))
 
 #
+# vendor package dependencies, to get the build order right
+#
+$(PKGS_DIR)/askpass.tar.gz: \
+	$(BUILD_DEP_DIR)/sys
+
+$(PKGS_DIR)/FastRWeb.tar.gz: \
+	$(BUILD_DEP_DIR)/base64enc \
+	$(BUILD_DEP_DIR)/Cairo
+
+$(PKGS_DIR)/openssl.tar.gz: \
+	$(BUILD_DEP_DIR)/askpass
+
+$(PKGS_DIR)/PKI.tar.gz: \
+	$(BUILD_DEP_DIR)/base64enc
+
+$(PKGS_DIR)/RcppTOML.tar.gz: \
+	$(BUILD_DEP_DIR)/Rcpp
+
+$(PKGS_DIR)/RCurl.tar.gz: \
+	$(BUILD_DEP_DIR)/bitops
+
+$(PKGS_DIR)/lifecycle.tar.gz: \
+	$(BUILD_DEP_DIR)/cli \
+	$(BUILD_DEP_DIR)/glue \
+	$(BUILD_DEP_DIR)/rlang
+
+$(PKGS_DIR)/here.tar.gz: \
+	$(BUILD_DEP_DIR)/rprojroot
+
+$(PKGS_DIR)/Rook.tar.gz: \
+	$(BUILD_DEP_DIR)/brew
+
+$(PKGS_DIR)/httr.tar.gz: \
+	$(BUILD_DEP_DIR)/curl \
+	$(BUILD_DEP_DIR)/jsonlite \
+	$(BUILD_DEP_DIR)/mime \
+	$(BUILD_DEP_DIR)/openssl \
+	$(BUILD_DEP_DIR)/R6
+
+$(PKGS_DIR)/cachem.tar.gz: \
+	$(BUILD_DEP_DIR)/fastmap \
+	$(BUILD_DEP_DIR)/rlang
+
+$(PKGS_DIR)/memoise.tar.gz: \
+	$(BUILD_DEP_DIR)/cachem \
+	$(BUILD_DEP_DIR)/rlang
+
+$(PKGS_DIR)/sendmailR.tar.gz: \
+	$(BUILD_DEP_DIR)/base64enc
+
+$(PKGS_DIR)/vctrs.tar.gz: \
+	$(BUILD_DEP_DIR)/cli \
+	$(BUILD_DEP_DIR)/glue \
+	$(BUILD_DEP_DIR)/lifecycle \
+	$(BUILD_DEP_DIR)/rlang
+
+$(PKGS_DIR)/stringr.tar.gz: \
+	$(BUILD_DEP_DIR)/cli \
+	$(BUILD_DEP_DIR)/glue \
+	$(BUILD_DEP_DIR)/lifecycle \
+	$(BUILD_DEP_DIR)/magrittr \
+	$(BUILD_DEP_DIR)/rlang \
+	$(BUILD_DEP_DIR)/stringi \
+	$(BUILD_DEP_DIR)/vctrs
+
+$(PKGS_DIR)/reticulate.tar.gz: \
+	$(BUILD_DEP_DIR)/here \
+	$(BUILD_DEP_DIR)/jsonlite \
+	$(BUILD_DEP_DIR)/png \
+	$(BUILD_DEP_DIR)/rappdirs \
+	$(BUILD_DEP_DIR)/Rcpp \
+	$(BUILD_DEP_DIR)/RcppTOML \
+	$(BUILD_DEP_DIR)/rlang \
+	$(BUILD_DEP_DIR)/withr
+
+$(PKGS_DIR)/markdown.tar.gz: \
+	$(BUILD_DEP_DIR)/commonmark \
+	$(BUILD_DEP_DIR)/xfun
+
+$(PKGS_DIR)/tinytex.tar.gz: \
+	$(BUILD_DEP_DIR)/xfun
+
+$(PKGS_DIR)/highr.tar.gz: \
+	$(BUILD_DEP_DIR)/xfun
+
+$(PKGS_DIR)/knitr.tar.gz: \
+	$(BUILD_DEP_DIR)/evaluate \
+	$(BUILD_DEP_DIR)/highr \
+	$(BUILD_DEP_DIR)/xfun \
+	$(BUILD_DEP_DIR)/yaml
+
+$(PKGS_DIR)/htmltools.tar.gz: \
+	$(BUILD_DEP_DIR)/base64enc \
+	$(BUILD_DEP_DIR)/digest \
+	$(BUILD_DEP_DIR)/fastmap \
+	$(BUILD_DEP_DIR)/knitr \
+	$(BUILD_DEP_DIR)/rlang
+
+$(PKGS_DIR)/sass.tar.gz: \
+	$(BUILD_DEP_DIR)/fs \
+	$(BUILD_DEP_DIR)/htmltools \
+	$(BUILD_DEP_DIR)/R6 \
+	$(BUILD_DEP_DIR)/rappdirs \
+	$(BUILD_DEP_DIR)/rlang
+
+$(PKGS_DIR)/fontawesome.tar.gz: \
+	$(BUILD_DEP_DIR)/htmltools \
+	$(BUILD_DEP_DIR)/rlang
+
+$(PKGS_DIR)/jquerylib.tar.gz: \
+	$(BUILD_DEP_DIR)/htmltools
+
+$(PKGS_DIR)/bslib.tar.gz: \
+	$(BUILD_DEP_DIR)/base64enc \
+	$(BUILD_DEP_DIR)/cachem \
+	$(BUILD_DEP_DIR)/fastmap \
+	$(BUILD_DEP_DIR)/htmltools \
+	$(BUILD_DEP_DIR)/jquerylib \
+	$(BUILD_DEP_DIR)/jsonlite \
+	$(BUILD_DEP_DIR)/lifecycle \
+	$(BUILD_DEP_DIR)/memoise \
+	$(BUILD_DEP_DIR)/mime \
+	$(BUILD_DEP_DIR)/rlang \
+	$(BUILD_DEP_DIR)/sass
+
+$(PKGS_DIR)/rmarkdown.tar.gz: \
+	$(BUILD_DEP_DIR)/bslib \
+	$(BUILD_DEP_DIR)/evaluate \
+	$(BUILD_DEP_DIR)/fontawesome \
+	$(BUILD_DEP_DIR)/htmltools \
+	$(BUILD_DEP_DIR)/jquerylib \
+	$(BUILD_DEP_DIR)/jsonlite \
+	$(BUILD_DEP_DIR)/knitr \
+	$(BUILD_DEP_DIR)/tinytex \
+	$(BUILD_DEP_DIR)/xfun \
+	$(BUILD_DEP_DIR)/yaml
+
+$(PKGS_DIR)/guitar.tar.gz: \
+	$(BUILD_DEP_DIR)/Rcpp \
+	$(BUILD_DEP_DIR)/BH \
+	$(BUILD_DEP_DIR)/stringr
+
+$(PKGS_DIR)/github.tar.gz: \
+	$(BUILD_DEP_DIR)/httr \
+	$(BUILD_DEP_DIR)/jsonlite \
+	$(BUILD_DEP_DIR)/Rook \
+	$(BUILD_DEP_DIR)/stringr
+
+$(PKGS_DIR)/githubgist.tar.gz: \
+	$(BUILD_DEP_DIR)/gist
+
+$(PKGS_DIR)/rcloud.solr.tar.gz: \
+	$(BUILD_DEP_DIR)/rjson \
+	$(BUILD_DEP_DIR)/Rserve \
+	$(BUILD_DEP_DIR)/httr \
+	$(BUILD_DEP_DIR)/ulog \
+	$(BUILD_DEP_DIR)/R6
+
+# Can't make rcloud.solr dependent on rcloud.support in this makefile
+# because it's in the parent.
+# $(BUILD_DEP_DIR)/rcloud.support
+
+
+#
 # Building binary packages
 #
 # We treat these vendored dependencies as if they were static
@@ -89,8 +253,7 @@ $(PKGS_DIR)/%.tar.gz:
 	  exit 1; \
 	fi \
 	&& TARBALL=$${STEM}_*_R_$(build).tar.gz \
-	&& mv $${TARBALL} $(PKGS_DIR)/$${STEM}.tar.gz \
-	|| echo "  DEFER    $@"
+	&& mv $${TARBALL} $(PKGS_DIR)/$${STEM}.tar.gz
 
 # NOTE: need to touch the target directory after successful install,
 # because otherwise the tarball may have a newer timestamp (which I
@@ -102,10 +265,11 @@ $(BUILD_DEP_DIR)/%: $(PKGS_DIR)/%.tar.gz
 # This target supplements automake's `all' target. It recursively
 # makes the `do-all-local` target multiple times as described in the
 # `Building binary packages` section above.
+# TODO: multiple iterations are no longer needed since we've added all
+# the inter-package dependency rules.
 all-local: | vendor-fetch-local $(DIST_FILES) check-sums $(PKGS_DIR) $(BUILD_DEP_DIR)
-	for i in 1 2 3 4 5 6; do \
-	  $(MAKE) $(AM_MAKEFLAGS) --ignore-errors --keep-going do-all-local 2> /dev/null; \
-	done
+	$(MAKE) $(AM_MAKEFLAGS) --ignore-errors --keep-going do-all-local 2> /dev/null;
+
 
 # These targets are for the repeated recursive make.
 do-all-local: | $(BUILD_DEP_CRAN) $(BUILD_DEP_RFORGE)
@@ -218,7 +382,7 @@ do-generate-checksums: $(DIST_CRAN)/checksums.txt $(DIST_RFORGE)/checksums.txt
 # Note that directories may be empty of tar files, in which case we
 # want to succeed silently.
 .PHONY: check-sums
-check-sums:
+check-sums: $(DIST_FILES) $(DIST_FILES_LATE)
 	@echo "Checking distribution file checksums..."
 	cd $(DIST_CRAN) && if ls *.tar.gz 1> /dev/null 2>&1; then sha256sum --quiet --ignore-missing -c checksums.txt; fi
 	cd $(DIST_RFORGE) && if ls *.tar.gz 1> /dev/null 2>&1; then sha256sum --quiet --ignore-missing -c checksums.txt; fi

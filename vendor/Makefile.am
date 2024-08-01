@@ -205,6 +205,17 @@ $(PKGS_DIR)/github.tar.gz: \
 	$(BUILD_DEP_DIR)/Rook \
 	$(BUILD_DEP_DIR)/stringr
 
+$(PKGS_DIR)/githubgist.tar.gz: \
+	$(BUILD_DEP_DIR)/gist
+
+$(PKGS_DIR)/rcloud.solr.tar.gz: \
+	$(BUILD_DEP_DIR)/rjson \
+	$(BUILD_DEP_DIR)/Rserve \
+	$(BUILD_DEP_DIR)/httr \
+	$(BUILD_DEP_DIR)/ulog \
+	$(BUILD_DEP_DIR)/R6 \
+	$(BUILD_DEP_DIR)/rcloud.support
+
 
 #
 # Building binary packages
@@ -239,8 +250,7 @@ $(PKGS_DIR)/%.tar.gz:
 	  exit 1; \
 	fi \
 	&& TARBALL=$${STEM}_*_R_$(build).tar.gz \
-	&& mv $${TARBALL} $(PKGS_DIR)/$${STEM}.tar.gz \
-	|| echo "  DEFER    $@"
+	&& mv $${TARBALL} $(PKGS_DIR)/$${STEM}.tar.gz
 
 # NOTE: need to touch the target directory after successful install,
 # because otherwise the tarball may have a newer timestamp (which I

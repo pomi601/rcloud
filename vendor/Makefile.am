@@ -57,6 +57,156 @@ INSTALL_RFORGE       = $(addprefix $(R_SITE_LIB)/,$(DIST_RFORGE_PACKAGES))
 INSTALL_RFORGE_LATE  = $(addprefix $(R_SITE_LIB)/,$(DIST_RFORGE_PACKAGES_LATE))
 
 #
+# vendor package dependencies, to get the build order right
+#
+$(PKGS_DIR)/askpass.tar.gz: \
+	$(PKGS_DIR)/sys.tar.gz
+
+$(PKGS_DIR)/FastRWeb.tar.gz: \
+	$(PKGS_DIR)/base64enc.tar.gz \
+	$(PKGS_DIR)/Cairo.tar.gz
+
+$(PKGS_DIR)/openssl.tar.gz: \
+	$(PKGS_DIR)/askpass.tar.gz
+
+$(PKGS_DIR)/PKI.tar.gz: \
+	$(PKGS_DIR)/base64enc.tar.gz
+
+$(PKGS_DIR)/RcppTOML.tar.gz: \
+	$(PKGS_DIR)/Rcpp.tar.gz
+
+$(PKGS_DIR)/RCurl.tar.gz: \
+	$(PKGS_DIR)/bitops.tar.gz
+
+$(PKGS_DIR)/lifecycle.tar.gz: \
+	$(PKGS_DIR)/cli.tar.gz \
+	$(PKGS_DIR)/glue.tar.gz \
+	$(PKGS_DIR)/rlang.tar.gz
+
+$(PKGS_DIR)/here.tar.gz: \
+	$(PKGS_DIR)/rprojroot.tar.gz
+
+$(PKGS_DIR)/Rook.tar.gz: \
+	$(PKGS_DIR)/brew.tar.gz
+
+$(PKGS_DIR)/httr.tar.gz: \
+	$(PKGS_DIR)/curl.tar.gz \
+	$(PKGS_DIR)/jsonlite.tar.gz \
+	$(PKGS_DIR)/mime.tar.gz \
+	$(PKGS_DIR)/openssl.tar.gz \
+	$(PKGS_DIR)/R6.tar.gz
+
+$(PKGS_DIR)/cachem.tar.gz: \
+	$(PKGS_DIR)/fastmap.tar.gz \
+	$(PKGS_DIR)/rlang.tar.gz
+
+$(PKGS_DIR)/memoise.tar.gz: \
+	$(PKGS_DIR)/cachem.tar.gz \
+	$(PKGS_DIR)/rlang.tar.gz
+
+$(PKGS_DIR)/sendmailR.tar.gz: \
+	$(PKGS_DIR)/base64enc.tar.gz
+
+$(PKGS_DIR)/vctrs.tar.gz: \
+	$(PKGS_DIR)/cli.tar.gz \
+	$(PKGS_DIR)/glue.tar.gz \
+	$(PKGS_DIR)/lifecycle.tar.gz \
+	$(PKGS_DIR)/rlang.tar.gz
+
+$(PKGS_DIR)/stringr.tar.gz: \
+	$(PKGS_DIR)/cli.tar.gz \
+	$(PKGS_DIR)/glue.tar.gz \
+	$(PKGS_DIR)/lifecycle.tar.gz \
+	$(PKGS_DIR)/magrittr.tar.gz \
+	$(PKGS_DIR)/rlang.tar.gz \
+	$(PKGS_DIR)/stringi.tar.gz \
+	$(PKGS_DIR)/vctrs.tar.gz
+
+$(PKGS_DIR)/reticulate.tar.gz: \
+	$(PKGS_DIR)/here.tar.gz \
+	$(PKGS_DIR)/jsonlite.tar.gz \
+	$(PKGS_DIR)/png.tar.gz \
+	$(PKGS_DIR)/rappdirs.tar.gz \
+	$(PKGS_DIR)/Rcpp.tar.gz \
+	$(PKGS_DIR)/RcppTOML.tar.gz \
+	$(PKGS_DIR)/rlang.tar.gz \
+	$(PKGS_DIR)/withr.tar.gz
+
+$(PKGS_DIR)/markdown.tar.gz: \
+	$(PKGS_DIR)/commonmark.tar.gz \
+	$(PKGS_DIR)/xfun.tar.gz
+
+$(PKGS_DIR)/tinytex.tar.gz: \
+	$(PKGS_DIR)/xfun.tar.gz
+
+$(PKGS_DIR)/highr.tar.gz: \
+	$(PKGS_DIR)/xfun.tar.gz
+
+$(PKGS_DIR)/knitr.tar.gz: \
+	$(PKGS_DIR)/evaluate.tar.gz \
+	$(PKGS_DIR)/highr.tar.gz \
+	$(PKGS_DIR)/xfun.tar.gz \
+	$(PKGS_DIR)/yaml.tar.gz
+
+$(PKGS_DIR)/htmltools.tar.gz: \
+	$(PKGS_DIR)/base64enc.tar.gz \
+	$(PKGS_DIR)/digest.tar.gz \
+	$(PKGS_DIR)/fastmap.tar.gz \
+	$(PKGS_DIR)/knitr.tar.gz \
+	$(PKGS_DIR)/rlang.tar.gz
+
+$(PKGS_DIR)/sass.tar.gz: \
+	$(PKGS_DIR)/fs.tar.gz \
+	$(PKGS_DIR)/htmltools.tar.gz \
+	$(PKGS_DIR)/R6.tar.gz \
+	$(PKGS_DIR)/rappdirs.tar.gz \
+	$(PKGS_DIR)/rlang.tar.gz
+
+$(PKGS_DIR)/fontawesome.tar.gz: \
+	$(PKGS_DIR)/htmltools.tar.gz \
+	$(PKGS_DIR)/rlang.tar.gz
+
+$(PKGS_DIR)/jquerylib.tar.gz: \
+	$(PKGS_DIR)/htmltools.tar.gz
+
+$(PKGS_DIR)/bslib.tar.gz: \
+	$(PKGS_DIR)/base64enc.tar.gz \
+	$(PKGS_DIR)/cachem.tar.gz \
+	$(PKGS_DIR)/fastmap.tar.gz \
+	$(PKGS_DIR)/htmltools.tar.gz \
+	$(PKGS_DIR)/jquerylib.tar.gz \
+	$(PKGS_DIR)/jsonlite.tar.gz \
+	$(PKGS_DIR)/lifecycle.tar.gz \
+	$(PKGS_DIR)/memoise.tar.gz \
+	$(PKGS_DIR)/mime.tar.gz \
+	$(PKGS_DIR)/rlang.tar.gz \
+	$(PKGS_DIR)/sass.tar.gz
+
+$(PKGS_DIR)/rmarkdown.tar.gz: \
+	$(PKGS_DIR)/bslib.tar.gz \
+	$(PKGS_DIR)/evaluate.tar.gz \
+	$(PKGS_DIR)/fontawesome.tar.gz \
+	$(PKGS_DIR)/htmltools.tar.gz \
+	$(PKGS_DIR)/jquerylib.tar.gz \
+	$(PKGS_DIR)/jsonlite.tar.gz \
+	$(PKGS_DIR)/knitr.tar.gz \
+	$(PKGS_DIR)/tinytex.tar.gz \
+	$(PKGS_DIR)/xfun.tar.gz \
+	$(PKGS_DIR)/yaml.tar.gz
+
+$(PKGS_DIR)/guitar.tar.gz: \
+	$(PKGS_DIR)/Rcpp.tar.gz \
+	$(PKGS_DIR)/BH.tar.gz \
+	$(PKGS_DIR)/stringr.tar.gz
+
+$(PKGS_DIR)/github.tar.gz: \
+	$(PKGS_DIR)/httr.tar.gz \
+	$(PKGS_DIR)/jsonlite.tar.gz \
+	$(PKGS_DIR)/Rook.tar.gz \
+	$(PKGS_DIR)/stringr.tar.gz
+
+
+#
 # Building binary packages
 #
 # We treat these vendored dependencies as if they were static
@@ -102,10 +252,11 @@ $(BUILD_DEP_DIR)/%: $(PKGS_DIR)/%.tar.gz
 # This target supplements automake's `all' target. It recursively
 # makes the `do-all-local` target multiple times as described in the
 # `Building binary packages` section above.
+# TODO: multiple iterations are no longer needed since we've added all
+# the inter-package dependency rules.
 all-local: | vendor-fetch-local $(DIST_FILES) check-sums $(PKGS_DIR) $(BUILD_DEP_DIR)
-	for i in 1 2 3 4 5 6; do \
-	  $(MAKE) $(AM_MAKEFLAGS) --ignore-errors --keep-going do-all-local 2> /dev/null; \
-	done
+	$(MAKE) $(AM_MAKEFLAGS) --ignore-errors --keep-going do-all-local 2> /dev/null;
+
 
 # These targets are for the repeated recursive make.
 do-all-local: | $(BUILD_DEP_CRAN) $(BUILD_DEP_RFORGE)
@@ -218,7 +369,7 @@ do-generate-checksums: $(DIST_CRAN)/checksums.txt $(DIST_RFORGE)/checksums.txt
 # Note that directories may be empty of tar files, in which case we
 # want to succeed silently.
 .PHONY: check-sums
-check-sums:
+check-sums: $(DIST_FILES) $(DIST_FILES_LATE)
 	@echo "Checking distribution file checksums..."
 	cd $(DIST_CRAN) && if ls *.tar.gz 1> /dev/null 2>&1; then sha256sum --quiet --ignore-missing -c checksums.txt; fi
 	cd $(DIST_RFORGE) && if ls *.tar.gz 1> /dev/null 2>&1; then sha256sum --quiet --ignore-missing -c checksums.txt; fi

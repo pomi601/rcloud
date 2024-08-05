@@ -32,13 +32,17 @@ AC_CHECK_PROG([R], [R], [R], [no])
 AS_IF([test "$R" = "no"],
             [AC_MSG_ERROR([R required: install r-base-dev or similar.])])
 
-# wget
-AC_CHECK_PROG([WGET], [wget], [wget], [no])
+# given that wget is very rare, and we need libcurl anyway, it is reasonable to use curl instead
+AC_CHECK_PROG([CURL], [curl], [curl], [no])
 
 # sha256sum
 AC_CHECK_PROG([SHA256SUM], [sha256sum], [sha256sum], [no])
-AS_IF([test "$SHA256SUM" = "no"],
-            [AC_MSG_ERROR([sha256sum required: install coreutils or similar.])])
+AC_CHECK_PROG([OPENSSL], [openssl], [openssl], [no])
+AS_IF([test "$SHA256SUM" = "no"], [
+  AS_IF([test "$OPENSSL" = "no"],
+            [AC_MSG_ERROR([sha256sum or openssl required: install coreutils, openssl or similar.])])
+  SHA256SUM=$(cd "$srcdir" && pwd)/vendor/bin/sha256sum
+])
 
 # openssl
 AX_CHECK_OPENSSL([],

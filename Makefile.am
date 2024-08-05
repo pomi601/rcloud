@@ -367,7 +367,7 @@ $(PKGS_DIR)/%.tar.gz:
 	&& cp -R $</* $$rtemp/					\
 	&& chmod -R +w $$rtemp					\
 	&& $(R_BUILD) $$rtemp > $(OUT_DIR)/$(@F).log 2>&1	\
-	&& TARBALL=$${STEM}_*_R_$(build).tar.gz			\
+	&& if [ -e $${STEM}_*.tgz ]; then TARBALL=$${STEM}_*.tgz; else TARBALL=$${STEM}_*_R_$(build).tar.gz; fi \
 	&& rm $(OUT_DIR)/$(@F).log				\
 	&& mv $${TARBALL} $(PKGS_DIR)/$${STEM}.tar.gz		\
 	&& rm -r $$rtemp					\
@@ -451,7 +451,7 @@ $(PKGS_DIR)/rcloud.solr.tar.gz: \
 	  echo "ERROR: can't find $${SOURCEDIST} anywhere..."; \
 	  exit 1; \
 	fi \
-	&& TARBALL=$${STEM}_*_R_$(build).tar.gz \
+	&& if [ -e $${STEM}_*.tgz ]; then TARBALL=$${STEM}_*.tgz; else TARBALL=$${STEM}_*_R_$(build).tar.gz; fi \
 	&& mv $${TARBALL} $(PKGS_DIR)/$${STEM}.tar.gz
 
 $(PKGS_DIR)/ulog.tar.gz:
@@ -465,7 +465,7 @@ $(PKGS_DIR)/ulog.tar.gz:
 	  echo "ERROR: can't find $${SOURCEDIST} anywhere..."; \
 	  exit 1; \
 	fi \
-	&& TARBALL=$${STEM}_*_R_$(build).tar.gz \
+	&& if [ -e $${STEM}_*.tgz ]; then TARBALL=$${STEM}_*.tgz; else TARBALL=$${STEM}_*_R_$(build).tar.gz; fi \
 	&& mv $${TARBALL} $(PKGS_DIR)/$${STEM}.tar.gz
 
 

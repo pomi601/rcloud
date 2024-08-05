@@ -10,7 +10,7 @@ m4_pattern_forbid([^PKG])
 # portability warnings.
 AM_INIT_AUTOMAKE([-Wall -Werror -Wno-portability tar-pax no-dependencies foreign])
 AM_SILENT_RULES([yes])
-AM_EXTRA_RECURSIVE_TARGETS([vendor-fetch] [vendor-copy] [vendor-install] [late] [late-install])
+AM_EXTRA_RECURSIVE_TARGETS([vendor-fetch] [vendor-copy] [vendor-install])
 
 # we require GNU Make
 AX_CHECK_GNU_MAKE([], [AC_MSG_ERROR([GNU Make required.])])

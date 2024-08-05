@@ -1,20 +1,11 @@
 ## Process this file with automake to produce Makefile.in
+SHELL = /bin/sh
 SUBDIRS = vendor
+
+include vendor/depend.mk
 
 # Be quiet about entering and leaving directories
 MAKEFLAGS = s
-
-# The root of our build artifacts. Make it an absolute path.
-OUT_DIR          = @abs_builddir@/out
-export OUT_DIR
-
-# Where our R packages are built.
-PKGS_DIR         = $(OUT_DIR)/pkgs
-export PKGS_DIR
-
-# This is where our vendored build dependencies are installed.
-BUILD_DEP_DIR    = $(OUT_DIR)/lib
-export BUILD_DEP_DIR
 
 R_SITE_LIB       = $(DESTDIR)@libdir@/rcloud/site-library
 R_INSTALL        = R CMD INSTALL --no-docs -l $(R_SITE_LIB)
@@ -38,6 +29,7 @@ RCLOUD_PKGS =			\
       rcloud.viewer		\
       rcloud.web
 
+BUILD_DEP_PKGS = $(addprefix $(BUILD_DEP_DIR)/,$(RCLOUD_PKGS))
 
 RCLOUD_OUT =			\
   $(addprefix $(PKGS_DIR)/,	\
@@ -46,7 +38,8 @@ RCLOUD_OUT =			\
       ))
 
 RCLOUD_INSTALLED = \
-  $(addprefix $(R_SITE_LIB)/,$(RCLOUD_PKGS))
+  $(addprefix $(R_SITE_LIB)/,$(RCLOUD_PKGS)) \
+  $(addprefix $(R_SITE_LIB)/,rcloud.solr ulog)
 
 GIST_DIR		= packages/gist
 GITGIST_DIR		= packages/gitgist
@@ -364,6 +357,7 @@ nobase_dist_pkgdata_DATA =					\
   package-lock.json
 
 
+
 $(BUILD_DEP_DIR)/%: $(PKGS_DIR)/%.tar.gz
 	$(AM_V_GEN) $(R_BUILD_DEP) $< > /dev/null 2>&1
 
@@ -432,12 +426,54 @@ $(PKGS_DIR)/rcloud.support.tar.gz: \
 	$(BUILD_DEP_DIR)/gist \
 	$(BUILD_DEP_DIR)/gitgist
 
+#
+# Unfortunate duplication of rule from vendor/Makefile.am, because
+# these two packages are fetched remotely, but cannot be built before
+# rcloud.support. So we no longer attempt to build them using a `late`
+# target in vendor/Makefile.am, because that caused failures in
+# parallel builds.
+#
+$(PKGS_DIR)/rcloud.solr.tar.gz: \
+	$(BUILD_DEP_DIR)/rjson \
+	$(BUILD_DEP_DIR)/Rserve \
+	$(BUILD_DEP_DIR)/httr \
+	$(BUILD_DEP_DIR)/ulog \
+	$(BUILD_DEP_DIR)/R6 \
+	$(BUILD_DEP_DIR)/rcloud.support
+# start rule
+	$(AM_V_GEN) STEM=$(basename $(basename $(@F))) \
+	&& SOURCEDIST=$${STEM}_*.tar.gz \
+	&& if [ -e $(DIST_CRAN)/$${SOURCEDIST} ]; then \
+	  $(R_BUILD) $(DIST_CRAN)/$${SOURCEDIST} > $(@F).log 2>&1; \
+	elif [ -e $(DIST_RFORGE)/$${SOURCEDIST} ]; then \
+	  $(R_BUILD) $(DIST_RFORGE)/$${SOURCEDIST} > $(@F).log 2>&1; \
+	else \
+	  echo "ERROR: can't find $${SOURCEDIST} anywhere..."; \
+	  exit 1; \
+	fi \
+	&& TARBALL=$${STEM}_*_R_$(build).tar.gz \
+	&& mv $${TARBALL} $(PKGS_DIR)/$${STEM}.tar.gz
+
+$(PKGS_DIR)/ulog.tar.gz:
+	$(AM_V_GEN) STEM=$(basename $(basename $(@F))) \
+	&& SOURCEDIST=$${STEM}_*.tar.gz \
+	&& if [ -e $(DIST_CRAN)/$${SOURCEDIST} ]; then \
+	  $(R_BUILD) $(DIST_CRAN)/$${SOURCEDIST} > $(@F).log 2>&1; \
+	elif [ -e $(DIST_RFORGE)/$${SOURCEDIST} ]; then \
+	  $(R_BUILD) $(DIST_RFORGE)/$${SOURCEDIST} > $(@F).log 2>&1; \
+	else \
+	  echo "ERROR: can't find $${SOURCEDIST} anywhere..."; \
+	  exit 1; \
+	fi \
+	&& TARBALL=$${STEM}_*_R_$(build).tar.gz \
+	&& mv $${TARBALL} $(PKGS_DIR)/$${STEM}.tar.gz
 
 
-# Make all targets. Run this after `make vendor-fetch`. First builds
-# rcloud packages, then builds the `late` target, which are vendored
-# dependencies which also depend on rcloud packages.
-all-local: | $(RCLOUD_OUT) late
+
+# Make all targets. First builds rcloud packages, then builds the
+# `late` target, which are vendored dependencies which also depend on
+# rcloud packages.
+all-local: | $(RCLOUD_OUT) $(BUILD_DEP_PKGS) $(BUILD_DEP_RFORGE_LATE)
 
 
 #
@@ -451,7 +487,7 @@ clean-local-pkgs:
 
 .PHONY: clean-local-logs
 clean-local-logs:
-	-rm -f $(OUT_DIR)/*.log
+	-rm -f $(builddir)/*.log
 
 #
 # install

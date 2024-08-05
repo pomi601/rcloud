@@ -1,17 +1,6 @@
 SHELL = /bin/sh
 
-OUT_DIR          = @abs_top_builddir@/out
-BUILD_DEP_DIR    = $(OUT_DIR)/lib
-PKGS_DIR         = $(OUT_DIR)/pkgs
-DIST             = $(OUT_DIR)/dist
-SRC_DIST         = @srcdir@/dist
-DIST_RFORGE      = $(DIST)/rforge
-DIST_CRAN        = $(DIST)/cran
-SRC_DIST_RFORGE  = $(SRC_DIST)/rforge
-SRC_DIST_CRAN    = $(SRC_DIST)/cran
-RFORGE_URL       = https://www.rforge.net/src/contrib
-CRAN_URL         = https://cran.r-project.org/src/contrib
-CRAN_ARCHIVE_URL = https://cran.r-project.org/src/contrib/Archive
+include depend.mk
 
 WGET             = wget -q
 R_SITE_LIB       = $(DESTDIR)@libdir@/rcloud/site-library
@@ -26,35 +15,7 @@ wget_verbose_0	= @echo "  WGET     $(@F)";
 # For sub make
 export R_SITE_LIB
 
-# depend.mk defines CRAN_PACKAGES RFORGE_PACKAGES and RFORGE_PACKAGES_LAGE
-include depend.mk
 
-DIST_CRAN_FILES        = $(addprefix $(DIST_CRAN)/,$(CRAN_PACKAGES))
-DIST_RFORGE_FILES      = $(addprefix $(DIST_RFORGE)/,$(RFORGE_PACKAGES))
-DIST_RFORGE_FILES_LATE = $(addprefix $(DIST_RFORGE)/,$(RFORGE_PACKAGES_LATE))
-
-DIST_FILES                = $(DIST_CRAN_FILES) $(DIST_RFORGE_FILES)
-DIST_FILES_LATE           = $(DIST_RFORGE_FILES_LATE)
-DIST_CRAN_PACKAGES        = $(subst /,,$(dir $(subst _,/,$(patsubst %.tar.gz,%,$(CRAN_PACKAGES)))))
-DIST_RFORGE_PACKAGES      = $(subst /,,$(dir $(subst _,/,$(patsubst %.tar.gz,%,$(RFORGE_PACKAGES)))))
-DIST_RFORGE_PACKAGES_LATE = $(subst /,,$(dir $(subst _,/,$(patsubst %.tar.gz,%,$(RFORGE_PACKAGES_LATE)))))
-# from inside to outside: foo_0.1.2.tar.gz -> foo_0.1.2 -> foo/0.1.2 -> foo/ -> foo
-
-# build targets: package name is of the pattern foo.tar.gz
-PKGS_CRAN            = $(addprefix $(PKGS_DIR)/,$(addsuffix .tar.gz,$(DIST_CRAN_PACKAGES)))
-PKGS_RFORGE          = $(addprefix $(PKGS_DIR)/,$(addsuffix .tar.gz,$(DIST_RFORGE_PACKAGES)))
-PKGS_RFORGE_LATE     = $(addprefix $(PKGS_DIR)/,$(addsuffix .tar.gz,$(DIST_RFORGE_PACKAGES_LATE)))
-.SECONDARY: $(PKGS_CRAN) $(PKGS_RFORGE) $(PKGS_RFORGE_LATE)
-
-# build_dep targets: package name is a directory
-BUILD_DEP_CRAN         = $(addprefix $(BUILD_DEP_DIR)/,$(DIST_CRAN_PACKAGES))
-BUILD_DEP_RFORGE       = $(addprefix $(BUILD_DEP_DIR)/,$(DIST_RFORGE_PACKAGES))
-BUILD_DEP_RFORGE_LATE  = $(addprefix $(BUILD_DEP_DIR)/,$(DIST_RFORGE_PACKAGES_LATE))
-
-# install targets: package name is a directory
-INSTALL_CRAN         = $(addprefix $(R_SITE_LIB)/,$(DIST_CRAN_PACKAGES))
-INSTALL_RFORGE       = $(addprefix $(R_SITE_LIB)/,$(DIST_RFORGE_PACKAGES))
-INSTALL_RFORGE_LATE  = $(addprefix $(R_SITE_LIB)/,$(DIST_RFORGE_PACKAGES_LATE))
 
 #
 # vendor package dependencies, to get the build order right
@@ -208,17 +169,6 @@ $(PKGS_DIR)/github.tar.gz: \
 $(PKGS_DIR)/githubgist.tar.gz: \
 	$(BUILD_DEP_DIR)/gist
 
-$(PKGS_DIR)/rcloud.solr.tar.gz: \
-	$(BUILD_DEP_DIR)/rjson \
-	$(BUILD_DEP_DIR)/Rserve \
-	$(BUILD_DEP_DIR)/httr \
-	$(BUILD_DEP_DIR)/ulog \
-	$(BUILD_DEP_DIR)/R6
-
-# Can't make rcloud.solr dependent on rcloud.support in this makefile
-# because it's in the parent.
-# $(BUILD_DEP_DIR)/rcloud.support
-
 
 #
 # Building binary packages
@@ -255,9 +205,6 @@ $(PKGS_DIR)/%.tar.gz:
 	&& TARBALL=$${STEM}_*_R_$(build).tar.gz \
 	&& mv $${TARBALL} $(PKGS_DIR)/$${STEM}.tar.gz
 
-# NOTE: need to touch the target directory after successful install,
-# because otherwise the tarball may have a newer timestamp (which I
-# observed)
 $(BUILD_DEP_DIR)/%: $(PKGS_DIR)/%.tar.gz
 	$(AM_V_GEN) $(R_BUILD_DEP) $< > /dev/null 2>&1
 
@@ -274,8 +221,6 @@ all-local: | vendor-fetch-local $(DIST_FILES) check-sums $(PKGS_DIR) $(BUILD_DEP
 # These targets are for the repeated recursive make.
 do-all-local: | $(BUILD_DEP_CRAN) $(BUILD_DEP_RFORGE)
 
-late-local: $(BUILD_DEP_RFORGE_LATE)
-
 
 #
 # Installation
@@ -287,7 +232,7 @@ $(R_SITE_LIB)/%: $(PKGS_DIR)/%.tar.gz | $(R_SITE_LIB)
 	$(AM_V_GEN) $(R_INSTALL) $< > /dev/null 2>&1
 
 # This target is used by dockerfile and install-exec-local
-vendor-install-local: | $(INSTALL_CRAN) $(INSTALL_RFORGE) $(INSTALL_RFORGE_LATE)
+vendor-install-local: | $(INSTALL_CRAN) $(INSTALL_RFORGE)
 
 
 #
@@ -345,7 +290,7 @@ vendor-copy-local:
 # don't clean them with the `clean' target. We clean them with the
 # `distclean' target.
 #
-clean-local: clean-local-logs
+clean-local: clean-local-logs clean-local-pkgs-dir
 distclean-local: distclean-local-dist-dir distclean-local-lib-dir
 
 .PHONY: dist-clean-local-dist-dir
@@ -359,9 +304,11 @@ distclean-local-lib-dir:
 
 .PHONY: clean-local-pkgs-dir
 clean-local-pkgs-dir:
+	-rm -rf $(PKGS_DIR)
+
 .PHONY: clean-local-logs
 clean-local-logs:
-	-rm -f @builddir@/*.log
+	-rm -f $(builddir)/*.log
 
 
 #
@@ -383,9 +330,10 @@ do-generate-checksums: $(DIST_CRAN)/checksums.txt $(DIST_RFORGE)/checksums.txt
 # want to succeed silently.
 .PHONY: check-sums
 check-sums: $(DIST_FILES) $(DIST_FILES_LATE)
-	@echo "Checking distribution file checksums..."
-	cd $(DIST_CRAN) && if ls *.tar.gz 1> /dev/null 2>&1; then sha256sum --quiet --ignore-missing -c checksums.txt; fi
-	cd $(DIST_RFORGE) && if ls *.tar.gz 1> /dev/null 2>&1; then sha256sum --quiet --ignore-missing -c checksums.txt; fi
+	@echo -n "Checking distribution file checksums... " \
+	&& cd $(DIST_CRAN) && if ls *.tar.gz 1> /dev/null 2>&1; then sha256sum --quiet --ignore-missing -c checksums.txt; fi \
+	&& cd $(DIST_RFORGE) && if ls *.tar.gz 1> /dev/null 2>&1; then sha256sum --quiet --ignore-missing -c checksums.txt; fi \
+	&& echo "OK"
 
 $(DIST_CRAN)/checksums.txt $(DIST_RFORGE)/checksums.txt:
 	cd $(@D) && $(SHA256SUM) *.tar.gz > checksums.txt

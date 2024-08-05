@@ -75,3 +75,46 @@ RFORGE_PACKAGES := \
 RFORGE_PACKAGES_LATE := \
 	ulog_0.1-2.tar.gz \
 	rcloud.solr_0.3.8.tar.gz
+
+
+OUT_DIR          = $(abs_top_builddir)/out
+BUILD_DEP_DIR    = $(OUT_DIR)/lib
+PKGS_DIR         = $(OUT_DIR)/pkgs
+DIST             = $(OUT_DIR)/dist
+SRC_DIST         = @srcdir@/dist
+DIST_RFORGE      = $(DIST)/rforge
+DIST_CRAN        = $(DIST)/cran
+SRC_DIST_RFORGE  = $(SRC_DIST)/rforge
+SRC_DIST_CRAN    = $(SRC_DIST)/cran
+RFORGE_URL       = https://www.rforge.net/src/contrib
+CRAN_URL         = https://cran.r-project.org/src/contrib
+CRAN_ARCHIVE_URL = https://cran.r-project.org/src/contrib/Archive
+
+
+
+DIST_CRAN_FILES        = $(addprefix $(DIST_CRAN)/,$(CRAN_PACKAGES))
+DIST_RFORGE_FILES      = $(addprefix $(DIST_RFORGE)/,$(RFORGE_PACKAGES))
+DIST_RFORGE_FILES_LATE = $(addprefix $(DIST_RFORGE)/,$(RFORGE_PACKAGES_LATE))
+
+DIST_FILES                = $(DIST_CRAN_FILES) $(DIST_RFORGE_FILES)
+DIST_FILES_LATE           = $(DIST_RFORGE_FILES_LATE)
+DIST_CRAN_PACKAGES        = $(subst /,,$(dir $(subst _,/,$(patsubst %.tar.gz,%,$(CRAN_PACKAGES)))))
+DIST_RFORGE_PACKAGES      = $(subst /,,$(dir $(subst _,/,$(patsubst %.tar.gz,%,$(RFORGE_PACKAGES)))))
+DIST_RFORGE_PACKAGES_LATE = $(subst /,,$(dir $(subst _,/,$(patsubst %.tar.gz,%,$(RFORGE_PACKAGES_LATE)))))
+# from inside to outside: foo_0.1.2.tar.gz -> foo_0.1.2 -> foo/0.1.2 -> foo/ -> foo
+
+# build targets: package name is of the pattern foo.tar.gz
+PKGS_CRAN            = $(addprefix $(PKGS_DIR)/,$(addsuffix .tar.gz,$(DIST_CRAN_PACKAGES)))
+PKGS_RFORGE          = $(addprefix $(PKGS_DIR)/,$(addsuffix .tar.gz,$(DIST_RFORGE_PACKAGES)))
+PKGS_RFORGE_LATE     = $(addprefix $(PKGS_DIR)/,$(addsuffix .tar.gz,$(DIST_RFORGE_PACKAGES_LATE)))
+.SECONDARY: $(PKGS_CRAN) $(PKGS_RFORGE) $(PKGS_RFORGE_LATE)
+
+# build_dep targets: package name is a directory
+BUILD_DEP_CRAN         = $(addprefix $(BUILD_DEP_DIR)/,$(DIST_CRAN_PACKAGES))
+BUILD_DEP_RFORGE       = $(addprefix $(BUILD_DEP_DIR)/,$(DIST_RFORGE_PACKAGES))
+BUILD_DEP_RFORGE_LATE  = $(addprefix $(BUILD_DEP_DIR)/,$(DIST_RFORGE_PACKAGES_LATE))
+
+# install targets: package name is a directory
+INSTALL_CRAN         = $(addprefix $(R_SITE_LIB)/,$(DIST_CRAN_PACKAGES))
+INSTALL_RFORGE       = $(addprefix $(R_SITE_LIB)/,$(DIST_RFORGE_PACKAGES))
+INSTALL_RFORGE_LATE  = $(addprefix $(R_SITE_LIB)/,$(DIST_RFORGE_PACKAGES_LATE))

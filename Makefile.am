@@ -9,7 +9,14 @@ MAKEFLAGS = s
 
 R_SITE_LIB       = $(DESTDIR)@libdir@/rcloud/site-library
 R_INSTALL        = R CMD INSTALL --no-docs -l $(R_SITE_LIB)
-R_BUILD          = R CMD INSTALL --no-docs --build -l $(BUILD_DEP_DIR)
+
+# Build an R package from a directory of source files
+R_BUILD          = R CMD build
+
+# Build an R package from a tar.gz tarball of source files
+R_BUILD_TGZ      = R CMD INSTALL --no-docs --build -l $(BUILD_DEP_DIR)
+
+# Install an R package from a tar.gz tarball of source or binary files
 R_BUILD_DEP      = R CMD INSTALL --no-docs -l $(BUILD_DEP_DIR)
 
 RCLOUD_PKGS =			\
@@ -361,6 +368,8 @@ nobase_dist_pkgdata_DATA =					\
 $(BUILD_DEP_DIR)/%: $(PKGS_DIR)/%.tar.gz
 	$(AM_V_GEN) $(R_BUILD_DEP) $< > /dev/null 2>&1
 
+# Build a tarball. Copies source directory to a temp directory first,
+# so that build artifacts aren't left in our source tree.
 $(PKGS_DIR)/%.tar.gz:
 	$(AM_V_GEN) STEM=$(basename $(basename $(@F)))		\
 	&& rtemp=$$(mktemp -d)					\
@@ -371,7 +380,7 @@ $(PKGS_DIR)/%.tar.gz:
 	&& rm $(OUT_DIR)/$(@F).log				\
 	&& mv $${TARBALL} $(PKGS_DIR)/$${STEM}.tar.gz		\
 	&& rm -r $$rtemp					\
-	|| cat $(OUT_DIR)/$(@F).log
+	|| (cat $(OUT_DIR)/$(@F).log && false)
 
 # NOTE: ensure path is the first dependency
 $(PKGS_DIR)/gist.tar.gz:             $(GIST_DIR)           $(gist_deps)
@@ -444,9 +453,9 @@ $(PKGS_DIR)/rcloud.solr.tar.gz: \
 	$(AM_V_GEN) STEM=$(basename $(basename $(@F))) \
 	&& SOURCEDIST=$${STEM}_*.tar.gz \
 	&& if [ -e $(DIST_CRAN)/$${SOURCEDIST} ]; then \
-	  $(R_BUILD) $(DIST_CRAN)/$${SOURCEDIST} > $(@F).log 2>&1; \
+	  $(R_BUILD_TGZ) $(DIST_CRAN)/$${SOURCEDIST} > $(@F).log 2>&1; \
 	elif [ -e $(DIST_RFORGE)/$${SOURCEDIST} ]; then \
-	  $(R_BUILD) $(DIST_RFORGE)/$${SOURCEDIST} > $(@F).log 2>&1; \
+	  $(R_BUILD_TGZ) $(DIST_RFORGE)/$${SOURCEDIST} > $(@F).log 2>&1; \
 	else \
 	  echo "ERROR: can't find $${SOURCEDIST} anywhere..."; \
 	  exit 1; \
@@ -458,9 +467,9 @@ $(PKGS_DIR)/ulog.tar.gz:
 	$(AM_V_GEN) STEM=$(basename $(basename $(@F))) \
 	&& SOURCEDIST=$${STEM}_*.tar.gz \
 	&& if [ -e $(DIST_CRAN)/$${SOURCEDIST} ]; then \
-	  $(R_BUILD) $(DIST_CRAN)/$${SOURCEDIST} > $(@F).log 2>&1; \
+	  $(R_BUILD_TGZ) $(DIST_CRAN)/$${SOURCEDIST} > $(@F).log 2>&1; \
 	elif [ -e $(DIST_RFORGE)/$${SOURCEDIST} ]; then \
-	  $(R_BUILD) $(DIST_RFORGE)/$${SOURCEDIST} > $(@F).log 2>&1; \
+	  $(R_BUILD_TGZ) $(DIST_RFORGE)/$${SOURCEDIST} > $(@F).log 2>&1; \
 	else \
 	  echo "ERROR: can't find $${SOURCEDIST} anywhere..."; \
 	  exit 1; \

@@ -179,10 +179,6 @@ $(PKGS_DIR)/githubgist.tar.gz: \
 # directory, for use by our own source code when we get around to
 # building it. This is the BUILD_DEP_DIR directory.
 #
-# Due to dependencies between the vendored libraries, we need to
-# attempt to installed each package multiple times. Eventually, its
-# dependencies will have successfully built, and it will succeed.
-#
 # The build process uses R CMD INSTALL --build to generate a binary
 # package, then strips off the version and platfrom info to standardise
 # the package filenames. It then installs them to BUILD_DEP_DIR.

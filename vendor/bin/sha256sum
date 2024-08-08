@@ -1,0 +1,36 @@
+#!/bin/bash
+# since sha256sum is a non-standard tool, this is a work-around
+# using openssl to take a file consisting of
+# <sha256> <filename>
+# compute and compare hashes for each file mentioned.
+# All arguments starting with - are ignored.
+fn=
+for a in "$@"
+do
+    if echo "x$a" | grep -v '^x-' >/dev/null; then
+	fn=$a
+	break
+    fi
+done
+
+if [ -z "$fn" ]; then
+    echo "ERROR: input file missing" >&2
+    exit 1
+fi
+
+for i in $(tr ' ' : < "$fn"); do
+    hash=$(echo $i | sed 's/:.*//')
+    fn=$(echo $i | sed 's/.*://')
+    if [ ! -e "$fn" ]; then
+	echo "WARN: $fn not found, skipping"
+    else
+	fhash=$(openssl sha256 < "$fn" | sed 's:^SHA.* ::')
+	if [ "$fhash" = "$hash" ]; then
+	    echo "$fn ... OK"
+	else
+	    echo "$fn ... SHA256 mismatch!"
+	    echo "'$hash' != '$fhash'"
+	    exit 1
+	fi
+    fi
+done

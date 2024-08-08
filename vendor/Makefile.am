@@ -198,25 +198,20 @@ $(PKGS_DIR)/%.tar.gz:
 	  echo "ERROR: can't find $${SOURCEDIST} anywhere..."; \
 	  exit 1; \
 	fi \
-	&& TARBALL=$${STEM}_*_R_$(build).tar.gz \
+	&& if [ -e $${STEM}_*.tgz ]; then TARBALL=$${STEM}_*.tgz; else TARBALL=$${STEM}_*.tar.gz; fi \
 	&& mv $${TARBALL} $(PKGS_DIR)/$${STEM}.tar.gz
 
 $(BUILD_DEP_DIR)/%: $(PKGS_DIR)/%.tar.gz
 	$(AM_V_GEN) $(R_BUILD_DEP) $< > /dev/null 2>&1
 
 
-# This target supplements automake's `all' target. It recursively
-# makes the `do-all-local` target multiple times as described in the
-# `Building binary packages` section above.
-# TODO: multiple iterations are no longer needed since we've added all
-# the inter-package dependency rules.
-all-local: | vendor-fetch-local $(DIST_FILES) check-sums $(PKGS_DIR) $(BUILD_DEP_DIR)
-	$(MAKE) $(AM_MAKEFLAGS) --ignore-errors --keep-going do-all-local 2> /dev/null;
-
-
-# These targets are for the repeated recursive make.
-do-all-local: | $(BUILD_DEP_CRAN) $(BUILD_DEP_RFORGE)
-
+all-local: | vendor-fetch-local \
+	$(DIST_FILES)		\
+	check-sums		\
+	$(PKGS_DIR)		\
+	$(BUILD_DEP_DIR)	\
+	$(BUILD_DEP_CRAN)	\
+	$(BUILD_DEP_RFORGE)
 
 #
 # Installation

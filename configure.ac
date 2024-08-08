@@ -32,7 +32,7 @@ AC_CHECK_PROG([R], [R], [R], [no])
 AS_IF([test "$R" = "no"],
             [AC_MSG_ERROR([R required: install r-base-dev or similar.])])
 
-# given that wget is very rare, and we need libcurl anyway, it is reasonable to use curl instead
+# curl
 AC_CHECK_PROG([CURL], [curl], [curl], [no])
 
 # sha256sum

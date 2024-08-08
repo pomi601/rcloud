@@ -2,15 +2,15 @@ SHELL = /bin/sh
 
 include depend.mk
 
-WGET             = wget -q
+CURL_CMD         = $(CURL) -s -f
 R_SITE_LIB       = $(DESTDIR)@libdir@/rcloud/site-library
 R_INSTALL        = R CMD INSTALL --no-docs -l $(R_SITE_LIB)
 R_BUILD_DEP      = R_LIBS_USER=$(BUILD_DEP_DIR) R CMD INSTALL --no-docs -l $(BUILD_DEP_DIR)
 R_BUILD          = R CMD INSTALL --no-docs --build --no-multiarch -l $(BUILD_DEP_DIR)
 
-wget_verbose	= $(wget_verbose_@AM_V@)
-wget_verbose_	= $(wget_verbose_@AM_DEFAULT_V@)
-wget_verbose_0	= @echo "  WGET     $(@F)";
+fetch_verbose	= $(fetch_verbose_@AM_V@)
+fetch_verbose_	= $(fetch_verbose_@AM_DEFAULT_V@)
+fetch_verbose_0	= @echo "  FETCH    $(@F)";
 
 # For sub make
 export R_SITE_LIB
@@ -258,11 +258,11 @@ vendor-fetch-local: | $(DIST_CRAN) $(DIST_RFORGE)
 do-vendor-fetch: $(DIST_FILES) $(DIST_FILES_LATE)
 
 $(DIST_CRAN)/%.tar.gz:
-	$(wget_verbose)$(WGET) -O $@ $(CRAN_URL)/$(@F) || \
-	$(WGET) -O $@ $(CRAN_ARCHIVE_URL)/$(subst /,,$(dir $(subst _,/,$(patsubst %.tar.gz,%,$(@F)))))/$(@F)
+	$(fetch_verbose)$(CURL_CMD) -o $@ $(CRAN_URL)/$(@F) || \
+	$(CURL_CMD) -o $@ $(CRAN_ARCHIVE_URL)/$(subst /,,$(dir $(subst _,/,$(patsubst %.tar.gz,%,$(@F)))))/$(@F)
 
 $(DIST_RFORGE)/%.tar.gz:
-	$(wget_verbose)$(WGET) -O $@ $(RFORGE_URL)/$(@F)
+	$(fetch_verbose)$(CURL_CMD) -o $@ $(RFORGE_URL)/$(@F)
 
 
 .PHONY: vendor-copy-local

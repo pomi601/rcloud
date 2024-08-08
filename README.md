@@ -103,7 +103,7 @@ If this doesn't work, please file an issue.
 
 ## Caching the downloaded R package dependencies
 
-You will notice many `WGET` lines when making the project the first
+You will notice many `FETCH` lines when making the project the first
 time, as the build system downloads its dependencies. To avoid doing
 this repeatedly if you delete your `build` directory, run the
 `vendor-copy` target:

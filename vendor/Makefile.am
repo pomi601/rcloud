@@ -327,8 +327,8 @@ do-generate-checksums: $(DIST_CRAN)/checksums.txt $(DIST_RFORGE)/checksums.txt
 .PHONY: check-sums
 check-sums: $(DIST_FILES) $(DIST_FILES_LATE)
 	@echo -n "Checking distribution file checksums... " \
-	&& cd $(DIST_CRAN) && if ls *.tar.gz 1> /dev/null 2>&1; then sha256sum --quiet --ignore-missing -c checksums.txt; fi \
-	&& cd $(DIST_RFORGE) && if ls *.tar.gz 1> /dev/null 2>&1; then sha256sum --quiet --ignore-missing -c checksums.txt; fi \
+	&& cd $(DIST_CRAN) && if ls *.tar.gz 1> /dev/null 2>&1; then $(SHA256SUM) --quiet --ignore-missing -c checksums.txt; fi \
+	&& cd $(DIST_RFORGE) && if ls *.tar.gz 1> /dev/null 2>&1; then $(SHA256SUM) --quiet --ignore-missing -c checksums.txt; fi \
 	&& echo "OK"
 
 $(DIST_CRAN)/checksums.txt $(DIST_RFORGE)/checksums.txt:

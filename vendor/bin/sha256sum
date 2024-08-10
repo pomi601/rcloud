@@ -1,4 +1,7 @@
 #!/bin/bash
+# TODO: we may no longer need this script as we use the shasum tool
+# now, which is part of the perl distribution on MacOS.
+#
 # since sha256sum is a non-standard tool, this is a work-around
 # using openssl to take a file consisting of
 # <sha256> <filename>

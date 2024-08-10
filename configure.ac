@@ -35,8 +35,8 @@ AS_IF([test "$R" = "no"],
 # curl
 AC_CHECK_PROG([CURL], [curl], [curl], [no])
 
-# sha256sum
-AC_CHECK_PROG([SHA256SUM], [sha256sum], [sha256sum], [no])
+# shasum
+AC_CHECK_PROG([SHA256SUM], [shasum], [shasum --algorithm 256], [no])
 AC_CHECK_PROG([OPENSSL], [openssl], [openssl], [no])
 AS_IF([test "$SHA256SUM" = "no"], [
   AS_IF([test "$OPENSSL" = "no"],

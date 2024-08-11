@@ -580,11 +580,14 @@ devcontainer-root:
 	$(srcdir)/scripts/devcontainer.sh run -t rcloud-dev --root -b ..
 
 run:
-	if [ ! -f $(srcdir)/conf/rcloud.conf ]; then echo "ERROR: conf/rcloud.conf not found"; exit 1; fi
 	if [ ! -d "$(OUT_DIR)/run" ]; then $(MKDIR_P) "$(OUT_DIR)/run"; fi
-	echo "Copying $(srcdir)/conf to $(OUT_DIR)/" \
+	echo "Copying $(srcdir)/conf to $(OUT_DIR)/"							\
 	&& cp -R "$(srcdir)/conf" "$(OUT_DIR)"
-	echo "Copying $(srcdir)/VERSION to $(OUT_DIR)/" \
+	if [ ! -f $(OUT_DIR)/conf/rcloud.conf ]; then							\
+	echo "WARNING: conf/rcloud.conf not found, using rcloud.conf.docker";				\
+	cp "$(srcdir)/conf/rcloud.conf.docker" "$(OUT_DIR)/conf/rcloud.conf";				\
+	fi
+	echo "Copying $(srcdir)/VERSION to $(OUT_DIR)/"							\
 	&& cp "$(srcdir)/VERSION" "$(OUT_DIR)/"
 	if ! redis-cli ping; then  redis-server & fi
 	ROOT=$(realpath $(OUT_DIR)) R_LIBS=$(realpath ./out/lib) R_LIBS_USER=$(realpath ./out/lib)	\

@@ -546,7 +546,27 @@ EXTRA_DIST =				\
 	htdocs
 
 #
-# some usefule targets for development use
+# javascript build
+#
+
+.PHONY: js
+js:
+	@echo "Building JavaScript in a temp directory..."	\
+	&& jstemp=$$(mktemp -d)					\
+	&& cp -R $(srcdir)/htdocs $$jstemp/			\
+	&& cp $(srcdir)/package.json $$jstemp/			\
+	&& cp $(srcdir)/package-lock.json $$jstemp/		\
+	&& cp $(srcdir)/Gruntfile.js $$jstemp/			\
+	&& cp $(srcdir)/VERSION $$jstemp/			\
+	&& cd $$jstemp						\
+	&& npm ci						\
+	&& node_modules/grunt-cli/bin/grunt			\
+	&& echo "Copying generated files to $(OUT_DIR)/htdocs/"	\
+	&& cp -R htdocs/ $(OUT_DIR)/				\
+	&& rm -r $$jstemp
+
+#
+# Some usefule targets for development use
 #
 .PHONY: devcontainer-build devcontainer-run devcontainer-root run
 
@@ -561,13 +581,20 @@ devcontainer-root:
 
 run:
 	if [ ! -f $(srcdir)/conf/rcloud.conf ]; then echo "ERROR: conf/rcloud.conf not found"; exit 1; fi
+	if [ ! -d "$(OUT_DIR)/run" ]; then $(MKDIR_P) "$(OUT_DIR)/run"; fi
+	echo "Copying $(srcdir)/conf to $(OUT_DIR)/" \
+	&& cp -R "$(srcdir)/conf" "$(OUT_DIR)"
+	echo "Copying $(srcdir)/VERSION to $(OUT_DIR)/" \
+	&& cp "$(srcdir)/VERSION" "$(OUT_DIR)/"
 	if ! redis-cli ping; then  redis-server & fi
-	ROOT=$(realpath $(srcdir)) R_LIBS=$(realpath ./out/lib) R_LIBS_USER=$(realpath ./out/lib)	\
+	ROOT=$(realpath $(OUT_DIR)) R_LIBS=$(realpath ./out/lib) R_LIBS_USER=$(realpath ./out/lib)	\
 	R --slave --no-restore --vanilla								\
-	--file="$(realpath $(srcdir))/conf/run_rcloud.R"							\
+	--file="$(realpath $(srcdir))/conf/run_rcloud.R"						\
 	--args "$(realpath $(srcdir))/conf/rserve.conf.docker"
 
-# This is a bit extreme but I can't see a pid file anywhere
+# This is a bit extreme but I can't see a pid file anywhere for redis-server.
+# Killing Rserve via the pid file doesn't always work.
 stop:
+	kill $(shell cat "$(OUT_DIR)/run/rserve.pid")
 	killall Rserve
 	killall redis-server

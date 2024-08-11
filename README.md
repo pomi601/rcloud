@@ -32,6 +32,31 @@ from package libraries and compare their checksums to what we expect.
 In order to build rcloud, these tarballs will be fetched by `make`
 prior to building the first time.
 
+# Quick start
+
+If you're on a system that already has the necessary system
+requirements, you can just configure, build and run a single-user
+version of RCloud from this repository:
+
+```sh
+$ autoreconf --install
+$ mkdir build && cd build
+$ ../configure  # --help for options, --prefix etc
+$ make -j16
+$ make js
+$ make run
+```
+
+To stop the server:
+
+```sh
+$ make stop
+```
+
+Note that the javascript build is currently a separate step, and there
+is no automatic dependency management. `make` will not rebuild the
+javascript bundles even if you have modified them.
+
 # Building locally
 
 ## Using Docker
@@ -117,16 +142,8 @@ This will copy the downloaded tarballs into your source directory, at
 
 ## JavaScript
 
-Currently, the JavaScript portions of this project are not built by
-`make`, so you will have to build them manually:
-
-```sh
-# From the root of the repo, install all javascript dependencies
-$ npm ci
-
-# Build the javascript runtime files
-$ node_modules/grunt-cli/bin/grunt
-```
+Currently, the JavaScript portions of this project are rebuilt
+unconditionally using the `make js` target.
 
 ## Configure rcloud and rserve
 

@@ -65,302 +65,163 @@ VIEWER_DIR		= rcloud.packages/rcloud.viewer
 WEB_DIR			= rcloud.packages/rcloud.web
 PACKAGE_META		= DESCRIPTION NAMESPACE
 
-gist_sources =							\
-  $(addprefix $(GIST_DIR)/,$(PACKAGE_META))			\
-  $(addprefix $(GIST_DIR)/R/,					\
-    auth.R							\
-    comments.R							\
-    gists.R							\
-    static.R							\
-    )
+gist_sources =								\
+  $(addprefix $(GIST_DIR)/,$(PACKAGE_META))				\
+  $(wildcard $(srcdir)/$(GIST_DIR)/R/*.R)
 gist_deps = $(gist_sources)
 
-gitgist_sources =						\
-  $(addprefix $(GITGIST_DIR)/,$(PACKAGE_META))			\
-  $(addprefix $(GITGIST_DIR)/R/,				\
-    do.R							\
-    )
+gitgist_sources =							\
+  $(addprefix $(GITGIST_DIR)/,$(PACKAGE_META))				\
+  $(wildcard $(srcdir)/$(GITGIST_DIR)/R/*.R)
 gitgist_deps = $(gitgist_sources)
 
-githubgist_sources =						\
-  $(addprefix $(GITHUBGIST_DIR)/,$(PACKAGE_META))		\
-  $(addprefix $(GITHUBGIST_DIR)/R/,				\
-    do.R							\
-    )
+githubgist_sources =							\
+  $(addprefix $(GITHUBGIST_DIR)/,$(PACKAGE_META))			\
+  $(wildcard $(srcdir)/$(GITHUBGIST_DIR)/R/*.R)
 githubgist_deps = $(githubgist_sources)
 
-rcloud_client_sources =						\
-  $(addprefix $(RCLOUD_CLIENT_DIR)/,$(PACKAGE_META))		\
-  $(addprefix $(RCLOUD_CLIENT_DIR)/R/,				\
-    connect.R							\
-    cookies.R							\
-    path.R							\
-    )
+rcloud_client_sources =							\
+  $(addprefix $(RCLOUD_CLIENT_DIR)/,$(PACKAGE_META))			\
+  $(wildcard $(srcdir)/$(RCLOUD_CLIENT_DIR)/R/*.R)
 rcloud_client_deps = $(rcloud_client_sources)
 
-rcloud_support_sources =					\
-  $(addprefix $(RCLOUD_SUPPORT_DIR)/,$(PACKAGE_META))		\
-  $(addprefix $(RCLOUD_SUPPORT_DIR)/R/,				\
-    assets.R							\
-    auth.R							\
-    binary.R							\
-    conf.R							\
-    credentials.R						\
-    crypt.R							\
-    device.R							\
-    discovery.R							\
-    download.R							\
-    http.R							\
-    install.R							\
-    javascript.R						\
-    languages.R							\
-    module.pkg.R						\
-    notebook.comments.R						\
-    notebook.execution.R					\
-    notebook.protection.R					\
-    ocaps.R							\
-    output.R							\
-    password.R							\
-    pem.R							\
-    plots.R							\
-    rcloud.support.R						\
-    rcs.R							\
-    rcs.ff.R							\
-    rcs.redis.R							\
-    runtime.api.R						\
-    session.R							\
-    session.server.R						\
-    setup.R							\
-    show.iframe.R						\
-    source.R							\
-    stash.R							\
-    upload.R							\
-    uri.R							\
-    util.R							\
-    uuid.R							\
-    wplot.R							\
-    zzz.R							\
-    )								\
-  $(addprefix $(RCLOUD_SUPPORT_DIR)/src/,			\
-    diff.c							\
-    hex.c							\
-    http.c							\
-    uri.c							\
-    )								\
-  $(addprefix $(RCLOUD_SUPPORT_DIR)/inst/javascript/,		\
-    download.js							\
-    locator.js							\
-    lux_plot.js							\
-    message.dialog.js						\
-    notebook.execution.js					\
-    password.js							\
-    rcloud.output.context.js					\
-    show_iframe.js						\
-    wplot.js							\
-    )								\
-  $(addprefix $(RCLOUD_SUPPORT_DIR)/man/,			\
-    RCloudDevice.Rd						\
-    dev.resize.Rd						\
-    rcloud.call.notebook.Rd					\
-    rcloud.download.file.Rd					\
-    rcloud.encrypt.Rd						\
-    rcloud.get.asset.Rd						\
-    rcloud.home.Rd						\
-    rcloud.html.out.Rd						\
-    rcloud.install.js.module.Rd					\
-    rcloud.read.pem.Rd						\
-    rcloud.session.info.Rd					\
-    rcloud.session.log.Rd					\
-    rcloud.session.notebook.Rd					\
-    rcloud.upload.path.Rd					\
-    start.rcloud.Rd						\
-    )
-rcloud_support_deps = $(rcloud_support_sources)			\
+rcloud_support_sources =						\
+  $(addprefix $(RCLOUD_SUPPORT_DIR)/,$(PACKAGE_META))			\
+  $(wildcard $(srcdir)/$(RCLOUD_SUPPORT_DIR)/R/*.R)			\
+  $(wildcard $(srcdir)/$(RCLOUD_SUPPORT_DIR)/src/*.c)			\
+  $(wildcard $(srcdir)/$(RCLOUD_SUPPORT_DIR)/inst/javascript/*.js)	\
+  $(wildcard $(srcdir)/$(RCLOUD_SUPPORT_DIR)/man/*.Rd)
+rcloud_support_deps = $(rcloud_support_sources)				\
   $(BUILD_DEP_DIR)/gist
 
-rcloud_enviewer_sources =					\
-  $(addprefix $(ENVIEWER_DIR)/,$(PACKAGE_META))			\
-  $(addprefix $(ENVIEWER_DIR)/R/,				\
-    rcloud.enviewer.R						\
-    zzz.R							\
-    )								\
-  $(addprefix $(ENVIEWER_DIR)/inst/javascript/,			\
-    rcloud.enviewer.js						\
-    )
-rcloud_enviewer_deps = $(rcloud_enviewer_sources)		\
+rcloud_enviewer_sources =						\
+  $(addprefix $(ENVIEWER_DIR)/,$(PACKAGE_META))				\
+  $(wildcard $(srcdir)/$(ENVIEWER_DIR)/R/*.R)				\
+  $(wildcard $(srcdir)/$(ENVIEWER_DIR)/inst/javascript/*.js)
+rcloud_enviewer_deps = $(rcloud_enviewer_sources)			\
   $(BUILD_DEP_DIR)/rcloud.support
 
-rcloud_jupyter_sources =					\
-  $(addprefix $(JUPYTER_DIR)/,$(PACKAGE_META) README.md)	\
-  $(addprefix $(JUPYTER_DIR)/R/,				\
-    main.R							\
-    )								\
-  $(addprefix $(JUPYTER_DIR)/inst/jupyter/,			\
-    RCloud_ansi2html.py						\
-    jupyter_adapter.py						\
-    mapping.json						\
-    )
-rcloud_jupyter_deps = $(rcloud_jupyter_sources)			\
+rcloud_jupyter_sources =						\
+  $(addprefix $(JUPYTER_DIR)/,$(PACKAGE_META) README.md)		\
+  $(wildcard $(srcdir)/$(JUPYTER_DIR)/R/*.R)				\
+  $(wildcard $(srcdir)/$(JUPYTER_DIR)/inst/jupyter/*.py)		\
+  $(wildcard $(srcdir)/$(JUPYTER_DIR)/inst/jupyter/*.json)
+rcloud_jupyter_deps = $(rcloud_jupyter_sources)				\
   $(BUILD_DEP_DIR)/rcloud.support
 
-rcloud_lux_sources =						\
-  $(addprefix $(LUX_DIR)/,$(PACKAGE_META))			\
-  $(addprefix $(LUX_DIR)/R/,					\
-    lux.plot.R							\
-    zzz.R							\
-    )								\
-  $(addprefix $(LUX_DIR)/inst/javascript/,			\
-    lux.js							\
-    lux_plot.js							\
-    )
-rcloud_lux_deps = $(rcloud_lux_sources)				\
+rcloud_lux_sources =							\
+  $(addprefix $(LUX_DIR)/,$(PACKAGE_META))				\
+  $(wildcard $(srcdir)/$(LUX_DIR)/R/*.R)				\
+  $(wildcard $(srcdir)/$(LUX_DIR)/inst/javascript/*.js)
+rcloud_lux_deps = $(rcloud_lux_sources)					\
   $(BUILD_DEP_DIR)/rcloud.support
 
-rcloud_notebook_sources =					\
-  $(addprefix $(NOTEBOOK_DIR)/,$(PACKAGE_META))			\
-  $(addprefix $(NOTEBOOK_DIR)/R/,				\
-    zzz.R							\
-    )								\
-  $(addprefix $(NOTEBOOK_DIR)/inst/javascript/,			\
-    rcloud.notebook.info.js					\
-    )
-rcloud_notebook_deps = $(rcloud_notebook_sources)		\
+rcloud_notebook_sources =						\
+  $(addprefix $(NOTEBOOK_DIR)/,$(PACKAGE_META))				\
+  $(wildcard $(srcdir)/$(NOTEBOOK_DIR)/R/*.R)				\
+  $(wildcard $(srcdir)/$(NOTEBOOK_DIR)/inst/javascript/*.js)
+rcloud_notebook_deps = $(rcloud_notebook_sources)			\
   $(BUILD_DEP_DIR)/rcloud.support
 
-rcloud_python_sources =						\
-  $(addprefix $(PYTHON_DIR)/,$(PACKAGE_META))			\
-  $(addprefix $(PYTHON_DIR)/R/,					\
-    main.R							\
-    )								\
-  $(addprefix $(PYTHON_DIR)/inst/python/,			\
-    RCloud_ansi2html.py						\
-    notebook_runner.py						\
-    rcloud_kernel.py						\
-    )
-rcloud_python_deps = $(rcloud_python_sources)			\
+rcloud_python_sources =							\
+  $(addprefix $(PYTHON_DIR)/,$(PACKAGE_META))				\
+  $(wildcard $(srcdir)/$(PYTHON_DIR)/R/*.R)				\
+  $(wildcard $(srcdir)/$(PYTHON_DIR)/inst/python/*.py)
+rcloud_python_deps = $(rcloud_python_sources)				\
   $(BUILD_DEP_DIR)/rcloud.support
 
-rcloud_r_sources =						\
-  $(addprefix $(RCLOUD_R_DIR)/,$(PACKAGE_META))			\
-  $(addprefix $(RCLOUD_R_DIR)/R/,				\
-    main.R							\
-    )
-rcloud_r_deps = $(rcloud_r_sources)				\
+rcloud_r_sources =							\
+  $(addprefix $(RCLOUD_R_DIR)/,$(PACKAGE_META))				\
+  $(wildcard $(srcdir)/$(RCLOUD_R_DIR)/R/*.R)
+rcloud_r_deps = $(rcloud_r_sources)					\
   $(BUILD_DEP_DIR)/rcloud.support
 
-rcloud_rmarkdown_sources =					\
-  $(addprefix $(RMARKDOWN_DIR)/,$(PACKAGE_META))		\
-  $(addprefix $(RMARKDOWN_DIR)/R/,				\
-    main.R							\
-    )
-rcloud_rmarkdown_deps = $(rcloud_rmarkdown)			\
+rcloud_rmarkdown_sources =						\
+  $(addprefix $(RMARKDOWN_DIR)/,$(PACKAGE_META))			\
+  $(wildcard $(srcdir)/$(RMARKDOWN_DIR)/R/*.R)
+rcloud_rmarkdown_deps = $(rcloud_rmarkdown)				\
   $(BUILD_DEP_DIR)/rcloud.support
 
-rcloud_sh_sources =						\
-  $(addprefix $(RCLOUD_SH_DIR)/,$(PACKAGE_META))		\
-  $(addprefix $(RCLOUD_SH_DIR)/R/,				\
-    main.R							\
-    )								\
-  $(addprefix $(RCLOUD_SH_DIR)/src/,				\
-    shexec.c							\
-    )
-rcloud_sh_deps = $(rcloud_sh_sources)				\
+rcloud_sh_sources =							\
+  $(addprefix $(RCLOUD_SH_DIR)/,$(PACKAGE_META))			\
+  $(wildcard $(srcdir)/$(RCLOUD_SH_DIR)/R/*.R)				\
+  $(wildcard $(srcdir)/$(RCLOUD_SH_DIR)/src/*.c)
+rcloud_sh_deps = $(rcloud_sh_sources)					\
   $(BUILD_DEP_DIR)/rcloud.support
 
-rcloud_viewer_sources =						\
-  $(addprefix $(VIEWER_DIR)/,$(PACKAGE_META))			\
-  $(addprefix $(VIEWER_DIR)/R/,					\
-    rcloud.viewer.R						\
-    zzz.R							\
-    )								\
-  $(addprefix $(VIEWER_DIR)/inst/javascript/,			\
-    rcloud.viewer.js						\
-    )
-rcloud_viewer_deps = $(rcloud_viewer_sources)			\
+rcloud_viewer_sources =							\
+  $(addprefix $(VIEWER_DIR)/,$(PACKAGE_META))				\
+  $(wildcard $(srcdir)/$(VIEWER_DIR)/R/*.R)				\
+  $(wildcard $(srcdir)/$(VIEWER_DIR)/inst/javascript/*.js)
+rcloud_viewer_deps = $(rcloud_viewer_sources)				\
   $(BUILD_DEP_DIR)/rcloud.support
 
-rcloud_web_sources =						\
-  $(addprefix $(WEB_DIR)/,$(PACKAGE_META) NEWS)			\
-  $(addprefix $(WEB_DIR)/R/,					\
-    caps.R							\
-    deferred.R							\
-    fastrweb.R							\
-    inline.R							\
-    rc.R							\
-    reactive.R							\
-    util.R							\
-    zzz.R							\
-    )								\
-  $(addprefix $(WEB_DIR)/inst/javascript/,			\
-    rcloud.web.module.js					\
-    )								\
-  $(addprefix $(WEB_DIR)/man/,					\
-    rcw.collect.Rd						\
-    rcw.result.Rd						\
-    rcw.set.Rd							\
-    rcw.url.Rd							\
-    )
-rcloud_web_deps = $(rcloud_web_sources)				\
+rcloud_web_sources =							\
+  $(addprefix $(WEB_DIR)/,$(PACKAGE_META) NEWS)				\
+  $(wildcard $(srcdir)/$(WEB_DIR)/R/*.R)				\
+  $(wildcard $(srcdir)/$(WEB_DIR)/inst/javascript/*.js)			\
+  $(wildcard $(srcdir)/$(WEB_DIR)/man/*.Rd)
+rcloud_web_deps = $(rcloud_web_sources)					\
   $(BUILD_DEP_DIR)/rcloud.support
 
-nobase_dist_pkgdata_DATA =					\
-  $(gist_sources)						\
-  $(gitgist_sources)						\
-  $(githubgist_sources)						\
-  $(rcloud_client_sources)					\
-  $(rcloud_support_sources)					\
-  $(rcloud_enviewer_sources)					\
-  $(rcloud_jupyter_sources)					\
-  $(rcloud_lux_sources)						\
-  $(rcloud_notebook_sources)					\
-  $(rcloud_python_sources)					\
-  $(rcloud_r_sources)						\
-  $(rcloud_rmarkdown_sources)					\
-  $(rcloud_sh_sources)						\
-  $(rcloud_viewer_sources)					\
-  $(rcloud_web_sources)						\
-  conf/rcloud.conf.samp						\
-  conf/rcloud.profile						\
-  conf/rserve-proxified.conf					\
-  conf/rserve.conf						\
-  conf/start							\
-  scripts/bootstrapR.sh						\
-  scripts/build.sh						\
-  scripts/build_package.sh					\
-  scripts/conf-keys.sh						\
-  scripts/convert_ipynb_to_rcloud_notebook.py			\
-  scripts/fetch-mathjax.sh					\
-  scripts/fresh_start.sh					\
-  scripts/migrate-ghe2gists.pl					\
-  scripts/migrate2ff.sh						\
-  scripts/migrate2redis.sh					\
-  scripts/rebuildjs.sh						\
-  scripts/selconf						\
-  scripts/shutdown.sh						\
-  scripts/travis-tool.sh					\
-  scripts/upgradeRCS1_0.R					\
-  services/README.md						\
-  services/rcloud-proxy						\
-  services/rcloud-qap						\
-  services/rcloud-script					\
-  services/rcloud-script-start					\
-  services/rcloud-sks						\
-  services/rcloud-solr						\
-  services/rcloud-start						\
-  services/ubuntu/init.d/rcloud-proxy				\
-  services/ubuntu/init.d/rcloud-qap				\
-  services/ubuntu/init.d/rcloud-script				\
-  services/ubuntu/init.d/rcloud-sks				\
-  services/ubuntu/init.d/rcloud-solr				\
-  services/ubuntu/init.d/rcloud-ulogd				\
-  vendor/dist/cran/checksums.txt				\
-  vendor/dist/rforge/checksums.txt				\
-  LICENSE							\
-  NEWS.md							\
-  README-CREDENTIALS.txt					\
-  README.md							\
-  VERSION							\
-  package.json							\
+nobase_dist_pkgdata_DATA =						\
+  $(gist_sources)							\
+  $(gitgist_sources)							\
+  $(githubgist_sources)							\
+  $(rcloud_client_sources)						\
+  $(rcloud_support_sources)						\
+  $(rcloud_enviewer_sources)						\
+  $(rcloud_jupyter_sources)						\
+  $(rcloud_lux_sources)							\
+  $(rcloud_notebook_sources)						\
+  $(rcloud_python_sources)						\
+  $(rcloud_r_sources)							\
+  $(rcloud_rmarkdown_sources)						\
+  $(rcloud_sh_sources)							\
+  $(rcloud_viewer_sources)						\
+  $(rcloud_web_sources)							\
+  conf/rcloud.conf.samp							\
+  conf/rcloud.profile							\
+  conf/rserve-proxified.conf						\
+  conf/rserve.conf							\
+  conf/start								\
+  scripts/bootstrapR.sh							\
+  scripts/build.sh							\
+  scripts/build_package.sh						\
+  scripts/conf-keys.sh							\
+  scripts/convert_ipynb_to_rcloud_notebook.py				\
+  scripts/fetch-mathjax.sh						\
+  scripts/fresh_start.sh						\
+  scripts/migrate-ghe2gists.pl						\
+  scripts/migrate2ff.sh							\
+  scripts/migrate2redis.sh						\
+  scripts/rebuildjs.sh							\
+  scripts/selconf							\
+  scripts/shutdown.sh							\
+  scripts/travis-tool.sh						\
+  scripts/upgradeRCS1_0.R						\
+  services/README.md							\
+  services/rcloud-proxy							\
+  services/rcloud-qap							\
+  services/rcloud-script						\
+  services/rcloud-script-start						\
+  services/rcloud-sks							\
+  services/rcloud-solr							\
+  services/rcloud-start							\
+  services/ubuntu/init.d/rcloud-proxy					\
+  services/ubuntu/init.d/rcloud-qap					\
+  services/ubuntu/init.d/rcloud-script					\
+  services/ubuntu/init.d/rcloud-sks					\
+  services/ubuntu/init.d/rcloud-solr					\
+  services/ubuntu/init.d/rcloud-ulogd					\
+  vendor/dist/cran/checksums.txt					\
+  vendor/dist/rforge/checksums.txt					\
+  LICENSE								\
+  NEWS.md								\
+  README-CREDENTIALS.txt						\
+  README.md								\
+  VERSION								\
+  package.json								\
   package-lock.json
 
 

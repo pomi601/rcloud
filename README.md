@@ -46,6 +46,9 @@ $ make -j16
 $ make run
 ```
 
+Open a browser to https://127.0.0.1:8080/login.R and you should see
+RCloud's main interface.
+
 To stop the server:
 
 ```sh

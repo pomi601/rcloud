@@ -43,7 +43,6 @@ $ autoreconf --install
 $ mkdir build && cd build
 $ ../configure  # --help for options, --prefix etc
 $ make -j16
-$ make js
 $ make run
 ```
 
@@ -52,10 +51,6 @@ To stop the server:
 ```sh
 $ make stop
 ```
-
-Note that the javascript build is currently a separate step, and there
-is no automatic dependency management. `make` will not rebuild the
-javascript bundles even if you have modified them.
 
 # Building locally
 

@@ -7,6 +7,7 @@ pkgs.mkShell {
     automake
     cairo
     curl
+    killall
     git
     gnumake
     icu
@@ -20,7 +21,6 @@ pkgs.mkShell {
     R
     rPackages.codetools
     rPackages.Matrix
-    wget
   ];
 
   LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];

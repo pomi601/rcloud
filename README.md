@@ -17,6 +17,38 @@ make install` experience for end users. Detailed instructions follow,
 however, because rcloud has a few additional required steps due to its
 many external dependencies.
 
+# Quick start
+
+If you're on a system that already has the necessary system
+requirements, you can just configure, build and run a single-user
+version of RCloud from this repository:
+
+```sh
+$ configure
+$ make -j16
+$ make run
+```
+
+Open a browser to https://127.0.0.1:8080/login.R and you should see
+RCloud's main interface.
+
+To stop the server:
+
+```sh
+$ make stop
+```
+
+Build files are placed in an `out/` subdirectory. This directory is
+removed by `make clean`. You may wish to configure and build from a
+`build` subdirectory to prevent intermediate files and log files from
+being generated in your source tree, but this is not required.
+
+Note that the initial build will fetch several third-party
+dependencies from package repositories, so Internet access is
+required. We plan to package a "fat" source distribution that includes
+all dependencies (subject to license restrictions), which can be built
+without network access.
+
 # Vendored dependencies
 
 In order to provide a reproducible build, we explicitly version every
@@ -32,30 +64,13 @@ from package libraries and compare their checksums to what we expect.
 In order to build rcloud, these tarballs will be fetched by `make`
 prior to building the first time.
 
-# Quick start
 
-If you're on a system that already has the necessary system
-requirements, you can just configure, build and run a single-user
-version of RCloud from this repository:
+# System requirements
 
-```sh
-$ autoreconf --install
-$ mkdir build && cd build
-$ ../configure  # --help for options, --prefix etc
-$ make -j16
-$ make run
-```
-
-Open a browser to https://127.0.0.1:8080/login.R and you should see
-RCloud's main interface.
-
-To stop the server:
-
-```sh
-$ make stop
-```
-
-# Building locally
+Refer to [shell.nix](shell.nix) or
+[debian.Dockerfile](debian.Dockerfile) for hints about runtime and
+build time system requirements, and fulfill them with Nix, Docker,
+Podman or however you like.
 
 ## Using Docker
 
@@ -100,30 +115,6 @@ to build new versions of RCloud after editing the code.
 $ scripts/devcontainer.sh --help
 ```
 
-## Building locally (or via devcontainer)
-
-Assuming you have just cloned the repository and are either in a
-devcontainer or have installed all the necessary system requirements,
-do the following:
-
-```sh
-$ autoreconf --install
-$ mkdir build && cd build
-$ ../configure  # --help for options, --prefix etc
-$ make
-$ (sudo) make install
-```
-
-## Parallel build
-
-You are encouraged to use parallel builds:
-
-```sh
-$ make -j8
-```
-
-If this doesn't work, please file an issue.
-
 ## Caching the downloaded R package dependencies
 
 You will notice many `FETCH` lines when making the project the first
@@ -137,11 +128,6 @@ $ make vendor-copy
 
 This will copy the downloaded tarballs into your source directory, at
 `vendor/dist`.
-
-## JavaScript
-
-Currently, the JavaScript portions of this project are rebuilt
-unconditionally using the `make js` target.
 
 ## Configure rcloud and rserve
 
@@ -174,12 +160,6 @@ service:
 $ make
 $ make run
 ```
-
-## Not working?
-
-Please refer to the [debian.Dockerfile](./debian.Dockerfile) for
-system requirements and build instructions that may not be correctly
-documented in this README.
 
 # Building and running a docker image
 

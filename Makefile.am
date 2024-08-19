@@ -208,6 +208,11 @@ htdocs_sources =										\
   $(wildcard $(srcdir)/htdocs/sass/utils/*.scss)						\
   $(wildcard $(srcdir)/htdocs/sass/vendor/*.scss)
 
+conf_sources =				\
+  $(wildcard $(srcdir)/conf/*)		\
+  $(wildcard $(srcdir)/conf/solr/*)	\
+  $(wildcard $(srcdir)/conf/*)		\
+  $(wildcard $(srcdir)/conf/solr/lang/*)
 
 nobase_dist_pkgdata_DATA =						\
   $(gist_sources)							\
@@ -226,12 +231,7 @@ nobase_dist_pkgdata_DATA =						\
   $(rcloud_viewer_sources)						\
   $(rcloud_web_sources)							\
   $(htdocs_sources)							\
-  conf/rcloud.conf.samp							\
-  conf/rcloud.conf.docker						\
-  conf/rcloud.profile							\
-  conf/rserve-proxified.conf						\
-  conf/rserve.conf							\
-  conf/start								\
+  $(conf_sources)							\
   scripts/bootstrapR.sh							\
   scripts/build.sh							\
   scripts/build_package.sh						\
@@ -267,10 +267,7 @@ nobase_dist_pkgdata_DATA =						\
   NEWS.md								\
   README-CREDENTIALS.txt						\
   README.md								\
-  VERSION								\
-  package.json								\
-  package-lock.json
-
+  VERSION
 
 
 $(BUILD_DEP_DIR)/%: $(PKGS_DIR)/%.tar.gz
@@ -436,27 +433,6 @@ dist_doc_DATA =			\
   doc/INSTALL.md		\
   doc/RCloud-architecture.pdf	\
   doc/README.md
-
-#
-# Things to distribute that aren't in automake install targets
-#
-EXTRA_DIST =				\
-	$(gist_sources)			\
-	$(gitgist_sources)		\
-	$(githubgist_sources)		\
-	$(rcloud_client_sources)	\
-	$(rcloud_support_sources)	\
-	$(rcloud_envieweer_sources)	\
-	$(rcloud_jupyter_sources)	\
-	$(rcloud_lux_sources)		\
-	$(rcloud_notebook_sources)	\
-	$(rcloud_python_sources)	\
-	$(rcloud_r_sources)		\
-	$(rcloud_rmarkdown_sources)	\
-	$(rcloud_sh_sources)		\
-	$(rcloud_viewer_sources)	\
-	$(rcloud_web_sources)		\
-	$(htdocs_sources)
 
 #
 # javascript build

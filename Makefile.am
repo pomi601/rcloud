@@ -164,45 +164,48 @@ rcloud_web_sources =							\
 rcloud_web_deps = $(rcloud_web_sources)					\
   $(BUILD_DEP_DIR)/rcloud.support
 
-htdocs_sources = \
-  $(wildcard $(srcdir)/htdocs/*.js) \
-  $(wildcard $(srcdir)/htdocs/*.png) \
-  $(wildcard $(srcdir)/htdocs/*.html) \
-  $(wildcard $(srcdir)/htdocs/*.txt) \
-  $(wildcard $(srcdir)/htdocs/*.R) \
-  $(wildcard $(srcdir)/htdocs/css/*.png) \
-  $(wildcard $(srcdir)/htdocs/css/images/*.png) \
-  $(wildcard $(srcdir)/htdocs/font/*.otf) \
-  $(wildcard $(srcdir)/htdocs/font/*.eot) \
-  $(wildcard $(srcdir)/htdocs/font/*.svg) \
-  $(wildcard $(srcdir)/htdocs/font/*.svgz) \
-  $(wildcard $(srcdir)/htdocs/font/*.ttf) \
-  $(wildcard $(srcdir)/htdocs/font/*.woff) \
-  $(wildcard $(srcdir)/htdocs/img/*.gif) \
-  $(wildcard $(srcdir)/htdocs/img/*.jpg) \
-  $(wildcard $(srcdir)/htdocs/img/*.png) \
-  $(wildcard $(srcdir)/htdocs/js/*.js) \
-  $(wildcard $(srcdir)/htdocs/js/notebook/*.js) \
-  $(wildcard $(srcdir)/htdocs/js/tree/*.js) \
-  $(wildcard $(srcdir)/htdocs/js/ui/*.js) \
-  $(wildcard $(srcdir)/htdocs/lib/js/*.js) \
-  $(wildcard $(srcdir)/htdocs/lib/js/ace/*.js) \
-  $(wildcard $(srcdir)/htdocs/lib/js/ace/*.md) \
-  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/*.js) \
-  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/base/worker/*.js) \
-  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/basic-languages/src/*.js) \
-  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/editor/*.css) \
-  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/editor/*.js) \
-  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/editor/contrib/suggest/browser/media/*.svg) \
-  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/editor/standalone/browser/quickOpen/*.svg) \
-  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/language/css/*.js) \
-  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/language/html/*.js) \
-  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/language/json/*.js) \
-  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/language/typescript/lib/*.js) \
-  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/language/typescript/src/*.js) \
-  $(wildcard $(srcdir)/htdocs/sass/*.scss) \
-  $(wildcard $(srcdir)/htdocs/sass/components/*.scss) \
-  $(wildcard $(srcdir)/htdocs/sass/utils/*.scss) \
+htdocs_sources =										\
+  $(srcdir)/package.json									\
+  $(srcdir)/package-lock.json									\
+  $(srcdir)/Gruntfile.js									\
+  $(wildcard $(srcdir)/htdocs/*.js)								\
+  $(wildcard $(srcdir)/htdocs/*.png)								\
+  $(wildcard $(srcdir)/htdocs/*.html)								\
+  $(wildcard $(srcdir)/htdocs/*.txt)								\
+  $(wildcard $(srcdir)/htdocs/*.R)								\
+  $(wildcard $(srcdir)/htdocs/css/*.png)							\
+  $(wildcard $(srcdir)/htdocs/css/images/*.png)							\
+  $(wildcard $(srcdir)/htdocs/font/*.otf)							\
+  $(wildcard $(srcdir)/htdocs/font/*.eot)							\
+  $(wildcard $(srcdir)/htdocs/font/*.svg)							\
+  $(wildcard $(srcdir)/htdocs/font/*.svgz)							\
+  $(wildcard $(srcdir)/htdocs/font/*.ttf)							\
+  $(wildcard $(srcdir)/htdocs/font/*.woff)							\
+  $(wildcard $(srcdir)/htdocs/img/*.gif)							\
+  $(wildcard $(srcdir)/htdocs/img/*.jpg)							\
+  $(wildcard $(srcdir)/htdocs/img/*.png)							\
+  $(wildcard $(srcdir)/htdocs/js/*.js)								\
+  $(wildcard $(srcdir)/htdocs/js/notebook/*.js)							\
+  $(wildcard $(srcdir)/htdocs/js/tree/*.js)							\
+  $(wildcard $(srcdir)/htdocs/js/ui/*.js)							\
+  $(wildcard $(srcdir)/htdocs/lib/js/*.js)							\
+  $(wildcard $(srcdir)/htdocs/lib/js/ace/*.js)							\
+  $(wildcard $(srcdir)/htdocs/lib/js/ace/*.md)							\
+  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/*.js)						\
+  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/base/worker/*.js)				\
+  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/basic-languages/src/*.js)			\
+  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/editor/*.css)					\
+  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/editor/*.js)					\
+  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/editor/contrib/suggest/browser/media/*.svg)	\
+  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/editor/standalone/browser/quickOpen/*.svg)	\
+  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/language/css/*.js)				\
+  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/language/html/*.js)				\
+  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/language/json/*.js)				\
+  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/language/typescript/lib/*.js)			\
+  $(wildcard $(srcdir)/htdocs/lib/js/monaco/vs/language/typescript/src/*.js)			\
+  $(wildcard $(srcdir)/htdocs/sass/*.scss)							\
+  $(wildcard $(srcdir)/htdocs/sass/components/*.scss)						\
+  $(wildcard $(srcdir)/htdocs/sass/utils/*.scss)						\
   $(wildcard $(srcdir)/htdocs/sass/vendor/*.scss)
 
 
@@ -224,6 +227,7 @@ nobase_dist_pkgdata_DATA =						\
   $(rcloud_web_sources)							\
   $(htdocs_sources)							\
   conf/rcloud.conf.samp							\
+  conf/rcloud.conf.docker						\
   conf/rcloud.profile							\
   conf/rserve-proxified.conf						\
   conf/rserve.conf							\
@@ -452,7 +456,7 @@ EXTRA_DIST =				\
 	$(rcloud_sh_sources)		\
 	$(rcloud_viewer_sources)	\
 	$(rcloud_web_sources)		\
-	htdocs
+	$(htdocs_sources)
 
 #
 # javascript build
@@ -466,6 +470,7 @@ $(OUT_DIR)/htdocs/js/rcloud_bundle.min.js.gz: $(htdocs_sources)
 	&& cp $(srcdir)/Gruntfile.js $$jstemp/			\
 	&& cp $(srcdir)/VERSION $$jstemp/			\
 	&& cd $$jstemp						\
+	&& chmod -R +w .                                        \
 	&& npm ci						\
 	&& node_modules/grunt-cli/bin/grunt			\
 	&& echo "Copying generated files to $(OUT_DIR)/htdocs/"	\

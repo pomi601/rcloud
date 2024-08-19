@@ -392,7 +392,7 @@ all-local: js | $(RCLOUD_OUT) $(BUILD_DEP_PKGS) $(BUILD_DEP_RFORGE_LATE)
 #
 # cleaning
 #
-clean-local: clean-local-pkgs clean-local-logs
+clean-local: clean-local-pkgs clean-local-logs clean-out-dir
 
 .PHONY: clean-local-pkgs
 clean-local-pkgs:
@@ -401,6 +401,11 @@ clean-local-pkgs:
 .PHONY: clean-local-logs
 clean-local-logs:
 	-rm -f $(builddir)/*.log
+
+.PHONY: clean-out-dir
+clean-out-dir:
+	@echo "Removing directory $(OUT_DIR)"
+	-rm -rf $(OUT_DIR)
 
 #
 # install

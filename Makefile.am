@@ -208,11 +208,21 @@ htdocs_sources =										\
   $(wildcard $(srcdir)/htdocs/sass/utils/*.scss)						\
   $(wildcard $(srcdir)/htdocs/sass/vendor/*.scss)
 
-conf_sources =				\
-  $(wildcard $(srcdir)/conf/*)		\
-  $(wildcard $(srcdir)/conf/solr/*)	\
-  $(wildcard $(srcdir)/conf/*)		\
-  $(wildcard $(srcdir)/conf/solr/lang/*)
+conf_sources =					\
+  $(wildcard $(srcdir)/conf/*.auth)		\
+  $(wildcard $(srcdir)/conf/*.conf)		\
+  $(wildcard $(srcdir)/conf/*.docker)		\
+  $(wildcard $(srcdir)/conf/*.profile)		\
+  $(wildcard $(srcdir)/conf/*.R)		\
+  $(wildcard $(srcdir)/conf/*.samp)		\
+  $(srcdir)/conf/setup				\
+  $(srcdir)/conf/start				\
+  $(srcdir)/conf/verisign.crt			\
+  $(wildcard $(srcdir)/conf/solr/*.html)	\
+  $(wildcard $(srcdir)/conf/solr/*.md)		\
+  $(wildcard $(srcdir)/conf/solr/*.sh)		\
+  $(wildcard $(srcdir)/conf/solr/*.txt)		\
+  $(wildcard $(srcdir)/conf/solr/lang/*.txt)
 
 nobase_dist_pkgdata_DATA =						\
   $(gist_sources)							\

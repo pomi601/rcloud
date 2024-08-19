@@ -11,6 +11,9 @@ R_BUILD          = R CMD INSTALL --no-docs --build --no-multiarch -l $(BUILD_DEP
 fetch_verbose	= $(fetch_verbose_@AM_V@)
 fetch_verbose_	= $(fetch_verbose_@AM_DEFAULT_V@)
 fetch_verbose_0	= @echo "  FETCH    $(@F)";
+copy_verbose	= $(copy_verbose_@AM_V@)
+copy_verbose_	= $(copy_verbose_@AM_DEFAULT_V@)
+copy_verbose_0	= @echo "  COPY     $(@F)";
 
 # For sub make
 export R_SITE_LIB
@@ -245,24 +248,32 @@ vendor-install-local: | $(INSTALL_CRAN) $(INSTALL_RFORGE)
 .PHONY: $(DIST_CRAN)
 $(DIST_CRAN):
 	$(MKDIR_P) $(DIST_CRAN)
-	-cp -rp $(SRC_DIST_CRAN)/* $(DIST_CRAN)/
 
 .PHONY: $(DIST_RFORGE)
 $(DIST_RFORGE):
 	$(MKDIR_P) $(DIST_RFORGE)
-	-cp -rp $(SRC_DIST_RFORGE)/* $(DIST_RFORGE)/
 
 vendor-fetch-local: | $(DIST_CRAN) $(DIST_RFORGE)
 	$(MAKE) $(AM_MAKEFLAGS) do-vendor-fetch
 
 do-vendor-fetch: $(DIST_FILES) $(DIST_FILES_LATE)
 
+$(DIST_CRAN)/checksums.txt: $(SRC_DIST_CRAN)/checksums.txt
+	$(copy_verbose) cp $< $@
+
+$(DIST_RFORGE)/checksums.txt: $(SRC_DIST_RFORGE)/checksums.txt
+	$(copy_verbose) cp $< $@
+
 $(DIST_CRAN)/%.tar.gz:
-	$(fetch_verbose)$(CURL_CMD) -o $@ $(CRAN_URL)/$(@F) || \
-	$(CURL_CMD) -o $@ $(CRAN_ARCHIVE_URL)/$(subst /,,$(dir $(subst _,/,$(patsubst %.tar.gz,%,$(@F)))))/$(@F)
+	$(fetch_verbose) if [ -f $(SRC_DIST_CRAN)/$(@F) ]; then cp $(SRC_DIST_CRAN)/$(@F) $@; else \
+	$(CURL_CMD) -o $@ $(CRAN_URL)/$(@F) || \
+	$(CURL_CMD) -o $@ $(CRAN_ARCHIVE_URL)/$(subst /,,$(dir $(subst _,/,$(patsubst %.tar.gz,%,$(@F)))))/$(@F) \
+	; fi
 
 $(DIST_RFORGE)/%.tar.gz:
-	$(fetch_verbose)$(CURL_CMD) -o $@ $(RFORGE_URL)/$(@F)
+	$(fetch_verbose) if [ -f $(SRC_DIST_RFORGE)/$(@F) ]; then cp $(SRC_DIST_RFORGE)/$(@F) $@; else \
+	$(CURL_CMD) -o $@ $(RFORGE_URL)/$(@F) \
+	; fi
 
 
 .PHONY: vendor-copy-local
@@ -270,9 +281,7 @@ vendor-copy-local:
 	$(MKDIR_P) $(SRC_DIST_CRAN)
 	$(MKDIR_P) $(SRC_DIST_RFORGE)
 	cp -rp $(DIST_CRAN)/*.tar.gz $(SRC_DIST_CRAN)
-	cp -rp $(DIST_CRAN)/checksums.txt $(SRC_DIST_CRAN)
 	cp -rp $(DIST_RFORGE)/*.tar.gz $(SRC_DIST_RFORGE)
-	cp -rp $(DIST_RFORGE)/checksums.txt $(SRC_DIST_RFORGE)
 
 #
 # cleaning
@@ -307,27 +316,23 @@ clean-local-logs:
 #
 
 .PHONY: generate-checksums
-generate-checksums: | remove-checksums do-generate-checksums
-
-.PHONY: remove-checksums
-remove-checksums:
+generate-checksums:
 	@echo "WARNING: regenerating checksums from distribution files"
 	-@rm -f $(DIST_CRAN)/checksums.txt
 	-@rm -f $(DIST_RFORGE)/checksums.txt
+	-cd $(DIST_CRAN) && $(SHA256SUM) *.tar.gz > checksums.txt
+	-cd $(DIST_RFORGE) && $(SHA256SUM) *.tar.gz > checksums.txt
 
-do-generate-checksums: $(DIST_CRAN)/checksums.txt $(DIST_RFORGE)/checksums.txt
 
 # Note that directories may be empty of tar files, in which case we
 # want to succeed silently.
 .PHONY: check-sums
-check-sums: $(DIST_FILES) $(DIST_FILES_LATE)
+check-sums: $(DIST_FILES) $(DIST_FILES_LATE) $(DIST_CRAN)/checksums.txt $(DIST_RFORGE)/checksums.txt
 	@echo -n "Checking distribution file checksums... " \
 	&& cd $(DIST_CRAN) && if ls *.tar.gz 1> /dev/null 2>&1; then $(SHA256SUM) --quiet --ignore-missing -c checksums.txt; fi \
 	&& cd $(DIST_RFORGE) && if ls *.tar.gz 1> /dev/null 2>&1; then $(SHA256SUM) --quiet --ignore-missing -c checksums.txt; fi \
 	&& echo "OK"
 
-$(DIST_CRAN)/checksums.txt $(DIST_RFORGE)/checksums.txt:
-	cd $(@D) && $(SHA256SUM) *.tar.gz > checksums.txt
 
 #
 # install

@@ -179,6 +179,9 @@ pub fn main() !void {
         }
     }
 
+    // sort the hash map
+    deps.sort(NAVCHashMapSortContext{ .keys = deps.keys() });
+
     // print direct dependencies
     std.debug.print("\nDirect dependencies:\n", .{});
     for (deps.keys()) |navc| {

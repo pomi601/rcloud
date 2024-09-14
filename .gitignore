@@ -76,3 +76,4 @@ m4/lt~obsolete.m4
 Makefile
 /out/
 *.log
+/.zig-cache/

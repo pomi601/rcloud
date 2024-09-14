@@ -5,6 +5,7 @@ const isRecommendedPackage = rdepinfo.isRecommendedPackage;
 const Repository = rdepinfo.Repository;
 const NAVC = rdepinfo.NameAndVersionConstraint;
 const NAVCHashMap = rdepinfo.NameAndVersionConstraintHashMap;
+const NAVCHashMapSortContext = rdepinfo.NameAndVersionConstraintSortContext;
 
 const downloadSlice = @import("./download_file.zig").downloadSlice;
 
@@ -124,11 +125,6 @@ pub fn main() !void {
         fatal("could not read config file: '{s}': {s}\n", .{ config_path, @errorName(err) });
     };
 
-    // debug
-    for (config.repos) |repo| {
-        std.debug.print("name: {s}\nurl:  {s}\n\n", .{ repo.name, repo.url });
-    }
-
     // download and read cloud repos
     var cloud_repositories = try readRepositories(arena, config.repos);
     defer cloud_repositories.deinit();
@@ -207,6 +203,9 @@ pub fn main() !void {
         for (trans) |x|
             try deps.put(x, true);
     }
+
+    // sort the hash map
+    deps.sort(NAVCHashMapSortContext{ .keys = deps.keys() });
 
     // print everything out
     std.debug.print("\nTransitive dependencies:\n", .{});

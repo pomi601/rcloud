@@ -1,13 +1,21 @@
 const std = @import("std");
 
-pub fn download_file(alloc: std.mem.Allocator, url: []const u8, out_path: []const u8) !void {
+pub fn downloadFile(alloc: std.mem.Allocator, url: []const u8, out_path: []const u8) !void {
+    const out = try downloadSlice(alloc, url);
+    defer alloc.free(out);
+
+    var out_file = try std.fs.cwd().createFile(out_path, .{});
+    defer out_file.close();
+
+    try out_file.writeAll(out);
+}
+
+/// Caller must free returned slice.
+pub fn downloadSlice(alloc: std.mem.Allocator, url: []const u8) ![]u8 {
     var client = std.http.Client{ .allocator = alloc };
 
     var buf = std.ArrayList(u8).init(alloc);
     defer buf.deinit();
-
-    var out_file = try std.fs.cwd().createFile(out_path, .{});
-    defer out_file.close();
 
     _ = try client.fetch(.{
         .location = .{
@@ -16,7 +24,7 @@ pub fn download_file(alloc: std.mem.Allocator, url: []const u8, out_path: []cons
         .response_storage = .{ .dynamic = &buf },
     });
 
-    try out_file.writeAll(buf.items);
+    return buf.toOwnedSlice();
 }
 
 pub fn main() !void {
@@ -34,7 +42,7 @@ pub fn main() !void {
     var ts_alloc_state = std.heap.ThreadSafeAllocator{ .child_allocator = arena };
     const ts_alloc = ts_alloc_state.allocator();
 
-    download_file(ts_alloc, url, out_path) catch |err| {
+    downloadFile(ts_alloc, url, out_path) catch |err| {
         fatal("error downloading {s} to file '{s}': {s}\n", .{ url, out_path, @errorName(err) });
     };
 }

@@ -212,23 +212,24 @@ fn write_build_file(path: []const u8) !void {
 pub fn main() !void {
     var arena_state = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena_state.deinit();
-    const arena = arena_state.allocator();
+    var ts_alloc_state = std.heap.ThreadSafeAllocator{ .child_allocator = arena_state.allocator() };
+    const alloc = ts_alloc_state.allocator();
 
-    const args = try std.process.argsAlloc(arena);
-    defer std.process.argsFree(arena, args);
+    const args = try std.process.argsAlloc(alloc);
+    defer std.process.argsFree(alloc, args);
 
     // expect workdir  tmpdir [package_dir...]
     if (args.len < 3) fatal("wrong number of arguments", .{});
     const work_path = args[1];
     const tmp_path = args[2];
 
-    const config_path = try std.fs.path.join(arena, &.{ work_path, "config.json" });
-    const config = readConfig(arena, config_path) catch |err| {
+    const config_path = try std.fs.path.join(alloc, &.{ work_path, "config.json" });
+    const config = readConfig(alloc, config_path) catch |err| {
         fatal("could not read config file: '{s}': {s}\n", .{ config_path, @errorName(err) });
     };
 
     // download and read cloud repos
-    var cloud_repositories = try readRepositories(arena, config.repos, tmp_path);
+    var cloud_repositories = try readRepositories(alloc, config.repos, tmp_path);
     defer cloud_repositories.deinit();
     var cloud_repositories_index = try cloud_repositories.createIndex();
     defer cloud_repositories_index.deinit();
@@ -236,7 +237,7 @@ pub fn main() !void {
     std.debug.print("{} packages read from cloud repositories.\n", .{cloud_repositories.packages.len});
 
     // construct package repo from directory arguments on command line
-    var package_repo = try Repository.init(arena);
+    var package_repo = try Repository.init(alloc);
     defer package_repo.deinit();
 
     var i: usize = 3;
@@ -246,14 +247,14 @@ pub fn main() !void {
         };
         defer package_dir.close();
 
-        try readPackagesIntoRepository(arena, &package_repo, package_dir);
+        try readPackagesIntoRepository(alloc, &package_repo, package_dir);
         std.debug.print("read package directory '{s}'\n", .{args[i]});
     }
 
     std.debug.print("{} packages read from source directories.\n", .{package_repo.packages.len});
 
     // collect external dependencies
-    var deps = NAVCHashMap.init(arena);
+    var deps = NAVCHashMap.init(alloc);
     defer deps.deinit();
 
     var it = package_repo.iter();
@@ -261,21 +262,21 @@ pub fn main() !void {
         for (p.depends) |navc| {
             if (isBasePackage(navc.name)) continue;
             if (isRecommendedPackage(navc.name)) continue;
-            if (try package_repo.findLatestPackage(arena, navc) == null) {
+            if (try package_repo.findLatestPackage(alloc, navc) == null) {
                 try deps.put(navc, true);
             }
         }
         for (p.imports) |navc| {
             if (isBasePackage(navc.name)) continue;
             if (isRecommendedPackage(navc.name)) continue;
-            if (try package_repo.findLatestPackage(arena, navc) == null) {
+            if (try package_repo.findLatestPackage(alloc, navc) == null) {
                 try deps.put(navc, true);
             }
         }
         for (p.linkingTo) |navc| {
             if (isBasePackage(navc.name)) continue;
             if (isRecommendedPackage(navc.name)) continue;
-            if (try package_repo.findLatestPackage(arena, navc) == null) {
+            if (try package_repo.findLatestPackage(alloc, navc) == null) {
                 try deps.put(navc, true);
             }
         }
@@ -291,11 +292,11 @@ pub fn main() !void {
     }
 
     // collect their transitive dependencies
-    const temp_keys = try arena.dupe(NAVC, deps.keys());
-    defer arena.free(temp_keys);
+    const temp_keys = try alloc.dupe(NAVC, deps.keys());
+    defer alloc.free(temp_keys);
 
     for (temp_keys) |navc| {
-        const trans = cloud_repositories.transitiveDependenciesNoBase(arena, navc) catch |err| switch (err) {
+        const trans = cloud_repositories.transitiveDependenciesNoBase(alloc, navc) catch |err| switch (err) {
             error.NotFound => {
                 std.debug.print("skipping {s}: could not finish transitive dependencies.\n", .{navc.name});
                 continue;
@@ -304,7 +305,7 @@ pub fn main() !void {
                 fatal("out of memory.\n", .{});
             },
         };
-        defer arena.free(trans);
+        defer alloc.free(trans);
         for (trans) |x|
             try deps.put(x, true);
     }
@@ -319,7 +320,7 @@ pub fn main() !void {
     }
 
     // merge version constraints
-    const merged = try rdepinfo.version.mergeNameAndVersionConstraints(arena, deps.keys());
+    const merged = try rdepinfo.version.mergeNameAndVersionConstraints(alloc, deps.keys());
     std.debug.print("\nMerged transitive dependencies:\n", .{});
     for (merged) |navc| {
         std.debug.print("    {}\n", .{navc});
@@ -327,27 +328,77 @@ pub fn main() !void {
 
     // find the source
     var assets = Assets{};
-    defer assets.deinit(arena);
-    const slice = cloud_repositories.packages.slice();
-    for (merged) |navc| {
-        if (cloud_repositories_index.findPackage(navc)) |found| {
-            const name = slice.items(.name)[found];
-            const repo = slice.items(.repository)[found];
-            const ver = slice.items(.version_string)[found];
-            const url1 = try std.fmt.allocPrint(arena, "{s}/src/contrib/{s}_{s}.tar.gz", .{ repo, name, ver });
-            const url2 = try std.fmt.allocPrint(arena, "{s}/src/contrib/Archive/{s}_{s}.tar.gz", .{ repo, name, ver });
+    defer assets.deinit(alloc);
 
-            if (try download_file.headOk(arena, url1)) {
-                try assets.map.put(arena, navc.name, .{ .url = url1 });
-            } else if (try download_file.headOk(arena, url2)) {
-                try assets.map.put(arena, navc.name, .{ .url = url2 });
-            } else {
-                fatal("NOT FOUND: {s}\nNOT FOUND: {s}\n", .{ url1, url2 });
+    var lock = std.Thread.Mutex{};
+
+    var pool: std.Thread.Pool = undefined;
+    try std.Thread.Pool.init(&pool, .{ .allocator = alloc });
+    defer pool.deinit();
+
+    var wg = std.Thread.WaitGroup{};
+
+    for (merged) |navc| {
+        const Op = struct {
+            alloc: std.mem.Allocator,
+            repo: *Repository,
+            index: *Repository.Index,
+            assets: *Assets,
+            lock: *std.Thread.Mutex,
+
+            pub fn op(self: @This(), nvc: NAVC) void {
+                if (self.index.findPackage(nvc)) |found| {
+                    const slice = self.repo.packages.slice();
+                    const name = slice.items(.name)[found];
+                    const repo = slice.items(.repository)[found];
+                    const ver = slice.items(.version_string)[found];
+                    const url1 = std.fmt.allocPrint(
+                        self.alloc,
+                        "{s}/src/contrib/{s}_{s}.tar.gz",
+                        .{ repo, name, ver },
+                    ) catch @panic("OOM");
+                    const url2 = std.fmt.allocPrint(
+                        self.alloc,
+                        "{s}/src/contrib/Archive/{s}_{s}.tar.gz",
+                        .{ repo, name, ver },
+                    ) catch @panic("OOM");
+
+                    if (download_file.headOk(self.alloc, url1) catch false) {
+                        self.lock.lock();
+                        defer self.lock.unlock();
+                        self.assets.map.put(self.alloc, nvc.name, .{ .url = url1 }) catch @panic("OOM");
+                    } else if (download_file.headOk(self.alloc, url2) catch false) {
+                        self.lock.lock();
+                        defer self.lock.unlock();
+                        self.assets.map.put(self.alloc, nvc.name, .{ .url = url2 }) catch @panic("OOM");
+                    } else {
+                        fatal("NOT FOUND: {s}\nNOT FOUND: {s}\n", .{ url1, url2 });
+                    }
+                }
             }
-        }
+        };
+        const closure = Op{
+            .alloc = alloc,
+            .repo = &cloud_repositories,
+            .index = &cloud_repositories_index,
+            .assets = &assets,
+            .lock = &lock,
+        };
+        pool.spawnWg(&wg, Op.op, .{ closure, navc });
+    }
+    pool.waitAndWork(&wg);
+
+    {
+        const C = struct {
+            keys: []const []const u8,
+            pub fn lessThan(ctx: @This(), a_index: usize, b_index: usize) bool {
+                return std.mem.order(u8, ctx.keys[a_index], ctx.keys[b_index]) == .lt;
+            }
+        };
+        assets.map.sort(C{ .keys = assets.map.keys() });
     }
 
-    try writeAssets(arena, config_path, assets);
+    try writeAssets(alloc, config_path, assets);
 
     // try write_build_file(out_path);
 

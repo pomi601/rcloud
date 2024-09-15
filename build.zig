@@ -43,6 +43,7 @@ pub fn build(b: *std.Build) !void {
         .name = "update_build_deps",
         .root_source_file = b.path("build-aux/update_deps.zig"),
         .target = b.host,
+        .optimize = optimize,
     });
 
     update_build_deps.root_module.addImport("rdepinfo", b.dependency(

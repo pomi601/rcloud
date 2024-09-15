@@ -55,10 +55,17 @@ const Config = struct {
 
 const ConfigRoot = struct {
     @"update-deps": Config,
+    assets: Assets,
+};
+
+const Assets = std.json.ArrayHashMap(OneAsset);
+const OneAsset = struct {
+    url: []const u8 = "",
+    hash: []const u8 = "",
 };
 
 /// Caller should supply an arena allocator as this parse will leak memory.
-pub fn readConfig(alloc: std.mem.Allocator, path: []const u8) !Config {
+pub fn readConfigRoot(alloc: std.mem.Allocator, path: []const u8) !ConfigRoot {
     const config_file = try std.fs.cwd().openFile(path, .{});
     defer config_file.close();
 
@@ -66,7 +73,28 @@ pub fn readConfig(alloc: std.mem.Allocator, path: []const u8) !Config {
     const root = try std.json.parseFromSliceLeaky(ConfigRoot, alloc, buf, .{
         .ignore_unknown_fields = true,
     });
-    return root.@"update-deps";
+    return root;
+}
+
+/// Caller should supply an arena allocator as this parse will leak memory.
+pub fn readConfig(alloc: std.mem.Allocator, path: []const u8) !Config {
+    return (try readConfigRoot(alloc, path)).@"update-deps";
+}
+
+/// Caller should supply an arena allocator as this parse will leak memory.
+pub fn readAssets(alloc: std.mem.Allocator, path: []const u8) !Assets {
+    return (try readConfigRoot(alloc, path)).assets;
+}
+
+fn writeAssets(alloc: std.mem.Allocator, path: []const u8, assets: Assets) !void {
+    var root = try readConfigRoot(alloc, path);
+
+    root.assets = assets;
+
+    const config_file = try std.fs.cwd().openFile(path, .{ .mode = .write_only });
+    defer config_file.close();
+
+    try std.json.stringify(root, .{ .whitespace = .indent_2 }, config_file.writer());
 }
 
 //
@@ -298,6 +326,8 @@ pub fn main() !void {
     }
 
     // find the source
+    var assets = Assets{};
+    defer assets.deinit(arena);
     const slice = cloud_repositories.packages.slice();
     for (merged) |navc| {
         if (cloud_repositories_index.findPackage(navc)) |found| {
@@ -307,9 +337,17 @@ pub fn main() !void {
             const url1 = try std.fmt.allocPrint(arena, "{s}/src/contrib/{s}_{s}.tar.gz", .{ repo, name, ver });
             const url2 = try std.fmt.allocPrint(arena, "{s}/src/contrib/Archive/{s}_{s}.tar.gz", .{ repo, name, ver });
 
-            std.debug.print("{s}\n{s}\n", .{ url1, url2 });
+            if (try download_file.headOk(arena, url1)) {
+                try assets.map.put(arena, navc.name, .{ .url = url1 });
+            } else if (try download_file.headOk(arena, url2)) {
+                try assets.map.put(arena, navc.name, .{ .url = url2 });
+            } else {
+                fatal("NOT FOUND: {s}\nNOT FOUND: {s}\n", .{ url1, url2 });
+            }
         }
     }
+
+    try writeAssets(arena, config_path, assets);
 
     // try write_build_file(out_path);
 

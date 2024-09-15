@@ -1,11 +1,260 @@
 {
   "update-deps": {
     "repos": [
-      {"name": "CRAN", "url": "https://cran.stat.auckland.ac.nz"},
-      {"name": "BioCsoft", "url": "https://bioconductor.org/packages/3.19/bioc"},
-      {"name": "BioCann", "url": "https://bioconductor.org/packages/3.19/data/annotation"},
-      {"name": "BioCexp", "url": "https://bioconductor.org/packages/3.19/data/experiment"},
-      {"name": "rforge.net", "url": "https://www.rforge.net"}
+      {
+        "name": "CRAN",
+        "url": "https://cran.stat.auckland.ac.nz"
+      },
+      {
+        "name": "BioCsoft",
+        "url": "https://bioconductor.org/packages/3.19/bioc"
+      },
+      {
+        "name": "BioCann",
+        "url": "https://bioconductor.org/packages/3.19/data/annotation"
+      },
+      {
+        "name": "BioCexp",
+        "url": "https://bioconductor.org/packages/3.19/data/experiment"
+      },
+      {
+        "name": "rforge.net",
+        "url": "https://www.rforge.net"
+      }
     ]
+  },
+  "assets": {
+    "BH": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/BH_1.84.0-0.tar.gz",
+      "hash": ""
+    },
+    "Cairo": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/Cairo_1.6-2.tar.gz",
+      "hash": ""
+    },
+    "FastRWeb": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/FastRWeb_1.2-1.tar.gz",
+      "hash": ""
+    },
+    "PKI": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/PKI_0.1-14.tar.gz",
+      "hash": ""
+    },
+    "R6": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/R6_2.5.1.tar.gz",
+      "hash": ""
+    },
+    "RCurl": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/RCurl_1.98-1.16.tar.gz",
+      "hash": ""
+    },
+    "RSclient": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/RSclient_0.7-10.tar.gz",
+      "hash": ""
+    },
+    "Rcpp": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/Rcpp_1.0.13.tar.gz",
+      "hash": ""
+    },
+    "RcppTOML": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/RcppTOML_0.2.2.tar.gz",
+      "hash": ""
+    },
+    "Rook": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/Rook_1.2.tar.gz",
+      "hash": ""
+    },
+    "Rserve": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/Rserve_1.8-13.tar.gz",
+      "hash": ""
+    },
+    "askpass": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/askpass_1.2.0.tar.gz",
+      "hash": ""
+    },
+    "base64enc": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/base64enc_0.1-3.tar.gz",
+      "hash": ""
+    },
+    "bitops": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/bitops_1.0-8.tar.gz",
+      "hash": ""
+    },
+    "brew": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/brew_1.0-10.tar.gz",
+      "hash": ""
+    },
+    "bslib": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/bslib_0.8.0.tar.gz",
+      "hash": ""
+    },
+    "cachem": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/cachem_1.1.0.tar.gz",
+      "hash": ""
+    },
+    "cli": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/cli_3.6.3.tar.gz",
+      "hash": ""
+    },
+    "commonmark": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/commonmark_1.9.1.tar.gz",
+      "hash": ""
+    },
+    "curl": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/curl_5.2.2.tar.gz",
+      "hash": ""
+    },
+    "digest": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/digest_0.6.37.tar.gz",
+      "hash": ""
+    },
+    "evaluate": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/evaluate_0.24.0.tar.gz",
+      "hash": ""
+    },
+    "fastmap": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/fastmap_1.2.0.tar.gz",
+      "hash": ""
+    },
+    "fontawesome": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/fontawesome_0.5.2.tar.gz",
+      "hash": ""
+    },
+    "fs": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/fs_1.6.4.tar.gz",
+      "hash": ""
+    },
+    "github": {
+      "url": "https://www.rforge.net/src/contrib/github_0.9.12.tar.gz",
+      "hash": ""
+    },
+    "glue": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/glue_1.7.0.tar.gz",
+      "hash": ""
+    },
+    "guitar": {
+      "url": "https://www.rforge.net/src/contrib/guitar_0.0.3.1.tar.gz",
+      "hash": ""
+    },
+    "here": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/here_1.0.1.tar.gz",
+      "hash": ""
+    },
+    "highr": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/highr_0.11.tar.gz",
+      "hash": ""
+    },
+    "htmltools": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/htmltools_0.5.8.1.tar.gz",
+      "hash": ""
+    },
+    "httr": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/httr_1.4.7.tar.gz",
+      "hash": ""
+    },
+    "jquerylib": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/jquerylib_0.1.4.tar.gz",
+      "hash": ""
+    },
+    "jsonlite": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/jsonlite_1.8.8.tar.gz",
+      "hash": ""
+    },
+    "knitr": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/knitr_1.48.tar.gz",
+      "hash": ""
+    },
+    "lifecycle": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/lifecycle_1.0.4.tar.gz",
+      "hash": ""
+    },
+    "magrittr": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/magrittr_2.0.3.tar.gz",
+      "hash": ""
+    },
+    "markdown": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/markdown_1.13.tar.gz",
+      "hash": ""
+    },
+    "memoise": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/memoise_2.0.1.tar.gz",
+      "hash": ""
+    },
+    "mime": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/mime_0.12.tar.gz",
+      "hash": ""
+    },
+    "openssl": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/openssl_2.2.1.tar.gz",
+      "hash": ""
+    },
+    "png": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/png_0.1-8.tar.gz",
+      "hash": ""
+    },
+    "rappdirs": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/rappdirs_0.3.3.tar.gz",
+      "hash": ""
+    },
+    "reticulate": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/reticulate_1.39.0.tar.gz",
+      "hash": ""
+    },
+    "rlang": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/rlang_1.1.4.tar.gz",
+      "hash": ""
+    },
+    "rmarkdown": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/rmarkdown_2.28.tar.gz",
+      "hash": ""
+    },
+    "rprojroot": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/rprojroot_2.0.4.tar.gz",
+      "hash": ""
+    },
+    "sass": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/sass_0.4.9.tar.gz",
+      "hash": ""
+    },
+    "stringi": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/stringi_1.8.4.tar.gz",
+      "hash": ""
+    },
+    "stringr": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/stringr_1.5.1.tar.gz",
+      "hash": ""
+    },
+    "sys": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/sys_3.4.2.tar.gz",
+      "hash": ""
+    },
+    "tinytex": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/tinytex_0.52.tar.gz",
+      "hash": ""
+    },
+    "unixtools": {
+      "url": "https://www.rforge.net/src/contrib/unixtools_0.1-1.tar.gz",
+      "hash": ""
+    },
+    "uuid": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/uuid_1.2-1.tar.gz",
+      "hash": ""
+    },
+    "vctrs": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/vctrs_0.6.5.tar.gz",
+      "hash": ""
+    },
+    "withr": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/withr_3.0.1.tar.gz",
+      "hash": ""
+    },
+    "xfun": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/xfun_0.47.tar.gz",
+      "hash": ""
+    },
+    "yaml": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/yaml_2.3.10.tar.gz",
+      "hash": ""
+    }
   }
 }

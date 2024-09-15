@@ -1,9 +1,32 @@
 const std = @import("std");
 
+pub fn headOk(alloc: std.mem.Allocator, url: []const u8) !bool {
+    var ts_alloc_state = std.heap.ThreadSafeAllocator{ .child_allocator = alloc };
+    const ts_alloc = ts_alloc_state.allocator();
+    var client = std.http.Client{ .allocator = ts_alloc };
+
+    var header_buffer: [16 * 1024]u8 = undefined;
+
+    const uri = try std.Uri.parse(url);
+    var req = try client.open(.HEAD, uri, .{
+        .keep_alive = false,
+        .server_header_buffer = &header_buffer,
+    });
+    defer req.deinit();
+    try req.send();
+    try req.finish();
+    try req.wait();
+
+    return req.response.status.class() == .success;
+}
+
 pub fn downloadFile(alloc: std.mem.Allocator, url: []const u8, out_path: []const u8) !void {
+    var ts_alloc_state = std.heap.ThreadSafeAllocator{ .child_allocator = alloc };
+    const ts_alloc = ts_alloc_state.allocator();
+    var client = std.http.Client{ .allocator = ts_alloc };
+
     var header_buffer: [16 * 1024]u8 = undefined;
     var buf: [16 * 1024]u8 = undefined;
-    var client = std.http.Client{ .allocator = alloc };
 
     var out_file = try std.fs.cwd().createFile(out_path, .{ .exclusive = true });
     defer out_file.close();
@@ -29,7 +52,9 @@ pub fn downloadFile(alloc: std.mem.Allocator, url: []const u8, out_path: []const
 
 /// Caller must free returned slice.
 pub fn downloadSlice(alloc: std.mem.Allocator, url: []const u8) ![]u8 {
-    var client = std.http.Client{ .allocator = alloc };
+    var ts_alloc_state = std.heap.ThreadSafeAllocator{ .child_allocator = alloc };
+    const ts_alloc = ts_alloc_state.allocator();
+    var client = std.http.Client{ .allocator = ts_alloc };
 
     var buf = std.ArrayList(u8).init(alloc);
     defer buf.deinit();

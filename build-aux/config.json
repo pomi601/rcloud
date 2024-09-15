@@ -1,7 +1,7 @@
 {
   "update-deps": {
     "repos": [
-      {"name": "CRAN", "url": "https://cran.stat.auckland.ac.nz/"},
+      {"name": "CRAN", "url": "https://cran.stat.auckland.ac.nz"},
       {"name": "BioCsoft", "url": "https://bioconductor.org/packages/3.19/bioc"},
       {"name": "BioCann", "url": "https://bioconductor.org/packages/3.19/data/annotation"},
       {"name": "BioCexp", "url": "https://bioconductor.org/packages/3.19/data/experiment"},

@@ -25,7 +25,7 @@
     .dependencies = .{
         .rdepinfo = .{
             .url = "https://github.com/pomi601/rdepinfo/archive/refs/heads/main.tar.gz",
-            .hash = "122059d35b7c0ff7cfebb9e49e61d0bc359330fa681fa28fc534da0f392e1ceb6a96",
+            .hash = "122017a7f6e6033efe28566a8a0ca5932f77dfceed959c2a33b02f27bd52dacda83b",
         },
     },
     .paths = .{

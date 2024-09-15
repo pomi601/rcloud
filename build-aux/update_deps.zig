@@ -3,11 +3,46 @@ const rdepinfo = @import("rdepinfo");
 const isBasePackage = rdepinfo.isBasePackage;
 const isRecommendedPackage = rdepinfo.isRecommendedPackage;
 const Repository = rdepinfo.Repository;
-const NAVC = rdepinfo.NameAndVersionConstraint;
-const NAVCHashMap = rdepinfo.NameAndVersionConstraintHashMap;
-const NAVCHashMapSortContext = rdepinfo.NameAndVersionConstraintSortContext;
+const NAVC = rdepinfo.version.NameAndVersionConstraint;
+const NAVCHashMap = rdepinfo.version.NameAndVersionConstraintHashMap;
+const NAVCHashMapSortContext = rdepinfo.version.NameAndVersionConstraintSortContext;
 
-const downloadSlice = @import("./download_file.zig").downloadSlice;
+const download_file = @import("download_file.zig");
+const hash_file = @import("hash_file.zig");
+
+const downloadSlice = download_file.downloadSlice;
+
+// const AssetDownloader = struct {
+//     lockfile_path: []const u8,
+//     lockfile_lock: std.thread.Mutex = .{},
+
+//     pool: std.thread.Pool = .{},
+
+//     pub fn init(lockfile_path: []const u8) Self {
+//         return .{
+//             .lockfile_path = lockfile_path,
+//         };
+//     }
+
+//     pub fn download(alloc: std.mem.Allocator, url: []const u8) void {
+//         const basename = std.fs.path.basenamePosix(url);
+
+//         const data = try downloadSlice(alloc, url);
+//         defer alloc.free(data);
+
+//         var fbs = std.io.fixedBufferStream(data);
+//         const reader = fbs.reader();
+//         var buf = try std.ArrayList(u8).initCapacity(alloc, data.len * 3);
+//         defer buf.deinit();
+//         const writer = buf.writer();
+//         try std.compress.gzip.decompress(reader, writer);
+
+//         const text = try buf.toOwnedSlice();
+//         defer alloc.free(text);
+//     }
+
+//     const Self = AssetDownloader;
+// };
 
 const Config = struct {
     repos: []Repo,
@@ -34,6 +69,8 @@ pub fn readConfig(alloc: std.mem.Allocator, path: []const u8) !Config {
     return root.@"update-deps";
 }
 
+//
+
 /// Caller must deinit returned Repository.
 fn readRepositories(alloc: std.mem.Allocator, repos: []Config.Repo) !Repository {
     var repository = try Repository.init(alloc);
@@ -57,7 +94,7 @@ fn readRepositories(alloc: std.mem.Allocator, repos: []Config.Repo) !Repository 
         const text = try buf.toOwnedSlice();
         defer alloc.free(text);
 
-        const n = try repository.read(repo.name, text);
+        const n = try repository.read(repo.url, text);
         std.debug.print("    read {} packages from {s}\n", .{ n, repo.name });
     }
     return repository;
@@ -97,6 +134,29 @@ fn write_build_file(path: []const u8) !void {
     try out_file.writeAll(
         \\const std = @import("std");
         \\pub fn build(b: *std.Build) !void {
+        \\  const download_file = b.addExecutable(.{
+        \\      .name = "download_file",
+        \\      .root_source_file = b.path("build-aux/download_file.zig"),
+        \\      .target = b.host,
+        \\  });
+        \\  _ = download_file;
+        \\
+        \\  const wf = b.addWriteFiles();
+        \\
+        \\  const config = try update_deps.readConfig(b.allocator, config_path);
+        \\  _ = config;
+        \\
+        \\  // for (config.repos) |repo| {
+        \\  //     const step = b.addRunArtifact(download_file);
+        \\
+        \\  //     _ = step.addArg(b.fmt("{s}/src/contrib/PACKAGES.gz", .{repo.url}));
+        \\  //     const out = step.addOutputFileArg("PACKAGES.gz");
+        \\
+        \\  //     _ = wf.addCopyFile(out, b.fmt("{s}-PACKAGES.gz", .{repo.name}));
+        \\  // }
+        \\
+        \\  b.getInstallStep().dependOn(&wf.step);
+        \\
     );
 
     try out_file.writeAll(
@@ -221,6 +281,20 @@ pub fn main() !void {
     std.debug.print("\nMerged transitive dependencies:\n", .{});
     for (merged) |navc| {
         std.debug.print("    {}\n", .{navc});
+    }
+
+    // find the source
+    const slice = cloud_repositories.packages.slice();
+    for (merged) |navc| {
+        if (cloud_repositories_index.findPackage(navc)) |found| {
+            const name = slice.items(.name)[found];
+            const repo = slice.items(.repository)[found];
+            const ver = slice.items(.version_string)[found];
+            const url1 = try std.fmt.allocPrint(arena, "{s}/src/contrib/{s}_{s}.tar.gz", .{ repo, name, ver });
+            const url2 = try std.fmt.allocPrint(arena, "{s}/src/contrib/Archive/{s}_{s}.tar.gz", .{ repo, name, ver });
+
+            std.debug.print("{s}\n{s}\n", .{ url1, url2 });
+        }
     }
 
     try write_build_file(out_path);

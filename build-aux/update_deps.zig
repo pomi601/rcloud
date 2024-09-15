@@ -72,7 +72,7 @@ pub fn readConfig(alloc: std.mem.Allocator, path: []const u8) !Config {
 //
 
 /// Caller must deinit returned Repository.
-fn readRepositories(alloc: std.mem.Allocator, repos: []Config.Repo) !Repository {
+fn readRepositories(alloc: std.mem.Allocator, repos: []Config.Repo, tmp_path: []const u8) !Repository {
     var repository = try Repository.init(alloc);
 
     for (repos) |repo| {
@@ -81,21 +81,38 @@ fn readRepositories(alloc: std.mem.Allocator, repos: []Config.Repo) !Repository 
 
         std.debug.print("Downloading {s}...\n", .{url});
 
-        const data = try downloadSlice(alloc, url);
-        defer alloc.free(data);
+        const path = try std.fs.path.join(alloc, &.{ tmp_path, "PACKAGES.gz" });
+        std.debug.print("Saving to: {s}\n", .{path});
+        try download_file.downloadFile(
+            alloc,
+            url,
+            path,
+        );
 
-        var fbs = std.io.fixedBufferStream(data);
-        const reader = fbs.reader();
-        var buf = try std.ArrayList(u8).initCapacity(alloc, data.len * 3);
+        const sz = (try std.fs.cwd().statFile(path)).size;
+        std.debug.print("Downloaded {} bytes.\n", .{sz});
+
+        var buf = try std.ArrayList(u8).initCapacity(
+            alloc,
+            sz * 3,
+        );
         defer buf.deinit();
-        const writer = buf.writer();
-        try std.compress.gzip.decompress(reader, writer);
 
-        const text = try buf.toOwnedSlice();
-        defer alloc.free(text);
+        {
+            const file = try std.fs.cwd().openFile(path, .{});
+            defer file.close();
+            const reader = file.reader();
+            const writer = buf.writer();
+            try std.compress.gzip.decompress(reader, writer);
+        }
 
-        const n = try repository.read(repo.url, text);
+        // const text = try buf.toOwnedSlice();
+        // defer alloc.free(text);
+
+        const n = try repository.read(repo.url, buf.items);
         std.debug.print("    read {} packages from {s}\n", .{ n, repo.name });
+
+        try std.fs.cwd().deleteFile(path);
     }
     return repository;
 }
@@ -164,10 +181,6 @@ fn write_build_file(path: []const u8) !void {
     );
 }
 
-// pub fn add_package_step(b: *std.Build, descr: []const u8) !std.Build.Step {}
-
-// pub fn build(b: *std.Build) !void {}
-
 pub fn main() !void {
     var arena_state = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena_state.deinit();
@@ -176,17 +189,18 @@ pub fn main() !void {
     const args = try std.process.argsAlloc(arena);
     defer std.process.argsFree(arena, args);
 
-    // expect config_path out_path [package_dir...]
+    // expect workdir  tmpdir [package_dir...]
     if (args.len < 3) fatal("wrong number of arguments", .{});
-    const config_path = args[1];
-    const out_path = args[2];
+    const work_path = args[1];
+    const tmp_path = args[2];
 
+    const config_path = try std.fs.path.join(arena, &.{ work_path, "config.json" });
     const config = readConfig(arena, config_path) catch |err| {
         fatal("could not read config file: '{s}': {s}\n", .{ config_path, @errorName(err) });
     };
 
     // download and read cloud repos
-    var cloud_repositories = try readRepositories(arena, config.repos);
+    var cloud_repositories = try readRepositories(arena, config.repos, tmp_path);
     defer cloud_repositories.deinit();
     var cloud_repositories_index = try cloud_repositories.createIndex();
     defer cloud_repositories_index.deinit();
@@ -297,7 +311,9 @@ pub fn main() !void {
         }
     }
 
-    try write_build_file(out_path);
+    // try write_build_file(out_path);
+
+    // TODO: delete temp directory before exiting on success
 }
 
 fn fatal(comptime format: []const u8, args: anytype) noreturn {

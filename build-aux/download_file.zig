@@ -1,13 +1,30 @@
 const std = @import("std");
 
 pub fn downloadFile(alloc: std.mem.Allocator, url: []const u8, out_path: []const u8) !void {
-    const out = try downloadSlice(alloc, url);
-    defer alloc.free(out);
+    var header_buffer: [16 * 1024]u8 = undefined;
+    var buf: [16 * 1024]u8 = undefined;
+    var client = std.http.Client{ .allocator = alloc };
 
-    var out_file = try std.fs.cwd().createFile(out_path, .{});
+    var out_file = try std.fs.cwd().createFile(out_path, .{ .exclusive = true });
     defer out_file.close();
 
-    try out_file.writeAll(out);
+    const uri = try std.Uri.parse(url);
+    var req = try client.open(.GET, uri, .{
+        .keep_alive = false,
+        .server_header_buffer = &header_buffer,
+    });
+    defer req.deinit();
+    try req.send();
+    try req.finish();
+    try req.wait();
+
+    if (req.response.status.class() != .success) return error.HttpError;
+
+    while (true) {
+        const n = try req.read(&buf);
+        if (n == 0) break;
+        try out_file.writeAll(buf[0..n]);
+    }
 }
 
 /// Caller must free returned slice.

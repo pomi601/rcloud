@@ -216,6 +216,13 @@ pub fn main() !void {
         std.debug.print("    {}\n", .{navc});
     }
 
+    // merge version constraints
+    const merged = try rdepinfo.version.mergeNameAndVersionConstraints(arena, deps.keys());
+    std.debug.print("\nMerged transitive dependencies:\n", .{});
+    for (merged) |navc| {
+        std.debug.print("    {}\n", .{navc});
+    }
+
     try write_build_file(out_path);
 }
 

@@ -25,7 +25,11 @@
     .dependencies = .{
         .rdepinfo = .{
             .url = "https://github.com/pomi601/rdepinfo/archive/refs/heads/main.tar.gz",
-            .hash = "122017a7f6e6033efe28566a8a0ca5932f77dfceed959c2a33b02f27bd52dacda83b",
+            .hash = "12201e3cbeac6adaa95ceb1a764284ddae44653978cb9304777718f4ed9b5a4c9d6e",
+        },
+        .cmdline = .{
+            .url = "https://codeberg.org/mocompute/cmdline/archive/main.tar.gz",
+            .hash = "12205e42f602e2a308eade5a02327d2bee70f058451dde247b3c1c2f9b81be23da72",
         },
     },
     .paths = .{

@@ -12,38 +12,6 @@ const hash_file = @import("hash_file.zig");
 
 const downloadSlice = download_file.downloadSlice;
 
-// const AssetDownloader = struct {
-//     lockfile_path: []const u8,
-//     lockfile_lock: std.thread.Mutex = .{},
-
-//     pool: std.thread.Pool = .{},
-
-//     pub fn init(lockfile_path: []const u8) Self {
-//         return .{
-//             .lockfile_path = lockfile_path,
-//         };
-//     }
-
-//     pub fn download(alloc: std.mem.Allocator, url: []const u8) void {
-//         const basename = std.fs.path.basenamePosix(url);
-
-//         const data = try downloadSlice(alloc, url);
-//         defer alloc.free(data);
-
-//         var fbs = std.io.fixedBufferStream(data);
-//         const reader = fbs.reader();
-//         var buf = try std.ArrayList(u8).initCapacity(alloc, data.len * 3);
-//         defer buf.deinit();
-//         const writer = buf.writer();
-//         try std.compress.gzip.decompress(reader, writer);
-
-//         const text = try buf.toOwnedSlice();
-//         defer alloc.free(text);
-//     }
-
-//     const Self = AssetDownloader;
-// };
-
 const Config = struct {
     repos: []Repo,
 

@@ -1,5 +1,8 @@
 const std = @import("std");
 
+// import build tools from rdepinfo
+const rdepinfo = @import("rdepinfo");
+
 const update_deps = @import("build-aux/update_deps.zig");
 
 pub fn build(b: *std.Build) !void {
@@ -12,30 +15,29 @@ pub fn build(b: *std.Build) !void {
         "config.json",
     });
 
+    const fetch_assets = b.dependency("rdepinfo", .{
+        .target = target,
+        .optimize = optimize,
+    }).artifact("fetch-assets");
+
+    {
+        // arguments: config_file out_dir
+        const step = b.addRunArtifact(fetch_assets);
+        _ = step.addArg(config_path);
+        const out_dir = step.addOutputDirectoryArg("assets");
+
+        // for now for testsing
+        const install_step = b.addInstallDirectory(.{
+            .source_dir = out_dir,
+            .install_dir = .{ .custom = "assets" },
+            .install_subdir = "",
+        });
+        b.getInstallStep().dependOn(&install_step.step);
+    }
+
+    //
+
     const update_step = b.step("update", "Generate R package build files");
-
-    const download_file = b.addExecutable(.{
-        .name = "download_file",
-        .root_source_file = b.path("build-aux/download_file.zig"),
-        .target = b.host,
-    });
-    _ = download_file;
-
-    const wf = b.addWriteFiles();
-
-    const config = try update_deps.readConfig(b.allocator, config_path);
-    _ = config;
-
-    // for (config.repos) |repo| {
-    //     const step = b.addRunArtifact(download_file);
-
-    //     _ = step.addArg(b.fmt("{s}/src/contrib/PACKAGES.gz", .{repo.url}));
-    //     const out = step.addOutputFileArg("PACKAGES.gz");
-
-    //     _ = wf.addCopyFile(out, b.fmt("{s}-PACKAGES.gz", .{repo.name}));
-    // }
-
-    b.getInstallStep().dependOn(&wf.step);
 
     //
 
@@ -43,7 +45,7 @@ pub fn build(b: *std.Build) !void {
         .name = "update_build_deps",
         .root_source_file = b.path("build-aux/update_deps.zig"),
         .target = b.host,
-        .optimize = optimize,
+        .optimize = .ReleaseFast,
     });
 
     update_build_deps.root_module.addImport("rdepinfo", b.dependency(

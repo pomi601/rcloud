@@ -229,8 +229,8 @@
       "hash": "b7bdce66f0fb681830ea6fb77b5a2c6babb43920abb1eddc733f95c0a63ce5b3"
     },
     "tinytex": {
-      "url": "https://cran.stat.auckland.ac.nz/src/contrib/tinytex_0.52.tar.gz",
-      "hash": "932a713b9fdd52fe8869e8c38d03f15602f2c02ec543d4dabffde2a3981f513a"
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/tinytex_0.53.tar.gz",
+      "hash": "0376e82512b9814f347265c58746ae92ab230482f5ff94524aec01108d1fa309"
     },
     "unixtools": {
       "url": "https://www.rforge.net/src/contrib/unixtools_0.1-1.tar.gz",

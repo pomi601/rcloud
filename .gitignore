@@ -77,3 +77,4 @@ Makefile
 /out/
 *.log
 /.zig-cache/
+/zig-out/

@@ -24,8 +24,8 @@
     // internet connectivity.
     .dependencies = .{
         .rdepinfo = .{
-            .url = "https://github.com/pomi601/rdepinfo/archive/refs/heads/main.tar.gz",
-            .hash = "1220de92217c6cb323d4b73c6f53d90e4168b7b50479dd55079e521a7b7b5a136886",
+            .url = "https://github.com/pomi601/rdepinfo/archive/refs/heads/wip.tar.gz",
+            .hash = "1220e2b7d8c02935814e5228b178ad166bc9cc822f0d3cc011814b4a2fc535a8e08e",
         },
         .cmdline = .{
             .url = "https://codeberg.org/mocompute/cmdline/archive/main.tar.gz",

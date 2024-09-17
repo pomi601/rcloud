@@ -3,6 +3,8 @@
 const std = @import("std");
 pub fn build(b: *std.Build, asset_dir: std.Build.LazyPath) !void {
 
+const libdir = b.addWriteFiles();
+
 const @"yaml" = b.addSystemCommand(&.{ "R" });
 @"yaml".addArgs(&.{
     "CMD",
@@ -11,14 +13,16 @@ const @"yaml" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"yaml_out" = @"yaml".addOutputDirectoryArg("lib");
+ _ = @"yaml".addDirectoryArg(libdir.getDirectory());
 _ = @"yaml".addFileArg(asset_dir.path(b, "yaml_2.3.10.tar.gz"));
 @"yaml".step.name = "yaml";
  const @"yaml_install" = b.addInstallDirectory(.{
-.source_dir = @"yaml_out".path(b, "yaml"),
+.source_dir = libdir.getDirectory().path(b, "yaml"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "yaml",
 });
+
+@"yaml_install".step.dependOn(&@"yaml".step);
 b.getInstallStep().dependOn(&@"yaml_install".step);
 
 const @"sys" = b.addSystemCommand(&.{ "R" });
@@ -29,14 +33,16 @@ const @"sys" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"sys_out" = @"sys".addOutputDirectoryArg("lib");
+ _ = @"sys".addDirectoryArg(libdir.getDirectory());
 _ = @"sys".addFileArg(asset_dir.path(b, "sys_3.4.2.tar.gz"));
 @"sys".step.name = "sys";
  const @"sys_install" = b.addInstallDirectory(.{
-.source_dir = @"sys_out".path(b, "sys"),
+.source_dir = libdir.getDirectory().path(b, "sys"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "sys",
 });
+
+@"sys_install".step.dependOn(&@"sys".step);
 b.getInstallStep().dependOn(&@"sys_install".step);
 
 const @"rediscc" = b.addSystemCommand(&.{ "R" });
@@ -47,14 +53,16 @@ const @"rediscc" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rediscc_out" = @"rediscc".addOutputDirectoryArg("lib");
+ _ = @"rediscc".addDirectoryArg(libdir.getDirectory());
 _ = @"rediscc".addFileArg(asset_dir.path(b, "rediscc_0.1-6.tar.gz"));
 @"rediscc".step.name = "rediscc";
  const @"rediscc_install" = b.addInstallDirectory(.{
-.source_dir = @"rediscc_out".path(b, "rediscc"),
+.source_dir = libdir.getDirectory().path(b, "rediscc"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rediscc",
 });
+
+@"rediscc_install".step.dependOn(&@"rediscc".step);
 b.getInstallStep().dependOn(&@"rediscc_install".step);
 
 const @"fastmap" = b.addSystemCommand(&.{ "R" });
@@ -65,14 +73,16 @@ const @"fastmap" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"fastmap_out" = @"fastmap".addOutputDirectoryArg("lib");
+ _ = @"fastmap".addDirectoryArg(libdir.getDirectory());
 _ = @"fastmap".addFileArg(asset_dir.path(b, "fastmap_1.2.0.tar.gz"));
 @"fastmap".step.name = "fastmap";
  const @"fastmap_install" = b.addInstallDirectory(.{
-.source_dir = @"fastmap_out".path(b, "fastmap"),
+.source_dir = libdir.getDirectory().path(b, "fastmap"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "fastmap",
 });
+
+@"fastmap_install".step.dependOn(&@"fastmap".step);
 b.getInstallStep().dependOn(&@"fastmap_install".step);
 
 const @"commonmark" = b.addSystemCommand(&.{ "R" });
@@ -83,14 +93,16 @@ const @"commonmark" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"commonmark_out" = @"commonmark".addOutputDirectoryArg("lib");
+ _ = @"commonmark".addDirectoryArg(libdir.getDirectory());
 _ = @"commonmark".addFileArg(asset_dir.path(b, "commonmark_1.9.1.tar.gz"));
 @"commonmark".step.name = "commonmark";
  const @"commonmark_install" = b.addInstallDirectory(.{
-.source_dir = @"commonmark_out".path(b, "commonmark"),
+.source_dir = libdir.getDirectory().path(b, "commonmark"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "commonmark",
 });
+
+@"commonmark_install".step.dependOn(&@"commonmark".step);
 b.getInstallStep().dependOn(&@"commonmark_install".step);
 
 const @"brew" = b.addSystemCommand(&.{ "R" });
@@ -101,14 +113,16 @@ const @"brew" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"brew_out" = @"brew".addOutputDirectoryArg("lib");
+ _ = @"brew".addDirectoryArg(libdir.getDirectory());
 _ = @"brew".addFileArg(asset_dir.path(b, "brew_1.0-10.tar.gz"));
 @"brew".step.name = "brew";
  const @"brew_install" = b.addInstallDirectory(.{
-.source_dir = @"brew_out".path(b, "brew"),
+.source_dir = libdir.getDirectory().path(b, "brew"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "brew",
 });
+
+@"brew_install".step.dependOn(&@"brew".step);
 b.getInstallStep().dependOn(&@"brew_install".step);
 
 const @"bitops" = b.addSystemCommand(&.{ "R" });
@@ -119,14 +133,16 @@ const @"bitops" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"bitops_out" = @"bitops".addOutputDirectoryArg("lib");
+ _ = @"bitops".addDirectoryArg(libdir.getDirectory());
 _ = @"bitops".addFileArg(asset_dir.path(b, "bitops_1.0-8.tar.gz"));
 @"bitops".step.name = "bitops";
  const @"bitops_install" = b.addInstallDirectory(.{
-.source_dir = @"bitops_out".path(b, "bitops"),
+.source_dir = libdir.getDirectory().path(b, "bitops"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "bitops",
 });
+
+@"bitops_install".step.dependOn(&@"bitops".step);
 b.getInstallStep().dependOn(&@"bitops_install".step);
 
 const @"BH" = b.addSystemCommand(&.{ "R" });
@@ -137,14 +153,16 @@ const @"BH" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"BH_out" = @"BH".addOutputDirectoryArg("lib");
+ _ = @"BH".addDirectoryArg(libdir.getDirectory());
 _ = @"BH".addFileArg(asset_dir.path(b, "BH_1.84.0-0.tar.gz"));
 @"BH".step.name = "BH";
  const @"BH_install" = b.addInstallDirectory(.{
-.source_dir = @"BH_out".path(b, "BH"),
+.source_dir = libdir.getDirectory().path(b, "BH"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "BH",
 });
+
+@"BH_install".step.dependOn(&@"BH".step);
 b.getInstallStep().dependOn(&@"BH_install".step);
 
 const @"Cairo" = b.addSystemCommand(&.{ "R" });
@@ -155,14 +173,16 @@ const @"Cairo" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"Cairo_out" = @"Cairo".addOutputDirectoryArg("lib");
+ _ = @"Cairo".addDirectoryArg(libdir.getDirectory());
 _ = @"Cairo".addFileArg(asset_dir.path(b, "Cairo_1.6-2.tar.gz"));
 @"Cairo".step.name = "Cairo";
  const @"Cairo_install" = b.addInstallDirectory(.{
-.source_dir = @"Cairo_out".path(b, "Cairo"),
+.source_dir = libdir.getDirectory().path(b, "Cairo"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "Cairo",
 });
+
+@"Cairo_install".step.dependOn(&@"Cairo".step);
 b.getInstallStep().dependOn(&@"Cairo_install".step);
 
 const @"base64enc" = b.addSystemCommand(&.{ "R" });
@@ -173,14 +193,16 @@ const @"base64enc" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"base64enc_out" = @"base64enc".addOutputDirectoryArg("lib");
+ _ = @"base64enc".addDirectoryArg(libdir.getDirectory());
 _ = @"base64enc".addFileArg(asset_dir.path(b, "base64enc_0.1-3.tar.gz"));
 @"base64enc".step.name = "base64enc";
  const @"base64enc_install" = b.addInstallDirectory(.{
-.source_dir = @"base64enc_out".path(b, "base64enc"),
+.source_dir = libdir.getDirectory().path(b, "base64enc"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "base64enc",
 });
+
+@"base64enc_install".step.dependOn(&@"base64enc".step);
 b.getInstallStep().dependOn(&@"base64enc_install".step);
 
 const @"FastRWeb" = b.addSystemCommand(&.{ "R" });
@@ -191,16 +213,18 @@ const @"FastRWeb" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"FastRWeb_out" = @"FastRWeb".addOutputDirectoryArg("lib");
+ _ = @"FastRWeb".addDirectoryArg(libdir.getDirectory());
 _ = @"FastRWeb".addFileArg(asset_dir.path(b, "FastRWeb_1.2-1.tar.gz"));
 @"FastRWeb".step.name = "FastRWeb";
 @"FastRWeb".step.dependOn(&@"base64enc".step);
 @"FastRWeb".step.dependOn(&@"Cairo".step);
  const @"FastRWeb_install" = b.addInstallDirectory(.{
-.source_dir = @"FastRWeb_out".path(b, "FastRWeb"),
+.source_dir = libdir.getDirectory().path(b, "FastRWeb"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "FastRWeb",
 });
+
+@"FastRWeb_install".step.dependOn(&@"FastRWeb".step);
 b.getInstallStep().dependOn(&@"FastRWeb_install".step);
 
 const @"PKI" = b.addSystemCommand(&.{ "R" });
@@ -211,15 +235,17 @@ const @"PKI" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"PKI_out" = @"PKI".addOutputDirectoryArg("lib");
+ _ = @"PKI".addDirectoryArg(libdir.getDirectory());
 _ = @"PKI".addFileArg(asset_dir.path(b, "PKI_0.1-14.tar.gz"));
 @"PKI".step.name = "PKI";
 @"PKI".step.dependOn(&@"base64enc".step);
  const @"PKI_install" = b.addInstallDirectory(.{
-.source_dir = @"PKI_out".path(b, "PKI"),
+.source_dir = libdir.getDirectory().path(b, "PKI"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "PKI",
 });
+
+@"PKI_install".step.dependOn(&@"PKI".step);
 b.getInstallStep().dependOn(&@"PKI_install".step);
 
 const @"R6" = b.addSystemCommand(&.{ "R" });
@@ -230,14 +256,16 @@ const @"R6" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"R6_out" = @"R6".addOutputDirectoryArg("lib");
+ _ = @"R6".addDirectoryArg(libdir.getDirectory());
 _ = @"R6".addFileArg(asset_dir.path(b, "R6_2.5.1.tar.gz"));
 @"R6".step.name = "R6";
  const @"R6_install" = b.addInstallDirectory(.{
-.source_dir = @"R6_out".path(b, "R6"),
+.source_dir = libdir.getDirectory().path(b, "R6"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "R6",
 });
+
+@"R6_install".step.dependOn(&@"R6".step);
 b.getInstallStep().dependOn(&@"R6_install".step);
 
 const @"RCurl" = b.addSystemCommand(&.{ "R" });
@@ -248,15 +276,17 @@ const @"RCurl" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"RCurl_out" = @"RCurl".addOutputDirectoryArg("lib");
+ _ = @"RCurl".addDirectoryArg(libdir.getDirectory());
 _ = @"RCurl".addFileArg(asset_dir.path(b, "RCurl_1.98-1.16.tar.gz"));
 @"RCurl".step.name = "RCurl";
 @"RCurl".step.dependOn(&@"bitops".step);
  const @"RCurl_install" = b.addInstallDirectory(.{
-.source_dir = @"RCurl_out".path(b, "RCurl"),
+.source_dir = libdir.getDirectory().path(b, "RCurl"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "RCurl",
 });
+
+@"RCurl_install".step.dependOn(&@"RCurl".step);
 b.getInstallStep().dependOn(&@"RCurl_install".step);
 
 const @"RSclient" = b.addSystemCommand(&.{ "R" });
@@ -267,14 +297,16 @@ const @"RSclient" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"RSclient_out" = @"RSclient".addOutputDirectoryArg("lib");
+ _ = @"RSclient".addDirectoryArg(libdir.getDirectory());
 _ = @"RSclient".addFileArg(asset_dir.path(b, "RSclient_0.7-10.tar.gz"));
 @"RSclient".step.name = "RSclient";
  const @"RSclient_install" = b.addInstallDirectory(.{
-.source_dir = @"RSclient_out".path(b, "RSclient"),
+.source_dir = libdir.getDirectory().path(b, "RSclient"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "RSclient",
 });
+
+@"RSclient_install".step.dependOn(&@"RSclient".step);
 b.getInstallStep().dependOn(&@"RSclient_install".step);
 
 const @"Rcpp" = b.addSystemCommand(&.{ "R" });
@@ -285,14 +317,16 @@ const @"Rcpp" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"Rcpp_out" = @"Rcpp".addOutputDirectoryArg("lib");
+ _ = @"Rcpp".addDirectoryArg(libdir.getDirectory());
 _ = @"Rcpp".addFileArg(asset_dir.path(b, "Rcpp_1.0.13.tar.gz"));
 @"Rcpp".step.name = "Rcpp";
  const @"Rcpp_install" = b.addInstallDirectory(.{
-.source_dir = @"Rcpp_out".path(b, "Rcpp"),
+.source_dir = libdir.getDirectory().path(b, "Rcpp"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "Rcpp",
 });
+
+@"Rcpp_install".step.dependOn(&@"Rcpp".step);
 b.getInstallStep().dependOn(&@"Rcpp_install".step);
 
 const @"RcppTOML" = b.addSystemCommand(&.{ "R" });
@@ -303,16 +337,18 @@ const @"RcppTOML" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"RcppTOML_out" = @"RcppTOML".addOutputDirectoryArg("lib");
+ _ = @"RcppTOML".addDirectoryArg(libdir.getDirectory());
 _ = @"RcppTOML".addFileArg(asset_dir.path(b, "RcppTOML_0.2.2.tar.gz"));
 @"RcppTOML".step.name = "RcppTOML";
 @"RcppTOML".step.dependOn(&@"Rcpp".step);
 @"RcppTOML".step.dependOn(&@"Rcpp".step);
  const @"RcppTOML_install" = b.addInstallDirectory(.{
-.source_dir = @"RcppTOML_out".path(b, "RcppTOML"),
+.source_dir = libdir.getDirectory().path(b, "RcppTOML"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "RcppTOML",
 });
+
+@"RcppTOML_install".step.dependOn(&@"RcppTOML".step);
 b.getInstallStep().dependOn(&@"RcppTOML_install".step);
 
 const @"Rook" = b.addSystemCommand(&.{ "R" });
@@ -323,15 +359,17 @@ const @"Rook" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"Rook_out" = @"Rook".addOutputDirectoryArg("lib");
+ _ = @"Rook".addDirectoryArg(libdir.getDirectory());
 _ = @"Rook".addFileArg(asset_dir.path(b, "Rook_1.2.tar.gz"));
 @"Rook".step.name = "Rook";
 @"Rook".step.dependOn(&@"brew".step);
  const @"Rook_install" = b.addInstallDirectory(.{
-.source_dir = @"Rook_out".path(b, "Rook"),
+.source_dir = libdir.getDirectory().path(b, "Rook"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "Rook",
 });
+
+@"Rook_install".step.dependOn(&@"Rook".step);
 b.getInstallStep().dependOn(&@"Rook_install".step);
 
 const @"Rserve" = b.addSystemCommand(&.{ "R" });
@@ -342,14 +380,16 @@ const @"Rserve" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"Rserve_out" = @"Rserve".addOutputDirectoryArg("lib");
+ _ = @"Rserve".addDirectoryArg(libdir.getDirectory());
 _ = @"Rserve".addFileArg(asset_dir.path(b, "Rserve_1.8-13.tar.gz"));
 @"Rserve".step.name = "Rserve";
  const @"Rserve_install" = b.addInstallDirectory(.{
-.source_dir = @"Rserve_out".path(b, "Rserve"),
+.source_dir = libdir.getDirectory().path(b, "Rserve"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "Rserve",
 });
+
+@"Rserve_install".step.dependOn(&@"Rserve".step);
 b.getInstallStep().dependOn(&@"Rserve_install".step);
 
 const @"askpass" = b.addSystemCommand(&.{ "R" });
@@ -360,15 +400,17 @@ const @"askpass" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"askpass_out" = @"askpass".addOutputDirectoryArg("lib");
+ _ = @"askpass".addDirectoryArg(libdir.getDirectory());
 _ = @"askpass".addFileArg(asset_dir.path(b, "askpass_1.2.0.tar.gz"));
 @"askpass".step.name = "askpass";
 @"askpass".step.dependOn(&@"sys".step);
  const @"askpass_install" = b.addInstallDirectory(.{
-.source_dir = @"askpass_out".path(b, "askpass"),
+.source_dir = libdir.getDirectory().path(b, "askpass"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "askpass",
 });
+
+@"askpass_install".step.dependOn(&@"askpass".step);
 b.getInstallStep().dependOn(&@"askpass_install".step);
 
 const @"rappdirs" = b.addSystemCommand(&.{ "R" });
@@ -379,14 +421,16 @@ const @"rappdirs" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rappdirs_out" = @"rappdirs".addOutputDirectoryArg("lib");
+ _ = @"rappdirs".addDirectoryArg(libdir.getDirectory());
 _ = @"rappdirs".addFileArg(asset_dir.path(b, "rappdirs_0.3.3.tar.gz"));
 @"rappdirs".step.name = "rappdirs";
  const @"rappdirs_install" = b.addInstallDirectory(.{
-.source_dir = @"rappdirs_out".path(b, "rappdirs"),
+.source_dir = libdir.getDirectory().path(b, "rappdirs"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rappdirs",
 });
+
+@"rappdirs_install".step.dependOn(&@"rappdirs".step);
 b.getInstallStep().dependOn(&@"rappdirs_install".step);
 
 const @"fs" = b.addSystemCommand(&.{ "R" });
@@ -397,14 +441,16 @@ const @"fs" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"fs_out" = @"fs".addOutputDirectoryArg("lib");
+ _ = @"fs".addDirectoryArg(libdir.getDirectory());
 _ = @"fs".addFileArg(asset_dir.path(b, "fs_1.6.4.tar.gz"));
 @"fs".step.name = "fs";
  const @"fs_install" = b.addInstallDirectory(.{
-.source_dir = @"fs_out".path(b, "fs"),
+.source_dir = libdir.getDirectory().path(b, "fs"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "fs",
 });
+
+@"fs_install".step.dependOn(&@"fs".step);
 b.getInstallStep().dependOn(&@"fs_install".step);
 
 const @"digest" = b.addSystemCommand(&.{ "R" });
@@ -415,14 +461,16 @@ const @"digest" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"digest_out" = @"digest".addOutputDirectoryArg("lib");
+ _ = @"digest".addDirectoryArg(libdir.getDirectory());
 _ = @"digest".addFileArg(asset_dir.path(b, "digest_0.6.37.tar.gz"));
 @"digest".step.name = "digest";
  const @"digest_install" = b.addInstallDirectory(.{
-.source_dir = @"digest_out".path(b, "digest"),
+.source_dir = libdir.getDirectory().path(b, "digest"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "digest",
 });
+
+@"digest_install".step.dependOn(&@"digest".step);
 b.getInstallStep().dependOn(&@"digest_install".step);
 
 const @"rlang" = b.addSystemCommand(&.{ "R" });
@@ -433,14 +481,16 @@ const @"rlang" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rlang_out" = @"rlang".addOutputDirectoryArg("lib");
+ _ = @"rlang".addDirectoryArg(libdir.getDirectory());
 _ = @"rlang".addFileArg(asset_dir.path(b, "rlang_1.1.4.tar.gz"));
 @"rlang".step.name = "rlang";
  const @"rlang_install" = b.addInstallDirectory(.{
-.source_dir = @"rlang_out".path(b, "rlang"),
+.source_dir = libdir.getDirectory().path(b, "rlang"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rlang",
 });
+
+@"rlang_install".step.dependOn(&@"rlang".step);
 b.getInstallStep().dependOn(&@"rlang_install".step);
 
 const @"htmltools" = b.addSystemCommand(&.{ "R" });
@@ -451,7 +501,7 @@ const @"htmltools" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"htmltools_out" = @"htmltools".addOutputDirectoryArg("lib");
+ _ = @"htmltools".addDirectoryArg(libdir.getDirectory());
 _ = @"htmltools".addFileArg(asset_dir.path(b, "htmltools_0.5.8.1.tar.gz"));
 @"htmltools".step.name = "htmltools";
 @"htmltools".step.dependOn(&@"base64enc".step);
@@ -459,10 +509,12 @@ _ = @"htmltools".addFileArg(asset_dir.path(b, "htmltools_0.5.8.1.tar.gz"));
 @"htmltools".step.dependOn(&@"fastmap".step);
 @"htmltools".step.dependOn(&@"rlang".step);
  const @"htmltools_install" = b.addInstallDirectory(.{
-.source_dir = @"htmltools_out".path(b, "htmltools"),
+.source_dir = libdir.getDirectory().path(b, "htmltools"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "htmltools",
 });
+
+@"htmltools_install".step.dependOn(&@"htmltools".step);
 b.getInstallStep().dependOn(&@"htmltools_install".step);
 
 const @"sass" = b.addSystemCommand(&.{ "R" });
@@ -473,7 +525,7 @@ const @"sass" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"sass_out" = @"sass".addOutputDirectoryArg("lib");
+ _ = @"sass".addDirectoryArg(libdir.getDirectory());
 _ = @"sass".addFileArg(asset_dir.path(b, "sass_0.4.9.tar.gz"));
 @"sass".step.name = "sass";
 @"sass".step.dependOn(&@"fs".step);
@@ -482,10 +534,12 @@ _ = @"sass".addFileArg(asset_dir.path(b, "sass_0.4.9.tar.gz"));
 @"sass".step.dependOn(&@"R6".step);
 @"sass".step.dependOn(&@"rappdirs".step);
  const @"sass_install" = b.addInstallDirectory(.{
-.source_dir = @"sass_out".path(b, "sass"),
+.source_dir = libdir.getDirectory().path(b, "sass"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "sass",
 });
+
+@"sass_install".step.dependOn(&@"sass".step);
 b.getInstallStep().dependOn(&@"sass_install".step);
 
 const @"glue" = b.addSystemCommand(&.{ "R" });
@@ -496,14 +550,16 @@ const @"glue" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"glue_out" = @"glue".addOutputDirectoryArg("lib");
+ _ = @"glue".addDirectoryArg(libdir.getDirectory());
 _ = @"glue".addFileArg(asset_dir.path(b, "glue_1.7.0.tar.gz"));
 @"glue".step.name = "glue";
  const @"glue_install" = b.addInstallDirectory(.{
-.source_dir = @"glue_out".path(b, "glue"),
+.source_dir = libdir.getDirectory().path(b, "glue"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "glue",
 });
+
+@"glue_install".step.dependOn(&@"glue".step);
 b.getInstallStep().dependOn(&@"glue_install".step);
 
 const @"cachem" = b.addSystemCommand(&.{ "R" });
@@ -514,16 +570,18 @@ const @"cachem" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"cachem_out" = @"cachem".addOutputDirectoryArg("lib");
+ _ = @"cachem".addDirectoryArg(libdir.getDirectory());
 _ = @"cachem".addFileArg(asset_dir.path(b, "cachem_1.1.0.tar.gz"));
 @"cachem".step.name = "cachem";
 @"cachem".step.dependOn(&@"rlang".step);
 @"cachem".step.dependOn(&@"fastmap".step);
  const @"cachem_install" = b.addInstallDirectory(.{
-.source_dir = @"cachem_out".path(b, "cachem"),
+.source_dir = libdir.getDirectory().path(b, "cachem"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "cachem",
 });
+
+@"cachem_install".step.dependOn(&@"cachem".step);
 b.getInstallStep().dependOn(&@"cachem_install".step);
 
 const @"cli" = b.addSystemCommand(&.{ "R" });
@@ -534,14 +592,16 @@ const @"cli" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"cli_out" = @"cli".addOutputDirectoryArg("lib");
+ _ = @"cli".addDirectoryArg(libdir.getDirectory());
 _ = @"cli".addFileArg(asset_dir.path(b, "cli_3.6.3.tar.gz"));
 @"cli".step.name = "cli";
  const @"cli_install" = b.addInstallDirectory(.{
-.source_dir = @"cli_out".path(b, "cli"),
+.source_dir = libdir.getDirectory().path(b, "cli"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "cli",
 });
+
+@"cli_install".step.dependOn(&@"cli".step);
 b.getInstallStep().dependOn(&@"cli_install".step);
 
 const @"lifecycle" = b.addSystemCommand(&.{ "R" });
@@ -552,17 +612,19 @@ const @"lifecycle" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"lifecycle_out" = @"lifecycle".addOutputDirectoryArg("lib");
+ _ = @"lifecycle".addDirectoryArg(libdir.getDirectory());
 _ = @"lifecycle".addFileArg(asset_dir.path(b, "lifecycle_1.0.4.tar.gz"));
 @"lifecycle".step.name = "lifecycle";
 @"lifecycle".step.dependOn(&@"cli".step);
 @"lifecycle".step.dependOn(&@"glue".step);
 @"lifecycle".step.dependOn(&@"rlang".step);
  const @"lifecycle_install" = b.addInstallDirectory(.{
-.source_dir = @"lifecycle_out".path(b, "lifecycle"),
+.source_dir = libdir.getDirectory().path(b, "lifecycle"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "lifecycle",
 });
+
+@"lifecycle_install".step.dependOn(&@"lifecycle".step);
 b.getInstallStep().dependOn(&@"lifecycle_install".step);
 
 const @"stringi" = b.addSystemCommand(&.{ "R" });
@@ -573,14 +635,16 @@ const @"stringi" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"stringi_out" = @"stringi".addOutputDirectoryArg("lib");
+ _ = @"stringi".addDirectoryArg(libdir.getDirectory());
 _ = @"stringi".addFileArg(asset_dir.path(b, "stringi_1.8.4.tar.gz"));
 @"stringi".step.name = "stringi";
  const @"stringi_install" = b.addInstallDirectory(.{
-.source_dir = @"stringi_out".path(b, "stringi"),
+.source_dir = libdir.getDirectory().path(b, "stringi"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "stringi",
 });
+
+@"stringi_install".step.dependOn(&@"stringi".step);
 b.getInstallStep().dependOn(&@"stringi_install".step);
 
 const @"vctrs" = b.addSystemCommand(&.{ "R" });
@@ -591,7 +655,7 @@ const @"vctrs" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"vctrs_out" = @"vctrs".addOutputDirectoryArg("lib");
+ _ = @"vctrs".addDirectoryArg(libdir.getDirectory());
 _ = @"vctrs".addFileArg(asset_dir.path(b, "vctrs_0.6.5.tar.gz"));
 @"vctrs".step.name = "vctrs";
 @"vctrs".step.dependOn(&@"cli".step);
@@ -599,10 +663,12 @@ _ = @"vctrs".addFileArg(asset_dir.path(b, "vctrs_0.6.5.tar.gz"));
 @"vctrs".step.dependOn(&@"lifecycle".step);
 @"vctrs".step.dependOn(&@"rlang".step);
  const @"vctrs_install" = b.addInstallDirectory(.{
-.source_dir = @"vctrs_out".path(b, "vctrs"),
+.source_dir = libdir.getDirectory().path(b, "vctrs"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "vctrs",
 });
+
+@"vctrs_install".step.dependOn(&@"vctrs".step);
 b.getInstallStep().dependOn(&@"vctrs_install".step);
 
 const @"mime" = b.addSystemCommand(&.{ "R" });
@@ -613,14 +679,16 @@ const @"mime" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"mime_out" = @"mime".addOutputDirectoryArg("lib");
+ _ = @"mime".addDirectoryArg(libdir.getDirectory());
 _ = @"mime".addFileArg(asset_dir.path(b, "mime_0.12.tar.gz"));
 @"mime".step.name = "mime";
  const @"mime_install" = b.addInstallDirectory(.{
-.source_dir = @"mime_out".path(b, "mime"),
+.source_dir = libdir.getDirectory().path(b, "mime"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "mime",
 });
+
+@"mime_install".step.dependOn(&@"mime".step);
 b.getInstallStep().dependOn(&@"mime_install".step);
 
 const @"magrittr" = b.addSystemCommand(&.{ "R" });
@@ -631,14 +699,16 @@ const @"magrittr" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"magrittr_out" = @"magrittr".addOutputDirectoryArg("lib");
+ _ = @"magrittr".addDirectoryArg(libdir.getDirectory());
 _ = @"magrittr".addFileArg(asset_dir.path(b, "magrittr_2.0.3.tar.gz"));
 @"magrittr".step.name = "magrittr";
  const @"magrittr_install" = b.addInstallDirectory(.{
-.source_dir = @"magrittr_out".path(b, "magrittr"),
+.source_dir = libdir.getDirectory().path(b, "magrittr"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "magrittr",
 });
+
+@"magrittr_install".step.dependOn(&@"magrittr".step);
 b.getInstallStep().dependOn(&@"magrittr_install".step);
 
 const @"memoise" = b.addSystemCommand(&.{ "R" });
@@ -649,16 +719,18 @@ const @"memoise" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"memoise_out" = @"memoise".addOutputDirectoryArg("lib");
+ _ = @"memoise".addDirectoryArg(libdir.getDirectory());
 _ = @"memoise".addFileArg(asset_dir.path(b, "memoise_2.0.1.tar.gz"));
 @"memoise".step.name = "memoise";
 @"memoise".step.dependOn(&@"rlang".step);
 @"memoise".step.dependOn(&@"cachem".step);
  const @"memoise_install" = b.addInstallDirectory(.{
-.source_dir = @"memoise_out".path(b, "memoise"),
+.source_dir = libdir.getDirectory().path(b, "memoise"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "memoise",
 });
+
+@"memoise_install".step.dependOn(&@"memoise".step);
 b.getInstallStep().dependOn(&@"memoise_install".step);
 
 const @"jsonlite" = b.addSystemCommand(&.{ "R" });
@@ -669,14 +741,16 @@ const @"jsonlite" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"jsonlite_out" = @"jsonlite".addOutputDirectoryArg("lib");
+ _ = @"jsonlite".addDirectoryArg(libdir.getDirectory());
 _ = @"jsonlite".addFileArg(asset_dir.path(b, "jsonlite_1.8.8.tar.gz"));
 @"jsonlite".step.name = "jsonlite";
  const @"jsonlite_install" = b.addInstallDirectory(.{
-.source_dir = @"jsonlite_out".path(b, "jsonlite"),
+.source_dir = libdir.getDirectory().path(b, "jsonlite"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "jsonlite",
 });
+
+@"jsonlite_install".step.dependOn(&@"jsonlite".step);
 b.getInstallStep().dependOn(&@"jsonlite_install".step);
 
 const @"jquerylib" = b.addSystemCommand(&.{ "R" });
@@ -687,15 +761,17 @@ const @"jquerylib" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"jquerylib_out" = @"jquerylib".addOutputDirectoryArg("lib");
+ _ = @"jquerylib".addDirectoryArg(libdir.getDirectory());
 _ = @"jquerylib".addFileArg(asset_dir.path(b, "jquerylib_0.1.4.tar.gz"));
 @"jquerylib".step.name = "jquerylib";
 @"jquerylib".step.dependOn(&@"htmltools".step);
  const @"jquerylib_install" = b.addInstallDirectory(.{
-.source_dir = @"jquerylib_out".path(b, "jquerylib"),
+.source_dir = libdir.getDirectory().path(b, "jquerylib"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "jquerylib",
 });
+
+@"jquerylib_install".step.dependOn(&@"jquerylib".step);
 b.getInstallStep().dependOn(&@"jquerylib_install".step);
 
 const @"stringr" = b.addSystemCommand(&.{ "R" });
@@ -706,7 +782,7 @@ const @"stringr" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"stringr_out" = @"stringr".addOutputDirectoryArg("lib");
+ _ = @"stringr".addDirectoryArg(libdir.getDirectory());
 _ = @"stringr".addFileArg(asset_dir.path(b, "stringr_1.5.1.tar.gz"));
 @"stringr".step.name = "stringr";
 @"stringr".step.dependOn(&@"cli".step);
@@ -717,10 +793,12 @@ _ = @"stringr".addFileArg(asset_dir.path(b, "stringr_1.5.1.tar.gz"));
 @"stringr".step.dependOn(&@"stringi".step);
 @"stringr".step.dependOn(&@"vctrs".step);
  const @"stringr_install" = b.addInstallDirectory(.{
-.source_dir = @"stringr_out".path(b, "stringr"),
+.source_dir = libdir.getDirectory().path(b, "stringr"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "stringr",
 });
+
+@"stringr_install".step.dependOn(&@"stringr".step);
 b.getInstallStep().dependOn(&@"stringr_install".step);
 
 const @"bslib" = b.addSystemCommand(&.{ "R" });
@@ -731,7 +809,7 @@ const @"bslib" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"bslib_out" = @"bslib".addOutputDirectoryArg("lib");
+ _ = @"bslib".addDirectoryArg(libdir.getDirectory());
 _ = @"bslib".addFileArg(asset_dir.path(b, "bslib_0.8.0.tar.gz"));
 @"bslib".step.name = "bslib";
 @"bslib".step.dependOn(&@"base64enc".step);
@@ -746,10 +824,12 @@ _ = @"bslib".addFileArg(asset_dir.path(b, "bslib_0.8.0.tar.gz"));
 @"bslib".step.dependOn(&@"rlang".step);
 @"bslib".step.dependOn(&@"sass".step);
  const @"bslib_install" = b.addInstallDirectory(.{
-.source_dir = @"bslib_out".path(b, "bslib"),
+.source_dir = libdir.getDirectory().path(b, "bslib"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "bslib",
 });
+
+@"bslib_install".step.dependOn(&@"bslib".step);
 b.getInstallStep().dependOn(&@"bslib_install".step);
 
 const @"xfun" = b.addSystemCommand(&.{ "R" });
@@ -760,14 +840,16 @@ const @"xfun" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"xfun_out" = @"xfun".addOutputDirectoryArg("lib");
+ _ = @"xfun".addDirectoryArg(libdir.getDirectory());
 _ = @"xfun".addFileArg(asset_dir.path(b, "xfun_0.47.tar.gz"));
 @"xfun".step.name = "xfun";
  const @"xfun_install" = b.addInstallDirectory(.{
-.source_dir = @"xfun_out".path(b, "xfun"),
+.source_dir = libdir.getDirectory().path(b, "xfun"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "xfun",
 });
+
+@"xfun_install".step.dependOn(&@"xfun".step);
 b.getInstallStep().dependOn(&@"xfun_install".step);
 
 const @"curl" = b.addSystemCommand(&.{ "R" });
@@ -778,14 +860,16 @@ const @"curl" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"curl_out" = @"curl".addOutputDirectoryArg("lib");
+ _ = @"curl".addDirectoryArg(libdir.getDirectory());
 _ = @"curl".addFileArg(asset_dir.path(b, "curl_5.2.2.tar.gz"));
 @"curl".step.name = "curl";
  const @"curl_install" = b.addInstallDirectory(.{
-.source_dir = @"curl_out".path(b, "curl"),
+.source_dir = libdir.getDirectory().path(b, "curl"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "curl",
 });
+
+@"curl_install".step.dependOn(&@"curl".step);
 b.getInstallStep().dependOn(&@"curl_install".step);
 
 const @"rprojroot" = b.addSystemCommand(&.{ "R" });
@@ -796,14 +880,16 @@ const @"rprojroot" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rprojroot_out" = @"rprojroot".addOutputDirectoryArg("lib");
+ _ = @"rprojroot".addDirectoryArg(libdir.getDirectory());
 _ = @"rprojroot".addFileArg(asset_dir.path(b, "rprojroot_2.0.4.tar.gz"));
 @"rprojroot".step.name = "rprojroot";
  const @"rprojroot_install" = b.addInstallDirectory(.{
-.source_dir = @"rprojroot_out".path(b, "rprojroot"),
+.source_dir = libdir.getDirectory().path(b, "rprojroot"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rprojroot",
 });
+
+@"rprojroot_install".step.dependOn(&@"rprojroot".step);
 b.getInstallStep().dependOn(&@"rprojroot_install".step);
 
 const @"evaluate" = b.addSystemCommand(&.{ "R" });
@@ -814,14 +900,16 @@ const @"evaluate" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"evaluate_out" = @"evaluate".addOutputDirectoryArg("lib");
+ _ = @"evaluate".addDirectoryArg(libdir.getDirectory());
 _ = @"evaluate".addFileArg(asset_dir.path(b, "evaluate_0.24.0.tar.gz"));
 @"evaluate".step.name = "evaluate";
  const @"evaluate_install" = b.addInstallDirectory(.{
-.source_dir = @"evaluate_out".path(b, "evaluate"),
+.source_dir = libdir.getDirectory().path(b, "evaluate"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "evaluate",
 });
+
+@"evaluate_install".step.dependOn(&@"evaluate".step);
 b.getInstallStep().dependOn(&@"evaluate_install".step);
 
 const @"fontawesome" = b.addSystemCommand(&.{ "R" });
@@ -832,16 +920,18 @@ const @"fontawesome" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"fontawesome_out" = @"fontawesome".addOutputDirectoryArg("lib");
+ _ = @"fontawesome".addDirectoryArg(libdir.getDirectory());
 _ = @"fontawesome".addFileArg(asset_dir.path(b, "fontawesome_0.5.2.tar.gz"));
 @"fontawesome".step.name = "fontawesome";
 @"fontawesome".step.dependOn(&@"rlang".step);
 @"fontawesome".step.dependOn(&@"htmltools".step);
  const @"fontawesome_install" = b.addInstallDirectory(.{
-.source_dir = @"fontawesome_out".path(b, "fontawesome"),
+.source_dir = libdir.getDirectory().path(b, "fontawesome"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "fontawesome",
 });
+
+@"fontawesome_install".step.dependOn(&@"fontawesome".step);
 b.getInstallStep().dependOn(&@"fontawesome_install".step);
 
 const @"openssl" = b.addSystemCommand(&.{ "R" });
@@ -852,15 +942,17 @@ const @"openssl" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"openssl_out" = @"openssl".addOutputDirectoryArg("lib");
+ _ = @"openssl".addDirectoryArg(libdir.getDirectory());
 _ = @"openssl".addFileArg(asset_dir.path(b, "openssl_2.2.1.tar.gz"));
 @"openssl".step.name = "openssl";
 @"openssl".step.dependOn(&@"askpass".step);
  const @"openssl_install" = b.addInstallDirectory(.{
-.source_dir = @"openssl_out".path(b, "openssl"),
+.source_dir = libdir.getDirectory().path(b, "openssl"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "openssl",
 });
+
+@"openssl_install".step.dependOn(&@"openssl".step);
 b.getInstallStep().dependOn(&@"openssl_install".step);
 
 const @"httr" = b.addSystemCommand(&.{ "R" });
@@ -871,7 +963,7 @@ const @"httr" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"httr_out" = @"httr".addOutputDirectoryArg("lib");
+ _ = @"httr".addDirectoryArg(libdir.getDirectory());
 _ = @"httr".addFileArg(asset_dir.path(b, "httr_1.4.7.tar.gz"));
 @"httr".step.name = "httr";
 @"httr".step.dependOn(&@"curl".step);
@@ -880,10 +972,12 @@ _ = @"httr".addFileArg(asset_dir.path(b, "httr_1.4.7.tar.gz"));
 @"httr".step.dependOn(&@"openssl".step);
 @"httr".step.dependOn(&@"R6".step);
  const @"httr_install" = b.addInstallDirectory(.{
-.source_dir = @"httr_out".path(b, "httr"),
+.source_dir = libdir.getDirectory().path(b, "httr"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "httr",
 });
+
+@"httr_install".step.dependOn(&@"httr".step);
 b.getInstallStep().dependOn(&@"httr_install".step);
 
 const @"github" = b.addSystemCommand(&.{ "R" });
@@ -894,7 +988,7 @@ const @"github" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"github_out" = @"github".addOutputDirectoryArg("lib");
+ _ = @"github".addDirectoryArg(libdir.getDirectory());
 _ = @"github".addFileArg(asset_dir.path(b, "github_0.9.12.tar.gz"));
 @"github".step.name = "github";
 @"github".step.dependOn(&@"httr".step);
@@ -902,10 +996,12 @@ _ = @"github".addFileArg(asset_dir.path(b, "github_0.9.12.tar.gz"));
 @"github".step.dependOn(&@"stringr".step);
 @"github".step.dependOn(&@"jsonlite".step);
  const @"github_install" = b.addInstallDirectory(.{
-.source_dir = @"github_out".path(b, "github"),
+.source_dir = libdir.getDirectory().path(b, "github"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "github",
 });
+
+@"github_install".step.dependOn(&@"github".step);
 b.getInstallStep().dependOn(&@"github_install".step);
 
 const @"guitar" = b.addSystemCommand(&.{ "R" });
@@ -916,7 +1012,7 @@ const @"guitar" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"guitar_out" = @"guitar".addOutputDirectoryArg("lib");
+ _ = @"guitar".addDirectoryArg(libdir.getDirectory());
 _ = @"guitar".addFileArg(asset_dir.path(b, "guitar_0.0.3.1.tar.gz"));
 @"guitar".step.name = "guitar";
 @"guitar".step.dependOn(&@"Rcpp".step);
@@ -925,10 +1021,12 @@ _ = @"guitar".addFileArg(asset_dir.path(b, "guitar_0.0.3.1.tar.gz"));
 @"guitar".step.dependOn(&@"Rcpp".step);
 @"guitar".step.dependOn(&@"BH".step);
  const @"guitar_install" = b.addInstallDirectory(.{
-.source_dir = @"guitar_out".path(b, "guitar"),
+.source_dir = libdir.getDirectory().path(b, "guitar"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "guitar",
 });
+
+@"guitar_install".step.dependOn(&@"guitar".step);
 b.getInstallStep().dependOn(&@"guitar_install".step);
 
 const @"here" = b.addSystemCommand(&.{ "R" });
@@ -939,15 +1037,17 @@ const @"here" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"here_out" = @"here".addOutputDirectoryArg("lib");
+ _ = @"here".addDirectoryArg(libdir.getDirectory());
 _ = @"here".addFileArg(asset_dir.path(b, "here_1.0.1.tar.gz"));
 @"here".step.name = "here";
 @"here".step.dependOn(&@"rprojroot".step);
  const @"here_install" = b.addInstallDirectory(.{
-.source_dir = @"here_out".path(b, "here"),
+.source_dir = libdir.getDirectory().path(b, "here"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "here",
 });
+
+@"here_install".step.dependOn(&@"here".step);
 b.getInstallStep().dependOn(&@"here_install".step);
 
 const @"highr" = b.addSystemCommand(&.{ "R" });
@@ -958,15 +1058,17 @@ const @"highr" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"highr_out" = @"highr".addOutputDirectoryArg("lib");
+ _ = @"highr".addDirectoryArg(libdir.getDirectory());
 _ = @"highr".addFileArg(asset_dir.path(b, "highr_0.11.tar.gz"));
 @"highr".step.name = "highr";
 @"highr".step.dependOn(&@"xfun".step);
  const @"highr_install" = b.addInstallDirectory(.{
-.source_dir = @"highr_out".path(b, "highr"),
+.source_dir = libdir.getDirectory().path(b, "highr"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "highr",
 });
+
+@"highr_install".step.dependOn(&@"highr".step);
 b.getInstallStep().dependOn(&@"highr_install".step);
 
 const @"knitr" = b.addSystemCommand(&.{ "R" });
@@ -977,7 +1079,7 @@ const @"knitr" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"knitr_out" = @"knitr".addOutputDirectoryArg("lib");
+ _ = @"knitr".addDirectoryArg(libdir.getDirectory());
 _ = @"knitr".addFileArg(asset_dir.path(b, "knitr_1.48.tar.gz"));
 @"knitr".step.name = "knitr";
 @"knitr".step.dependOn(&@"evaluate".step);
@@ -985,10 +1087,12 @@ _ = @"knitr".addFileArg(asset_dir.path(b, "knitr_1.48.tar.gz"));
 @"knitr".step.dependOn(&@"xfun".step);
 @"knitr".step.dependOn(&@"yaml".step);
  const @"knitr_install" = b.addInstallDirectory(.{
-.source_dir = @"knitr_out".path(b, "knitr"),
+.source_dir = libdir.getDirectory().path(b, "knitr"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "knitr",
 });
+
+@"knitr_install".step.dependOn(&@"knitr".step);
 b.getInstallStep().dependOn(&@"knitr_install".step);
 
 const @"withr" = b.addSystemCommand(&.{ "R" });
@@ -999,14 +1103,16 @@ const @"withr" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"withr_out" = @"withr".addOutputDirectoryArg("lib");
+ _ = @"withr".addDirectoryArg(libdir.getDirectory());
 _ = @"withr".addFileArg(asset_dir.path(b, "withr_3.0.1.tar.gz"));
 @"withr".step.name = "withr";
  const @"withr_install" = b.addInstallDirectory(.{
-.source_dir = @"withr_out".path(b, "withr"),
+.source_dir = libdir.getDirectory().path(b, "withr"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "withr",
 });
+
+@"withr_install".step.dependOn(&@"withr".step);
 b.getInstallStep().dependOn(&@"withr_install".step);
 
 const @"markdown" = b.addSystemCommand(&.{ "R" });
@@ -1017,16 +1123,18 @@ const @"markdown" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"markdown_out" = @"markdown".addOutputDirectoryArg("lib");
+ _ = @"markdown".addDirectoryArg(libdir.getDirectory());
 _ = @"markdown".addFileArg(asset_dir.path(b, "markdown_1.13.tar.gz"));
 @"markdown".step.name = "markdown";
 @"markdown".step.dependOn(&@"commonmark".step);
 @"markdown".step.dependOn(&@"xfun".step);
  const @"markdown_install" = b.addInstallDirectory(.{
-.source_dir = @"markdown_out".path(b, "markdown"),
+.source_dir = libdir.getDirectory().path(b, "markdown"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "markdown",
 });
+
+@"markdown_install".step.dependOn(&@"markdown".step);
 b.getInstallStep().dependOn(&@"markdown_install".step);
 
 const @"png" = b.addSystemCommand(&.{ "R" });
@@ -1037,14 +1145,16 @@ const @"png" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"png_out" = @"png".addOutputDirectoryArg("lib");
+ _ = @"png".addDirectoryArg(libdir.getDirectory());
 _ = @"png".addFileArg(asset_dir.path(b, "png_0.1-8.tar.gz"));
 @"png".step.name = "png";
  const @"png_install" = b.addInstallDirectory(.{
-.source_dir = @"png_out".path(b, "png"),
+.source_dir = libdir.getDirectory().path(b, "png"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "png",
 });
+
+@"png_install".step.dependOn(&@"png".step);
 b.getInstallStep().dependOn(&@"png_install".step);
 
 const @"tinytex" = b.addSystemCommand(&.{ "R" });
@@ -1055,15 +1165,17 @@ const @"tinytex" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"tinytex_out" = @"tinytex".addOutputDirectoryArg("lib");
+ _ = @"tinytex".addDirectoryArg(libdir.getDirectory());
 _ = @"tinytex".addFileArg(asset_dir.path(b, "tinytex_0.53.tar.gz"));
 @"tinytex".step.name = "tinytex";
 @"tinytex".step.dependOn(&@"xfun".step);
  const @"tinytex_install" = b.addInstallDirectory(.{
-.source_dir = @"tinytex_out".path(b, "tinytex"),
+.source_dir = libdir.getDirectory().path(b, "tinytex"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "tinytex",
 });
+
+@"tinytex_install".step.dependOn(&@"tinytex".step);
 b.getInstallStep().dependOn(&@"tinytex_install".step);
 
 const @"reticulate" = b.addSystemCommand(&.{ "R" });
@@ -1074,7 +1186,7 @@ const @"reticulate" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"reticulate_out" = @"reticulate".addOutputDirectoryArg("lib");
+ _ = @"reticulate".addDirectoryArg(libdir.getDirectory());
 _ = @"reticulate".addFileArg(asset_dir.path(b, "reticulate_1.39.0.tar.gz"));
 @"reticulate".step.name = "reticulate";
 @"reticulate".step.dependOn(&@"Rcpp".step);
@@ -1087,10 +1199,12 @@ _ = @"reticulate".addFileArg(asset_dir.path(b, "reticulate_1.39.0.tar.gz"));
 @"reticulate".step.dependOn(&@"withr".step);
 @"reticulate".step.dependOn(&@"Rcpp".step);
  const @"reticulate_install" = b.addInstallDirectory(.{
-.source_dir = @"reticulate_out".path(b, "reticulate"),
+.source_dir = libdir.getDirectory().path(b, "reticulate"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "reticulate",
 });
+
+@"reticulate_install".step.dependOn(&@"reticulate".step);
 b.getInstallStep().dependOn(&@"reticulate_install".step);
 
 const @"rjson" = b.addSystemCommand(&.{ "R" });
@@ -1101,14 +1215,16 @@ const @"rjson" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rjson_out" = @"rjson".addOutputDirectoryArg("lib");
+ _ = @"rjson".addDirectoryArg(libdir.getDirectory());
 _ = @"rjson".addFileArg(asset_dir.path(b, "rjson_0.2.23.tar.gz"));
 @"rjson".step.name = "rjson";
  const @"rjson_install" = b.addInstallDirectory(.{
-.source_dir = @"rjson_out".path(b, "rjson"),
+.source_dir = libdir.getDirectory().path(b, "rjson"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rjson",
 });
+
+@"rjson_install".step.dependOn(&@"rjson".step);
 b.getInstallStep().dependOn(&@"rjson_install".step);
 
 const @"rmarkdown" = b.addSystemCommand(&.{ "R" });
@@ -1119,7 +1235,7 @@ const @"rmarkdown" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rmarkdown_out" = @"rmarkdown".addOutputDirectoryArg("lib");
+ _ = @"rmarkdown".addDirectoryArg(libdir.getDirectory());
 _ = @"rmarkdown".addFileArg(asset_dir.path(b, "rmarkdown_2.28.tar.gz"));
 @"rmarkdown".step.name = "rmarkdown";
 @"rmarkdown".step.dependOn(&@"bslib".step);
@@ -1133,10 +1249,12 @@ _ = @"rmarkdown".addFileArg(asset_dir.path(b, "rmarkdown_2.28.tar.gz"));
 @"rmarkdown".step.dependOn(&@"xfun".step);
 @"rmarkdown".step.dependOn(&@"yaml".step);
  const @"rmarkdown_install" = b.addInstallDirectory(.{
-.source_dir = @"rmarkdown_out".path(b, "rmarkdown"),
+.source_dir = libdir.getDirectory().path(b, "rmarkdown"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rmarkdown",
 });
+
+@"rmarkdown_install".step.dependOn(&@"rmarkdown".step);
 b.getInstallStep().dependOn(&@"rmarkdown_install".step);
 
 const @"sendmailR" = b.addSystemCommand(&.{ "R" });
@@ -1147,15 +1265,17 @@ const @"sendmailR" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"sendmailR_out" = @"sendmailR".addOutputDirectoryArg("lib");
+ _ = @"sendmailR".addDirectoryArg(libdir.getDirectory());
 _ = @"sendmailR".addFileArg(asset_dir.path(b, "sendmailR_1.4-0.tar.gz"));
 @"sendmailR".step.name = "sendmailR";
 @"sendmailR".step.dependOn(&@"base64enc".step);
  const @"sendmailR_install" = b.addInstallDirectory(.{
-.source_dir = @"sendmailR_out".path(b, "sendmailR"),
+.source_dir = libdir.getDirectory().path(b, "sendmailR"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "sendmailR",
 });
+
+@"sendmailR_install".step.dependOn(&@"sendmailR".step);
 b.getInstallStep().dependOn(&@"sendmailR_install".step);
 
 const @"unixtools" = b.addSystemCommand(&.{ "R" });
@@ -1166,14 +1286,16 @@ const @"unixtools" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"unixtools_out" = @"unixtools".addOutputDirectoryArg("lib");
+ _ = @"unixtools".addDirectoryArg(libdir.getDirectory());
 _ = @"unixtools".addFileArg(asset_dir.path(b, "unixtools_0.1-1.tar.gz"));
 @"unixtools".step.name = "unixtools";
  const @"unixtools_install" = b.addInstallDirectory(.{
-.source_dir = @"unixtools_out".path(b, "unixtools"),
+.source_dir = libdir.getDirectory().path(b, "unixtools"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "unixtools",
 });
+
+@"unixtools_install".step.dependOn(&@"unixtools".step);
 b.getInstallStep().dependOn(&@"unixtools_install".step);
 
 const @"uuid" = b.addSystemCommand(&.{ "R" });
@@ -1184,14 +1306,16 @@ const @"uuid" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"uuid_out" = @"uuid".addOutputDirectoryArg("lib");
+ _ = @"uuid".addDirectoryArg(libdir.getDirectory());
 _ = @"uuid".addFileArg(asset_dir.path(b, "uuid_1.2-1.tar.gz"));
 @"uuid".step.name = "uuid";
  const @"uuid_install" = b.addInstallDirectory(.{
-.source_dir = @"uuid_out".path(b, "uuid"),
+.source_dir = libdir.getDirectory().path(b, "uuid"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "uuid",
 });
+
+@"uuid_install".step.dependOn(&@"uuid".step);
 b.getInstallStep().dependOn(&@"uuid_install".step);
 
 const @"rcloud.sh" = b.addSystemCommand(&.{ "R" });
@@ -1202,14 +1326,16 @@ const @"rcloud.sh" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rcloud.sh_out" = @"rcloud.sh".addOutputDirectoryArg("lib");
-_ = @"rcloud.sh".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcloud.packages/rcloud.sh"));
+ _ = @"rcloud.sh".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.sh".addDirectoryArg(b.path("rcloud.packages/rcloud.sh"));
 @"rcloud.sh".step.name = "rcloud.sh";
  const @"rcloud.sh_install" = b.addInstallDirectory(.{
-.source_dir = @"rcloud.sh_out".path(b, "rcloud.sh"),
+.source_dir = libdir.getDirectory().path(b, "rcloud.sh"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rcloud.sh",
 });
+
+@"rcloud.sh_install".step.dependOn(&@"rcloud.sh".step);
 b.getInstallStep().dependOn(&@"rcloud.sh_install".step);
 
 const @"gist" = b.addSystemCommand(&.{ "R" });
@@ -1220,14 +1346,16 @@ const @"gist" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"gist_out" = @"gist".addOutputDirectoryArg("lib");
-_ = @"gist".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/packages/gist"));
+ _ = @"gist".addDirectoryArg(libdir.getDirectory());
+_ = @"gist".addDirectoryArg(b.path("packages/gist"));
 @"gist".step.name = "gist";
  const @"gist_install" = b.addInstallDirectory(.{
-.source_dir = @"gist_out".path(b, "gist"),
+.source_dir = libdir.getDirectory().path(b, "gist"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "gist",
 });
+
+@"gist_install".step.dependOn(&@"gist".step);
 b.getInstallStep().dependOn(&@"gist_install".step);
 
 const @"githubgist" = b.addSystemCommand(&.{ "R" });
@@ -1238,17 +1366,19 @@ const @"githubgist" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"githubgist_out" = @"githubgist".addOutputDirectoryArg("lib");
-_ = @"githubgist".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/packages/githubgist"));
+ _ = @"githubgist".addDirectoryArg(libdir.getDirectory());
+_ = @"githubgist".addDirectoryArg(b.path("packages/githubgist"));
 @"githubgist".step.name = "githubgist";
 @"githubgist".step.dependOn(&@"gist".step);
 @"githubgist".step.dependOn(&@"github".step);
 @"githubgist".step.dependOn(&@"httr".step);
  const @"githubgist_install" = b.addInstallDirectory(.{
-.source_dir = @"githubgist_out".path(b, "githubgist"),
+.source_dir = libdir.getDirectory().path(b, "githubgist"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "githubgist",
 });
+
+@"githubgist_install".step.dependOn(&@"githubgist".step);
 b.getInstallStep().dependOn(&@"githubgist_install".step);
 
 const @"gitgist" = b.addSystemCommand(&.{ "R" });
@@ -1259,17 +1389,19 @@ const @"gitgist" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"gitgist_out" = @"gitgist".addOutputDirectoryArg("lib");
-_ = @"gitgist".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/packages/gitgist"));
+ _ = @"gitgist".addDirectoryArg(libdir.getDirectory());
+_ = @"gitgist".addDirectoryArg(b.path("packages/gitgist"));
 @"gitgist".step.name = "gitgist";
 @"gitgist".step.dependOn(&@"Rcpp".step);
 @"gitgist".step.dependOn(&@"guitar".step);
 @"gitgist".step.dependOn(&@"PKI".step);
  const @"gitgist_install" = b.addInstallDirectory(.{
-.source_dir = @"gitgist_out".path(b, "gitgist"),
+.source_dir = libdir.getDirectory().path(b, "gitgist"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "gitgist",
 });
+
+@"gitgist_install".step.dependOn(&@"gitgist".step);
 b.getInstallStep().dependOn(&@"gitgist_install".step);
 
 const @"rcloud.client" = b.addSystemCommand(&.{ "R" });
@@ -1280,16 +1412,18 @@ const @"rcloud.client" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rcloud.client_out" = @"rcloud.client".addOutputDirectoryArg("lib");
-_ = @"rcloud.client".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcloud.client"));
+ _ = @"rcloud.client".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.client".addDirectoryArg(b.path("rcloud.client"));
 @"rcloud.client".step.name = "rcloud.client";
 @"rcloud.client".step.dependOn(&@"RSclient".step);
 @"rcloud.client".step.dependOn(&@"FastRWeb".step);
  const @"rcloud.client_install" = b.addInstallDirectory(.{
-.source_dir = @"rcloud.client_out".path(b, "rcloud.client"),
+.source_dir = libdir.getDirectory().path(b, "rcloud.client"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rcloud.client",
 });
+
+@"rcloud.client_install".step.dependOn(&@"rcloud.client".step);
 b.getInstallStep().dependOn(&@"rcloud.client_install".step);
 
 const @"rcloud.support" = b.addSystemCommand(&.{ "R" });
@@ -1300,8 +1434,8 @@ const @"rcloud.support" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rcloud.support_out" = @"rcloud.support".addOutputDirectoryArg("lib");
-_ = @"rcloud.support".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcloud.support"));
+ _ = @"rcloud.support".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.support".addDirectoryArg(b.path("rcloud.support"));
 @"rcloud.support".step.name = "rcloud.support";
 @"rcloud.support".step.dependOn(&@"base64enc".step);
 @"rcloud.support".step.dependOn(&@"rjson".step);
@@ -1321,10 +1455,12 @@ _ = @"rcloud.support".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcl
 @"rcloud.support".step.dependOn(&@"sendmailR".step);
 @"rcloud.support".step.dependOn(&@"PKI".step);
  const @"rcloud.support_install" = b.addInstallDirectory(.{
-.source_dir = @"rcloud.support_out".path(b, "rcloud.support"),
+.source_dir = libdir.getDirectory().path(b, "rcloud.support"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rcloud.support",
 });
+
+@"rcloud.support_install".step.dependOn(&@"rcloud.support".step);
 b.getInstallStep().dependOn(&@"rcloud.support_install".step);
 
 const @"rcloud.notebook.info" = b.addSystemCommand(&.{ "R" });
@@ -1335,15 +1471,17 @@ const @"rcloud.notebook.info" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rcloud.notebook.info_out" = @"rcloud.notebook.info".addOutputDirectoryArg("lib");
-_ = @"rcloud.notebook.info".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcloud.packages/rcloud.notebook.info"));
+ _ = @"rcloud.notebook.info".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.notebook.info".addDirectoryArg(b.path("rcloud.packages/rcloud.notebook.info"));
 @"rcloud.notebook.info".step.name = "rcloud.notebook.info";
 @"rcloud.notebook.info".step.dependOn(&@"rcloud.support".step);
  const @"rcloud.notebook.info_install" = b.addInstallDirectory(.{
-.source_dir = @"rcloud.notebook.info_out".path(b, "rcloud.notebook.info"),
+.source_dir = libdir.getDirectory().path(b, "rcloud.notebook.info"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rcloud.notebook.info",
 });
+
+@"rcloud.notebook.info_install".step.dependOn(&@"rcloud.notebook.info".step);
 b.getInstallStep().dependOn(&@"rcloud.notebook.info_install".step);
 
 const @"rcloud.python" = b.addSystemCommand(&.{ "R" });
@@ -1354,16 +1492,18 @@ const @"rcloud.python" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rcloud.python_out" = @"rcloud.python".addOutputDirectoryArg("lib");
-_ = @"rcloud.python".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcloud.packages/rcloud.python"));
+ _ = @"rcloud.python".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.python".addDirectoryArg(b.path("rcloud.packages/rcloud.python"));
 @"rcloud.python".step.name = "rcloud.python";
 @"rcloud.python".step.dependOn(&@"knitr".step);
 @"rcloud.python".step.dependOn(&@"markdown".step);
  const @"rcloud.python_install" = b.addInstallDirectory(.{
-.source_dir = @"rcloud.python_out".path(b, "rcloud.python"),
+.source_dir = libdir.getDirectory().path(b, "rcloud.python"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rcloud.python",
 });
+
+@"rcloud.python_install".step.dependOn(&@"rcloud.python".step);
 b.getInstallStep().dependOn(&@"rcloud.python_install".step);
 
 const @"rcloud.r" = b.addSystemCommand(&.{ "R" });
@@ -1374,16 +1514,18 @@ const @"rcloud.r" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rcloud.r_out" = @"rcloud.r".addOutputDirectoryArg("lib");
-_ = @"rcloud.r".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcloud.packages/rcloud.r"));
+ _ = @"rcloud.r".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.r".addDirectoryArg(b.path("rcloud.packages/rcloud.r"));
 @"rcloud.r".step.name = "rcloud.r";
 @"rcloud.r".step.dependOn(&@"knitr".step);
 @"rcloud.r".step.dependOn(&@"markdown".step);
  const @"rcloud.r_install" = b.addInstallDirectory(.{
-.source_dir = @"rcloud.r_out".path(b, "rcloud.r"),
+.source_dir = libdir.getDirectory().path(b, "rcloud.r"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rcloud.r",
 });
+
+@"rcloud.r_install".step.dependOn(&@"rcloud.r".step);
 b.getInstallStep().dependOn(&@"rcloud.r_install".step);
 
 const @"rcloud.web" = b.addSystemCommand(&.{ "R" });
@@ -1394,15 +1536,17 @@ const @"rcloud.web" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rcloud.web_out" = @"rcloud.web".addOutputDirectoryArg("lib");
-_ = @"rcloud.web".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcloud.packages/rcloud.web"));
+ _ = @"rcloud.web".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.web".addDirectoryArg(b.path("rcloud.packages/rcloud.web"));
 @"rcloud.web".step.name = "rcloud.web";
 @"rcloud.web".step.dependOn(&@"Rserve".step);
  const @"rcloud.web_install" = b.addInstallDirectory(.{
-.source_dir = @"rcloud.web_out".path(b, "rcloud.web"),
+.source_dir = libdir.getDirectory().path(b, "rcloud.web"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rcloud.web",
 });
+
+@"rcloud.web_install".step.dependOn(&@"rcloud.web".step);
 b.getInstallStep().dependOn(&@"rcloud.web_install".step);
 
 const @"rcloud.jupyter" = b.addSystemCommand(&.{ "R" });
@@ -1413,8 +1557,8 @@ const @"rcloud.jupyter" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rcloud.jupyter_out" = @"rcloud.jupyter".addOutputDirectoryArg("lib");
-_ = @"rcloud.jupyter".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcloud.packages/rcloud.jupyter"));
+ _ = @"rcloud.jupyter".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.jupyter".addDirectoryArg(b.path("rcloud.packages/rcloud.jupyter"));
 @"rcloud.jupyter".step.name = "rcloud.jupyter";
 @"rcloud.jupyter".step.dependOn(&@"knitr".step);
 @"rcloud.jupyter".step.dependOn(&@"markdown".step);
@@ -1422,10 +1566,12 @@ _ = @"rcloud.jupyter".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcl
 @"rcloud.jupyter".step.dependOn(&@"jsonlite".step);
 @"rcloud.jupyter".step.dependOn(&@"Rserve".step);
  const @"rcloud.jupyter_install" = b.addInstallDirectory(.{
-.source_dir = @"rcloud.jupyter_out".path(b, "rcloud.jupyter"),
+.source_dir = libdir.getDirectory().path(b, "rcloud.jupyter"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rcloud.jupyter",
 });
+
+@"rcloud.jupyter_install".step.dependOn(&@"rcloud.jupyter".step);
 b.getInstallStep().dependOn(&@"rcloud.jupyter_install".step);
 
 const @"rcloud.enviewer" = b.addSystemCommand(&.{ "R" });
@@ -1436,15 +1582,17 @@ const @"rcloud.enviewer" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rcloud.enviewer_out" = @"rcloud.enviewer".addOutputDirectoryArg("lib");
-_ = @"rcloud.enviewer".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcloud.packages/rcloud.enviewer"));
+ _ = @"rcloud.enviewer".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.enviewer".addDirectoryArg(b.path("rcloud.packages/rcloud.enviewer"));
 @"rcloud.enviewer".step.name = "rcloud.enviewer";
 @"rcloud.enviewer".step.dependOn(&@"rcloud.support".step);
  const @"rcloud.enviewer_install" = b.addInstallDirectory(.{
-.source_dir = @"rcloud.enviewer_out".path(b, "rcloud.enviewer"),
+.source_dir = libdir.getDirectory().path(b, "rcloud.enviewer"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rcloud.enviewer",
 });
+
+@"rcloud.enviewer_install".step.dependOn(&@"rcloud.enviewer".step);
 b.getInstallStep().dependOn(&@"rcloud.enviewer_install".step);
 
 const @"rcloud.rmarkdown" = b.addSystemCommand(&.{ "R" });
@@ -1455,16 +1603,18 @@ const @"rcloud.rmarkdown" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rcloud.rmarkdown_out" = @"rcloud.rmarkdown".addOutputDirectoryArg("lib");
-_ = @"rcloud.rmarkdown".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcloud.packages/rcloud.rmarkdown"));
+ _ = @"rcloud.rmarkdown".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.rmarkdown".addDirectoryArg(b.path("rcloud.packages/rcloud.rmarkdown"));
 @"rcloud.rmarkdown".step.name = "rcloud.rmarkdown";
 @"rcloud.rmarkdown".step.dependOn(&@"knitr".step);
 @"rcloud.rmarkdown".step.dependOn(&@"rmarkdown".step);
  const @"rcloud.rmarkdown_install" = b.addInstallDirectory(.{
-.source_dir = @"rcloud.rmarkdown_out".path(b, "rcloud.rmarkdown"),
+.source_dir = libdir.getDirectory().path(b, "rcloud.rmarkdown"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rcloud.rmarkdown",
 });
+
+@"rcloud.rmarkdown_install".step.dependOn(&@"rcloud.rmarkdown".step);
 b.getInstallStep().dependOn(&@"rcloud.rmarkdown_install".step);
 
 const @"rcloud.viewer" = b.addSystemCommand(&.{ "R" });
@@ -1475,15 +1625,17 @@ const @"rcloud.viewer" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rcloud.viewer_out" = @"rcloud.viewer".addOutputDirectoryArg("lib");
-_ = @"rcloud.viewer".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcloud.packages/rcloud.viewer"));
+ _ = @"rcloud.viewer".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.viewer".addDirectoryArg(b.path("rcloud.packages/rcloud.viewer"));
 @"rcloud.viewer".step.name = "rcloud.viewer";
 @"rcloud.viewer".step.dependOn(&@"rcloud.support".step);
  const @"rcloud.viewer_install" = b.addInstallDirectory(.{
-.source_dir = @"rcloud.viewer_out".path(b, "rcloud.viewer"),
+.source_dir = libdir.getDirectory().path(b, "rcloud.viewer"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rcloud.viewer",
 });
+
+@"rcloud.viewer_install".step.dependOn(&@"rcloud.viewer".step);
 b.getInstallStep().dependOn(&@"rcloud.viewer_install".step);
 
 const @"rcloud.lux" = b.addSystemCommand(&.{ "R" });
@@ -1494,15 +1646,17 @@ const @"rcloud.lux" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- const @"rcloud.lux_out" = @"rcloud.lux".addOutputDirectoryArg("lib");
-_ = @"rcloud.lux".addDirectoryArg(b.path("/home/pierre/dev/github/rcloud/rcloud.packages/rcloud.lux"));
+ _ = @"rcloud.lux".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.lux".addDirectoryArg(b.path("rcloud.packages/rcloud.lux"));
 @"rcloud.lux".step.name = "rcloud.lux";
 @"rcloud.lux".step.dependOn(&@"rcloud.support".step);
  const @"rcloud.lux_install" = b.addInstallDirectory(.{
-.source_dir = @"rcloud.lux_out".path(b, "rcloud.lux"),
+.source_dir = libdir.getDirectory().path(b, "rcloud.lux"),
 .install_dir = .{ .custom = "lib" },
 .install_subdir = "rcloud.lux",
 });
+
+@"rcloud.lux_install".step.dependOn(&@"rcloud.lux".step);
 b.getInstallStep().dependOn(&@"rcloud.lux_install".step);
 
 }

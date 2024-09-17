@@ -12,7 +12,7 @@ const rdepinfo = @import("rdepinfo");
 
 const generated_build = @import("build-aux/generated/build.zig");
 
-fn b_fetch_assets(
+fn b_fetch_assets_and_build(
     b: *Build,
     config_path: []const u8,
     target: ResolvedTarget,
@@ -29,18 +29,18 @@ fn b_fetch_assets(
     const out_dir = step.addOutputDirectoryArg("assets");
 
     // for now for testing
-    const install_step = b.addInstallDirectory(.{
-        .source_dir = out_dir,
-        .install_dir = .{ .custom = "assets" },
-        .install_subdir = "",
-    });
-    b.getInstallStep().dependOn(&install_step.step);
+    // const install_step = b.addInstallDirectory(.{
+    //     .source_dir = out_dir,
+    //     .install_dir = .{ .custom = "assets" },
+    //     .install_subdir = "",
+    // });
+    // b.getInstallStep().dependOn(&install_step.step);
 
     //
 
     try generated_build.build(b, out_dir);
 
-    return &install_step.step;
+    return &step.step;
 }
 
 fn b_discover_dependencies(
@@ -63,12 +63,10 @@ fn b_discover_dependencies(
     // step are never cached.
     // const out_dir = step.addOutputDirectoryArg(b.makeTempPath());
     const out_dir = step.addOutputDirectoryArg("deps");
-    _ = step.addOutputDirectoryArg("lib");
-
-    _ = step.addArg(try b.build_root.join(b.allocator, &.{"packages"}));
-    _ = step.addArg(try b.build_root.join(b.allocator, &.{"rcloud.client"}));
-    _ = step.addArg(try b.build_root.join(b.allocator, &.{"rcloud.packages"}));
-    _ = step.addArg(try b.build_root.join(b.allocator, &.{"rcloud.support"}));
+    _ = step.addArg("packages");
+    _ = step.addArg("rcloud.client");
+    _ = step.addArg("rcloud.packages");
+    _ = step.addArg("rcloud.support");
 
     // copy the generated build.zig file to build-aux directory
     const uf = b.addUpdateSourceFiles();
@@ -86,7 +84,7 @@ pub fn build(b: *std.Build) !void {
     // steps
     const update_step = b.step("update", "Generate R package build files");
 
-    const fetch = try b_fetch_assets(b, config_path, target, optimize);
+    const fetch = try b_fetch_assets_and_build(b, config_path, target, optimize);
     _ = fetch;
 
     // step: update

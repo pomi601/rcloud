@@ -184,9 +184,17 @@
       "url": "https://cran.stat.auckland.ac.nz/src/contrib/rappdirs_0.3.3.tar.gz",
       "hash": "49959f65b45b0b189a2792d6c1339bef59674ecae92f8c2ed9f26ff9e488c184"
     },
+    "rediscc": {
+      "url": "https://www.rforge.net/src/contrib/rediscc_0.1-6.tar.gz",
+      "hash": "3ba36b65e48b1bd7ab54496bf55e119253ba1bf9345d3112b58cf1229dc853c4"
+    },
     "reticulate": {
       "url": "https://cran.stat.auckland.ac.nz/src/contrib/reticulate_1.39.0.tar.gz",
       "hash": "6635dc514d2f0bdd89d934e8fe578dc3d3ca151e740e260b2c9c0d91615ec10c"
+    },
+    "rjson": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/rjson_0.2.23.tar.gz",
+      "hash": "55034575c854ed657e6701da278c0fdea251479624d06a963b2e58461a5f0f48"
     },
     "rlang": {
       "url": "https://cran.stat.auckland.ac.nz/src/contrib/rlang_1.1.4.tar.gz",
@@ -203,6 +211,10 @@
     "sass": {
       "url": "https://cran.stat.auckland.ac.nz/src/contrib/sass_0.4.9.tar.gz",
       "hash": "e133049aad7964e0f6150257e1470b3748f36029322265ee797b8caf7517d4d2"
+    },
+    "sendmailR": {
+      "url": "https://cran.stat.auckland.ac.nz/src/contrib/sendmailR_1.4-0.tar.gz",
+      "hash": "5b8b91fc13f6b07b9fc5a2cf7591cf760fad47c5ea17d87a2891898c506454ad"
     },
     "stringi": {
       "url": "https://cran.stat.auckland.ac.nz/src/contrib/stringi_1.8.4.tar.gz",

@@ -38,7 +38,7 @@ fn b_fetch_assets(
 
     //
 
-    try generated_build.build(b, "zig-out/assets");
+    try generated_build.build(b, out_dir);
 
     return &install_step.step;
 }

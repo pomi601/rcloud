@@ -1,21 +1,23 @@
 const std = @import("std");
 const Build = std.Build;
-const Compile = std.Build.Step.Compile;
-const Run = std.Build.Step.Run;
+const Step = Build.Step;
+const Compile = Step.Compile;
+const Run = Step.Run;
+const UpdateSourceFiles = Step.UpdateSourceFiles;
 const ResolvedTarget = Build.ResolvedTarget;
 const OptimizeMode = std.builtin.OptimizeMode;
 
 // import build tools from rdepinfo
 const rdepinfo = @import("rdepinfo");
 
-// const update_deps = @import("build-aux/update_deps.zig");
+const generated_build = @import("build-aux/generated/build.zig");
 
 fn b_fetch_assets(
     b: *Build,
     config_path: []const u8,
     target: ResolvedTarget,
     optimize: OptimizeMode,
-) void {
+) !*Step {
     const exe = b.dependency("rdepinfo", .{
         .target = target,
         .optimize = optimize,
@@ -26,16 +28,28 @@ fn b_fetch_assets(
     _ = step.addArg(config_path);
     const out_dir = step.addOutputDirectoryArg("assets");
 
-    // for now for testsing
+    // for now for testing
     const install_step = b.addInstallDirectory(.{
         .source_dir = out_dir,
         .install_dir = .{ .custom = "assets" },
         .install_subdir = "",
     });
     b.getInstallStep().dependOn(&install_step.step);
+
+    //
+
+    try generated_build.build(b, "zig-out/assets");
+
+    return &install_step.step;
 }
 
-fn b_discover_dependencies(b: *Build, target: ResolvedTarget, optimize: OptimizeMode) !*Run {
+fn b_discover_dependencies(
+    b: *Build,
+    config_path: []const u8,
+    updateStep: *Step,
+    target: ResolvedTarget,
+    optimize: OptimizeMode,
+) !void {
     const exe = b.dependency("rdepinfo", .{
         .target = target,
         .optimize = optimize,
@@ -43,18 +57,24 @@ fn b_discover_dependencies(b: *Build, target: ResolvedTarget, optimize: Optimize
 
     // arguments: config_file out_dir package_dirs...
     const step = b.addRunArtifact(exe);
-    _ = step.addArg(try b.build_root.join(b.allocator, &.{ "build-aux", "config.json" }));
+    _ = step.addArg(config_path);
 
     // by using a temp directory here, we ensure the results of this
     // step are never cached.
-    _ = step.addOutputDirectoryArg(b.makeTempPath());
+    // const out_dir = step.addOutputDirectoryArg(b.makeTempPath());
+    const out_dir = step.addOutputDirectoryArg("deps");
+    _ = step.addOutputDirectoryArg("lib");
+
     _ = step.addArg(try b.build_root.join(b.allocator, &.{"packages"}));
     _ = step.addArg(try b.build_root.join(b.allocator, &.{"rcloud.client"}));
     _ = step.addArg(try b.build_root.join(b.allocator, &.{"rcloud.packages"}));
     _ = step.addArg(try b.build_root.join(b.allocator, &.{"rcloud.support"}));
 
-    // return step;
-    return step;
+    // copy the generated build.zig file to build-aux directory
+    const uf = b.addUpdateSourceFiles();
+    uf.addCopyFileToSource(out_dir.path(b, "build.zig"), "build-aux/generated/build.zig");
+
+    updateStep.dependOn(&uf.step);
 }
 
 pub fn build(b: *std.Build) !void {
@@ -66,8 +86,9 @@ pub fn build(b: *std.Build) !void {
     // steps
     const update_step = b.step("update", "Generate R package build files");
 
-    b_fetch_assets(b, config_path, target, optimize);
+    const fetch = try b_fetch_assets(b, config_path, target, optimize);
+    _ = fetch;
 
-    const update_deps = try b_discover_dependencies(b, target, optimize);
-    update_step.dependOn(&update_deps.step);
+    // step: update
+    try b_discover_dependencies(b, config_path, update_step, target, optimize);
 }

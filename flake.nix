@@ -62,6 +62,7 @@
                 zlsOverride
               ];
 
+              LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];
               LOCALE_ARCHIVE = if pkgs.stdenv.isLinux then "${pkgs.glibcLocales}/lib/locale/locale-archive" else "";
             };
         });

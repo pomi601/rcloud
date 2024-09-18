@@ -16,6 +16,8 @@ const @"yaml" = b.addSystemCommand(&.{ "R" });
  _ = @"yaml".addDirectoryArg(libdir.getDirectory());
 _ = @"yaml".addFileArg(asset_dir.path(b, "yaml_2.3.10.tar.gz"));
 @"yaml".step.name = "yaml";
+const @"yaml_out" = @"yaml".captureStdOut();
+_ = @"yaml".captureStdErr();
  const @"yaml_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "yaml"),
 .install_dir = .{ .custom = "lib" },
@@ -24,6 +26,7 @@ _ = @"yaml".addFileArg(asset_dir.path(b, "yaml_2.3.10.tar.gz"));
 
 @"yaml_install".step.dependOn(&@"yaml".step);
 b.getInstallStep().dependOn(&@"yaml_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"yaml_out", .{ .custom = "logs" }, "yaml.log").step);
 
 const @"sys" = b.addSystemCommand(&.{ "R" });
 @"sys".addArgs(&.{
@@ -36,6 +39,8 @@ const @"sys" = b.addSystemCommand(&.{ "R" });
  _ = @"sys".addDirectoryArg(libdir.getDirectory());
 _ = @"sys".addFileArg(asset_dir.path(b, "sys_3.4.2.tar.gz"));
 @"sys".step.name = "sys";
+const @"sys_out" = @"sys".captureStdOut();
+_ = @"sys".captureStdErr();
  const @"sys_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "sys"),
 .install_dir = .{ .custom = "lib" },
@@ -44,6 +49,7 @@ _ = @"sys".addFileArg(asset_dir.path(b, "sys_3.4.2.tar.gz"));
 
 @"sys_install".step.dependOn(&@"sys".step);
 b.getInstallStep().dependOn(&@"sys_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"sys_out", .{ .custom = "logs" }, "sys.log").step);
 
 const @"rediscc" = b.addSystemCommand(&.{ "R" });
 @"rediscc".addArgs(&.{
@@ -56,6 +62,8 @@ const @"rediscc" = b.addSystemCommand(&.{ "R" });
  _ = @"rediscc".addDirectoryArg(libdir.getDirectory());
 _ = @"rediscc".addFileArg(asset_dir.path(b, "rediscc_0.1-6.tar.gz"));
 @"rediscc".step.name = "rediscc";
+const @"rediscc_out" = @"rediscc".captureStdOut();
+_ = @"rediscc".captureStdErr();
  const @"rediscc_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "rediscc"),
 .install_dir = .{ .custom = "lib" },
@@ -64,6 +72,7 @@ _ = @"rediscc".addFileArg(asset_dir.path(b, "rediscc_0.1-6.tar.gz"));
 
 @"rediscc_install".step.dependOn(&@"rediscc".step);
 b.getInstallStep().dependOn(&@"rediscc_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rediscc_out", .{ .custom = "logs" }, "rediscc.log").step);
 
 const @"fastmap" = b.addSystemCommand(&.{ "R" });
 @"fastmap".addArgs(&.{
@@ -76,6 +85,8 @@ const @"fastmap" = b.addSystemCommand(&.{ "R" });
  _ = @"fastmap".addDirectoryArg(libdir.getDirectory());
 _ = @"fastmap".addFileArg(asset_dir.path(b, "fastmap_1.2.0.tar.gz"));
 @"fastmap".step.name = "fastmap";
+const @"fastmap_out" = @"fastmap".captureStdOut();
+_ = @"fastmap".captureStdErr();
  const @"fastmap_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "fastmap"),
 .install_dir = .{ .custom = "lib" },
@@ -84,6 +95,7 @@ _ = @"fastmap".addFileArg(asset_dir.path(b, "fastmap_1.2.0.tar.gz"));
 
 @"fastmap_install".step.dependOn(&@"fastmap".step);
 b.getInstallStep().dependOn(&@"fastmap_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"fastmap_out", .{ .custom = "logs" }, "fastmap.log").step);
 
 const @"commonmark" = b.addSystemCommand(&.{ "R" });
 @"commonmark".addArgs(&.{
@@ -96,6 +108,8 @@ const @"commonmark" = b.addSystemCommand(&.{ "R" });
  _ = @"commonmark".addDirectoryArg(libdir.getDirectory());
 _ = @"commonmark".addFileArg(asset_dir.path(b, "commonmark_1.9.1.tar.gz"));
 @"commonmark".step.name = "commonmark";
+const @"commonmark_out" = @"commonmark".captureStdOut();
+_ = @"commonmark".captureStdErr();
  const @"commonmark_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "commonmark"),
 .install_dir = .{ .custom = "lib" },
@@ -104,6 +118,7 @@ _ = @"commonmark".addFileArg(asset_dir.path(b, "commonmark_1.9.1.tar.gz"));
 
 @"commonmark_install".step.dependOn(&@"commonmark".step);
 b.getInstallStep().dependOn(&@"commonmark_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"commonmark_out", .{ .custom = "logs" }, "commonmark.log").step);
 
 const @"brew" = b.addSystemCommand(&.{ "R" });
 @"brew".addArgs(&.{
@@ -116,6 +131,8 @@ const @"brew" = b.addSystemCommand(&.{ "R" });
  _ = @"brew".addDirectoryArg(libdir.getDirectory());
 _ = @"brew".addFileArg(asset_dir.path(b, "brew_1.0-10.tar.gz"));
 @"brew".step.name = "brew";
+const @"brew_out" = @"brew".captureStdOut();
+_ = @"brew".captureStdErr();
  const @"brew_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "brew"),
 .install_dir = .{ .custom = "lib" },
@@ -124,6 +141,7 @@ _ = @"brew".addFileArg(asset_dir.path(b, "brew_1.0-10.tar.gz"));
 
 @"brew_install".step.dependOn(&@"brew".step);
 b.getInstallStep().dependOn(&@"brew_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"brew_out", .{ .custom = "logs" }, "brew.log").step);
 
 const @"bitops" = b.addSystemCommand(&.{ "R" });
 @"bitops".addArgs(&.{
@@ -136,6 +154,8 @@ const @"bitops" = b.addSystemCommand(&.{ "R" });
  _ = @"bitops".addDirectoryArg(libdir.getDirectory());
 _ = @"bitops".addFileArg(asset_dir.path(b, "bitops_1.0-8.tar.gz"));
 @"bitops".step.name = "bitops";
+const @"bitops_out" = @"bitops".captureStdOut();
+_ = @"bitops".captureStdErr();
  const @"bitops_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "bitops"),
 .install_dir = .{ .custom = "lib" },
@@ -144,6 +164,7 @@ _ = @"bitops".addFileArg(asset_dir.path(b, "bitops_1.0-8.tar.gz"));
 
 @"bitops_install".step.dependOn(&@"bitops".step);
 b.getInstallStep().dependOn(&@"bitops_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"bitops_out", .{ .custom = "logs" }, "bitops.log").step);
 
 const @"BH" = b.addSystemCommand(&.{ "R" });
 @"BH".addArgs(&.{
@@ -156,6 +177,8 @@ const @"BH" = b.addSystemCommand(&.{ "R" });
  _ = @"BH".addDirectoryArg(libdir.getDirectory());
 _ = @"BH".addFileArg(asset_dir.path(b, "BH_1.84.0-0.tar.gz"));
 @"BH".step.name = "BH";
+const @"BH_out" = @"BH".captureStdOut();
+_ = @"BH".captureStdErr();
  const @"BH_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "BH"),
 .install_dir = .{ .custom = "lib" },
@@ -164,6 +187,7 @@ _ = @"BH".addFileArg(asset_dir.path(b, "BH_1.84.0-0.tar.gz"));
 
 @"BH_install".step.dependOn(&@"BH".step);
 b.getInstallStep().dependOn(&@"BH_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"BH_out", .{ .custom = "logs" }, "BH.log").step);
 
 const @"Cairo" = b.addSystemCommand(&.{ "R" });
 @"Cairo".addArgs(&.{
@@ -176,6 +200,8 @@ const @"Cairo" = b.addSystemCommand(&.{ "R" });
  _ = @"Cairo".addDirectoryArg(libdir.getDirectory());
 _ = @"Cairo".addFileArg(asset_dir.path(b, "Cairo_1.6-2.tar.gz"));
 @"Cairo".step.name = "Cairo";
+const @"Cairo_out" = @"Cairo".captureStdOut();
+_ = @"Cairo".captureStdErr();
  const @"Cairo_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "Cairo"),
 .install_dir = .{ .custom = "lib" },
@@ -184,6 +210,7 @@ _ = @"Cairo".addFileArg(asset_dir.path(b, "Cairo_1.6-2.tar.gz"));
 
 @"Cairo_install".step.dependOn(&@"Cairo".step);
 b.getInstallStep().dependOn(&@"Cairo_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"Cairo_out", .{ .custom = "logs" }, "Cairo.log").step);
 
 const @"base64enc" = b.addSystemCommand(&.{ "R" });
 @"base64enc".addArgs(&.{
@@ -196,6 +223,8 @@ const @"base64enc" = b.addSystemCommand(&.{ "R" });
  _ = @"base64enc".addDirectoryArg(libdir.getDirectory());
 _ = @"base64enc".addFileArg(asset_dir.path(b, "base64enc_0.1-3.tar.gz"));
 @"base64enc".step.name = "base64enc";
+const @"base64enc_out" = @"base64enc".captureStdOut();
+_ = @"base64enc".captureStdErr();
  const @"base64enc_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "base64enc"),
 .install_dir = .{ .custom = "lib" },
@@ -204,6 +233,7 @@ _ = @"base64enc".addFileArg(asset_dir.path(b, "base64enc_0.1-3.tar.gz"));
 
 @"base64enc_install".step.dependOn(&@"base64enc".step);
 b.getInstallStep().dependOn(&@"base64enc_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"base64enc_out", .{ .custom = "logs" }, "base64enc.log").step);
 
 const @"FastRWeb" = b.addSystemCommand(&.{ "R" });
 @"FastRWeb".addArgs(&.{
@@ -216,6 +246,8 @@ const @"FastRWeb" = b.addSystemCommand(&.{ "R" });
  _ = @"FastRWeb".addDirectoryArg(libdir.getDirectory());
 _ = @"FastRWeb".addFileArg(asset_dir.path(b, "FastRWeb_1.2-1.tar.gz"));
 @"FastRWeb".step.name = "FastRWeb";
+const @"FastRWeb_out" = @"FastRWeb".captureStdOut();
+_ = @"FastRWeb".captureStdErr();
 @"FastRWeb".step.dependOn(&@"base64enc".step);
 @"FastRWeb".step.dependOn(&@"Cairo".step);
  const @"FastRWeb_install" = b.addInstallDirectory(.{
@@ -226,6 +258,7 @@ _ = @"FastRWeb".addFileArg(asset_dir.path(b, "FastRWeb_1.2-1.tar.gz"));
 
 @"FastRWeb_install".step.dependOn(&@"FastRWeb".step);
 b.getInstallStep().dependOn(&@"FastRWeb_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"FastRWeb_out", .{ .custom = "logs" }, "FastRWeb.log").step);
 
 const @"PKI" = b.addSystemCommand(&.{ "R" });
 @"PKI".addArgs(&.{
@@ -238,6 +271,8 @@ const @"PKI" = b.addSystemCommand(&.{ "R" });
  _ = @"PKI".addDirectoryArg(libdir.getDirectory());
 _ = @"PKI".addFileArg(asset_dir.path(b, "PKI_0.1-14.tar.gz"));
 @"PKI".step.name = "PKI";
+const @"PKI_out" = @"PKI".captureStdOut();
+_ = @"PKI".captureStdErr();
 @"PKI".step.dependOn(&@"base64enc".step);
  const @"PKI_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "PKI"),
@@ -247,6 +282,7 @@ _ = @"PKI".addFileArg(asset_dir.path(b, "PKI_0.1-14.tar.gz"));
 
 @"PKI_install".step.dependOn(&@"PKI".step);
 b.getInstallStep().dependOn(&@"PKI_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"PKI_out", .{ .custom = "logs" }, "PKI.log").step);
 
 const @"R6" = b.addSystemCommand(&.{ "R" });
 @"R6".addArgs(&.{
@@ -259,6 +295,8 @@ const @"R6" = b.addSystemCommand(&.{ "R" });
  _ = @"R6".addDirectoryArg(libdir.getDirectory());
 _ = @"R6".addFileArg(asset_dir.path(b, "R6_2.5.1.tar.gz"));
 @"R6".step.name = "R6";
+const @"R6_out" = @"R6".captureStdOut();
+_ = @"R6".captureStdErr();
  const @"R6_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "R6"),
 .install_dir = .{ .custom = "lib" },
@@ -267,6 +305,7 @@ _ = @"R6".addFileArg(asset_dir.path(b, "R6_2.5.1.tar.gz"));
 
 @"R6_install".step.dependOn(&@"R6".step);
 b.getInstallStep().dependOn(&@"R6_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"R6_out", .{ .custom = "logs" }, "R6.log").step);
 
 const @"RCurl" = b.addSystemCommand(&.{ "R" });
 @"RCurl".addArgs(&.{
@@ -279,6 +318,8 @@ const @"RCurl" = b.addSystemCommand(&.{ "R" });
  _ = @"RCurl".addDirectoryArg(libdir.getDirectory());
 _ = @"RCurl".addFileArg(asset_dir.path(b, "RCurl_1.98-1.16.tar.gz"));
 @"RCurl".step.name = "RCurl";
+const @"RCurl_out" = @"RCurl".captureStdOut();
+_ = @"RCurl".captureStdErr();
 @"RCurl".step.dependOn(&@"bitops".step);
  const @"RCurl_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "RCurl"),
@@ -288,6 +329,7 @@ _ = @"RCurl".addFileArg(asset_dir.path(b, "RCurl_1.98-1.16.tar.gz"));
 
 @"RCurl_install".step.dependOn(&@"RCurl".step);
 b.getInstallStep().dependOn(&@"RCurl_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"RCurl_out", .{ .custom = "logs" }, "RCurl.log").step);
 
 const @"RSclient" = b.addSystemCommand(&.{ "R" });
 @"RSclient".addArgs(&.{
@@ -300,6 +342,8 @@ const @"RSclient" = b.addSystemCommand(&.{ "R" });
  _ = @"RSclient".addDirectoryArg(libdir.getDirectory());
 _ = @"RSclient".addFileArg(asset_dir.path(b, "RSclient_0.7-10.tar.gz"));
 @"RSclient".step.name = "RSclient";
+const @"RSclient_out" = @"RSclient".captureStdOut();
+_ = @"RSclient".captureStdErr();
  const @"RSclient_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "RSclient"),
 .install_dir = .{ .custom = "lib" },
@@ -308,6 +352,7 @@ _ = @"RSclient".addFileArg(asset_dir.path(b, "RSclient_0.7-10.tar.gz"));
 
 @"RSclient_install".step.dependOn(&@"RSclient".step);
 b.getInstallStep().dependOn(&@"RSclient_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"RSclient_out", .{ .custom = "logs" }, "RSclient.log").step);
 
 const @"Rcpp" = b.addSystemCommand(&.{ "R" });
 @"Rcpp".addArgs(&.{
@@ -320,6 +365,8 @@ const @"Rcpp" = b.addSystemCommand(&.{ "R" });
  _ = @"Rcpp".addDirectoryArg(libdir.getDirectory());
 _ = @"Rcpp".addFileArg(asset_dir.path(b, "Rcpp_1.0.13.tar.gz"));
 @"Rcpp".step.name = "Rcpp";
+const @"Rcpp_out" = @"Rcpp".captureStdOut();
+_ = @"Rcpp".captureStdErr();
  const @"Rcpp_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "Rcpp"),
 .install_dir = .{ .custom = "lib" },
@@ -328,6 +375,7 @@ _ = @"Rcpp".addFileArg(asset_dir.path(b, "Rcpp_1.0.13.tar.gz"));
 
 @"Rcpp_install".step.dependOn(&@"Rcpp".step);
 b.getInstallStep().dependOn(&@"Rcpp_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"Rcpp_out", .{ .custom = "logs" }, "Rcpp.log").step);
 
 const @"RcppTOML" = b.addSystemCommand(&.{ "R" });
 @"RcppTOML".addArgs(&.{
@@ -340,6 +388,8 @@ const @"RcppTOML" = b.addSystemCommand(&.{ "R" });
  _ = @"RcppTOML".addDirectoryArg(libdir.getDirectory());
 _ = @"RcppTOML".addFileArg(asset_dir.path(b, "RcppTOML_0.2.2.tar.gz"));
 @"RcppTOML".step.name = "RcppTOML";
+const @"RcppTOML_out" = @"RcppTOML".captureStdOut();
+_ = @"RcppTOML".captureStdErr();
 @"RcppTOML".step.dependOn(&@"Rcpp".step);
 @"RcppTOML".step.dependOn(&@"Rcpp".step);
  const @"RcppTOML_install" = b.addInstallDirectory(.{
@@ -350,6 +400,7 @@ _ = @"RcppTOML".addFileArg(asset_dir.path(b, "RcppTOML_0.2.2.tar.gz"));
 
 @"RcppTOML_install".step.dependOn(&@"RcppTOML".step);
 b.getInstallStep().dependOn(&@"RcppTOML_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"RcppTOML_out", .{ .custom = "logs" }, "RcppTOML.log").step);
 
 const @"Rook" = b.addSystemCommand(&.{ "R" });
 @"Rook".addArgs(&.{
@@ -362,6 +413,8 @@ const @"Rook" = b.addSystemCommand(&.{ "R" });
  _ = @"Rook".addDirectoryArg(libdir.getDirectory());
 _ = @"Rook".addFileArg(asset_dir.path(b, "Rook_1.2.tar.gz"));
 @"Rook".step.name = "Rook";
+const @"Rook_out" = @"Rook".captureStdOut();
+_ = @"Rook".captureStdErr();
 @"Rook".step.dependOn(&@"brew".step);
  const @"Rook_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "Rook"),
@@ -371,6 +424,7 @@ _ = @"Rook".addFileArg(asset_dir.path(b, "Rook_1.2.tar.gz"));
 
 @"Rook_install".step.dependOn(&@"Rook".step);
 b.getInstallStep().dependOn(&@"Rook_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"Rook_out", .{ .custom = "logs" }, "Rook.log").step);
 
 const @"Rserve" = b.addSystemCommand(&.{ "R" });
 @"Rserve".addArgs(&.{
@@ -383,6 +437,8 @@ const @"Rserve" = b.addSystemCommand(&.{ "R" });
  _ = @"Rserve".addDirectoryArg(libdir.getDirectory());
 _ = @"Rserve".addFileArg(asset_dir.path(b, "Rserve_1.8-13.tar.gz"));
 @"Rserve".step.name = "Rserve";
+const @"Rserve_out" = @"Rserve".captureStdOut();
+_ = @"Rserve".captureStdErr();
  const @"Rserve_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "Rserve"),
 .install_dir = .{ .custom = "lib" },
@@ -391,6 +447,7 @@ _ = @"Rserve".addFileArg(asset_dir.path(b, "Rserve_1.8-13.tar.gz"));
 
 @"Rserve_install".step.dependOn(&@"Rserve".step);
 b.getInstallStep().dependOn(&@"Rserve_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"Rserve_out", .{ .custom = "logs" }, "Rserve.log").step);
 
 const @"askpass" = b.addSystemCommand(&.{ "R" });
 @"askpass".addArgs(&.{
@@ -403,6 +460,8 @@ const @"askpass" = b.addSystemCommand(&.{ "R" });
  _ = @"askpass".addDirectoryArg(libdir.getDirectory());
 _ = @"askpass".addFileArg(asset_dir.path(b, "askpass_1.2.0.tar.gz"));
 @"askpass".step.name = "askpass";
+const @"askpass_out" = @"askpass".captureStdOut();
+_ = @"askpass".captureStdErr();
 @"askpass".step.dependOn(&@"sys".step);
  const @"askpass_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "askpass"),
@@ -412,6 +471,7 @@ _ = @"askpass".addFileArg(asset_dir.path(b, "askpass_1.2.0.tar.gz"));
 
 @"askpass_install".step.dependOn(&@"askpass".step);
 b.getInstallStep().dependOn(&@"askpass_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"askpass_out", .{ .custom = "logs" }, "askpass.log").step);
 
 const @"rappdirs" = b.addSystemCommand(&.{ "R" });
 @"rappdirs".addArgs(&.{
@@ -424,6 +484,8 @@ const @"rappdirs" = b.addSystemCommand(&.{ "R" });
  _ = @"rappdirs".addDirectoryArg(libdir.getDirectory());
 _ = @"rappdirs".addFileArg(asset_dir.path(b, "rappdirs_0.3.3.tar.gz"));
 @"rappdirs".step.name = "rappdirs";
+const @"rappdirs_out" = @"rappdirs".captureStdOut();
+_ = @"rappdirs".captureStdErr();
  const @"rappdirs_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "rappdirs"),
 .install_dir = .{ .custom = "lib" },
@@ -432,6 +494,7 @@ _ = @"rappdirs".addFileArg(asset_dir.path(b, "rappdirs_0.3.3.tar.gz"));
 
 @"rappdirs_install".step.dependOn(&@"rappdirs".step);
 b.getInstallStep().dependOn(&@"rappdirs_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rappdirs_out", .{ .custom = "logs" }, "rappdirs.log").step);
 
 const @"fs" = b.addSystemCommand(&.{ "R" });
 @"fs".addArgs(&.{
@@ -444,6 +507,8 @@ const @"fs" = b.addSystemCommand(&.{ "R" });
  _ = @"fs".addDirectoryArg(libdir.getDirectory());
 _ = @"fs".addFileArg(asset_dir.path(b, "fs_1.6.4.tar.gz"));
 @"fs".step.name = "fs";
+const @"fs_out" = @"fs".captureStdOut();
+_ = @"fs".captureStdErr();
  const @"fs_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "fs"),
 .install_dir = .{ .custom = "lib" },
@@ -452,6 +517,7 @@ _ = @"fs".addFileArg(asset_dir.path(b, "fs_1.6.4.tar.gz"));
 
 @"fs_install".step.dependOn(&@"fs".step);
 b.getInstallStep().dependOn(&@"fs_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"fs_out", .{ .custom = "logs" }, "fs.log").step);
 
 const @"digest" = b.addSystemCommand(&.{ "R" });
 @"digest".addArgs(&.{
@@ -464,6 +530,8 @@ const @"digest" = b.addSystemCommand(&.{ "R" });
  _ = @"digest".addDirectoryArg(libdir.getDirectory());
 _ = @"digest".addFileArg(asset_dir.path(b, "digest_0.6.37.tar.gz"));
 @"digest".step.name = "digest";
+const @"digest_out" = @"digest".captureStdOut();
+_ = @"digest".captureStdErr();
  const @"digest_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "digest"),
 .install_dir = .{ .custom = "lib" },
@@ -472,6 +540,7 @@ _ = @"digest".addFileArg(asset_dir.path(b, "digest_0.6.37.tar.gz"));
 
 @"digest_install".step.dependOn(&@"digest".step);
 b.getInstallStep().dependOn(&@"digest_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"digest_out", .{ .custom = "logs" }, "digest.log").step);
 
 const @"rlang" = b.addSystemCommand(&.{ "R" });
 @"rlang".addArgs(&.{
@@ -484,6 +553,8 @@ const @"rlang" = b.addSystemCommand(&.{ "R" });
  _ = @"rlang".addDirectoryArg(libdir.getDirectory());
 _ = @"rlang".addFileArg(asset_dir.path(b, "rlang_1.1.4.tar.gz"));
 @"rlang".step.name = "rlang";
+const @"rlang_out" = @"rlang".captureStdOut();
+_ = @"rlang".captureStdErr();
  const @"rlang_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "rlang"),
 .install_dir = .{ .custom = "lib" },
@@ -492,6 +563,7 @@ _ = @"rlang".addFileArg(asset_dir.path(b, "rlang_1.1.4.tar.gz"));
 
 @"rlang_install".step.dependOn(&@"rlang".step);
 b.getInstallStep().dependOn(&@"rlang_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rlang_out", .{ .custom = "logs" }, "rlang.log").step);
 
 const @"htmltools" = b.addSystemCommand(&.{ "R" });
 @"htmltools".addArgs(&.{
@@ -504,6 +576,8 @@ const @"htmltools" = b.addSystemCommand(&.{ "R" });
  _ = @"htmltools".addDirectoryArg(libdir.getDirectory());
 _ = @"htmltools".addFileArg(asset_dir.path(b, "htmltools_0.5.8.1.tar.gz"));
 @"htmltools".step.name = "htmltools";
+const @"htmltools_out" = @"htmltools".captureStdOut();
+_ = @"htmltools".captureStdErr();
 @"htmltools".step.dependOn(&@"base64enc".step);
 @"htmltools".step.dependOn(&@"digest".step);
 @"htmltools".step.dependOn(&@"fastmap".step);
@@ -516,6 +590,7 @@ _ = @"htmltools".addFileArg(asset_dir.path(b, "htmltools_0.5.8.1.tar.gz"));
 
 @"htmltools_install".step.dependOn(&@"htmltools".step);
 b.getInstallStep().dependOn(&@"htmltools_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"htmltools_out", .{ .custom = "logs" }, "htmltools.log").step);
 
 const @"sass" = b.addSystemCommand(&.{ "R" });
 @"sass".addArgs(&.{
@@ -528,6 +603,8 @@ const @"sass" = b.addSystemCommand(&.{ "R" });
  _ = @"sass".addDirectoryArg(libdir.getDirectory());
 _ = @"sass".addFileArg(asset_dir.path(b, "sass_0.4.9.tar.gz"));
 @"sass".step.name = "sass";
+const @"sass_out" = @"sass".captureStdOut();
+_ = @"sass".captureStdErr();
 @"sass".step.dependOn(&@"fs".step);
 @"sass".step.dependOn(&@"rlang".step);
 @"sass".step.dependOn(&@"htmltools".step);
@@ -541,6 +618,7 @@ _ = @"sass".addFileArg(asset_dir.path(b, "sass_0.4.9.tar.gz"));
 
 @"sass_install".step.dependOn(&@"sass".step);
 b.getInstallStep().dependOn(&@"sass_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"sass_out", .{ .custom = "logs" }, "sass.log").step);
 
 const @"glue" = b.addSystemCommand(&.{ "R" });
 @"glue".addArgs(&.{
@@ -553,6 +631,8 @@ const @"glue" = b.addSystemCommand(&.{ "R" });
  _ = @"glue".addDirectoryArg(libdir.getDirectory());
 _ = @"glue".addFileArg(asset_dir.path(b, "glue_1.7.0.tar.gz"));
 @"glue".step.name = "glue";
+const @"glue_out" = @"glue".captureStdOut();
+_ = @"glue".captureStdErr();
  const @"glue_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "glue"),
 .install_dir = .{ .custom = "lib" },
@@ -561,6 +641,7 @@ _ = @"glue".addFileArg(asset_dir.path(b, "glue_1.7.0.tar.gz"));
 
 @"glue_install".step.dependOn(&@"glue".step);
 b.getInstallStep().dependOn(&@"glue_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"glue_out", .{ .custom = "logs" }, "glue.log").step);
 
 const @"cachem" = b.addSystemCommand(&.{ "R" });
 @"cachem".addArgs(&.{
@@ -573,6 +654,8 @@ const @"cachem" = b.addSystemCommand(&.{ "R" });
  _ = @"cachem".addDirectoryArg(libdir.getDirectory());
 _ = @"cachem".addFileArg(asset_dir.path(b, "cachem_1.1.0.tar.gz"));
 @"cachem".step.name = "cachem";
+const @"cachem_out" = @"cachem".captureStdOut();
+_ = @"cachem".captureStdErr();
 @"cachem".step.dependOn(&@"rlang".step);
 @"cachem".step.dependOn(&@"fastmap".step);
  const @"cachem_install" = b.addInstallDirectory(.{
@@ -583,6 +666,7 @@ _ = @"cachem".addFileArg(asset_dir.path(b, "cachem_1.1.0.tar.gz"));
 
 @"cachem_install".step.dependOn(&@"cachem".step);
 b.getInstallStep().dependOn(&@"cachem_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"cachem_out", .{ .custom = "logs" }, "cachem.log").step);
 
 const @"cli" = b.addSystemCommand(&.{ "R" });
 @"cli".addArgs(&.{
@@ -595,6 +679,8 @@ const @"cli" = b.addSystemCommand(&.{ "R" });
  _ = @"cli".addDirectoryArg(libdir.getDirectory());
 _ = @"cli".addFileArg(asset_dir.path(b, "cli_3.6.3.tar.gz"));
 @"cli".step.name = "cli";
+const @"cli_out" = @"cli".captureStdOut();
+_ = @"cli".captureStdErr();
  const @"cli_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "cli"),
 .install_dir = .{ .custom = "lib" },
@@ -603,6 +689,7 @@ _ = @"cli".addFileArg(asset_dir.path(b, "cli_3.6.3.tar.gz"));
 
 @"cli_install".step.dependOn(&@"cli".step);
 b.getInstallStep().dependOn(&@"cli_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"cli_out", .{ .custom = "logs" }, "cli.log").step);
 
 const @"lifecycle" = b.addSystemCommand(&.{ "R" });
 @"lifecycle".addArgs(&.{
@@ -615,6 +702,8 @@ const @"lifecycle" = b.addSystemCommand(&.{ "R" });
  _ = @"lifecycle".addDirectoryArg(libdir.getDirectory());
 _ = @"lifecycle".addFileArg(asset_dir.path(b, "lifecycle_1.0.4.tar.gz"));
 @"lifecycle".step.name = "lifecycle";
+const @"lifecycle_out" = @"lifecycle".captureStdOut();
+_ = @"lifecycle".captureStdErr();
 @"lifecycle".step.dependOn(&@"cli".step);
 @"lifecycle".step.dependOn(&@"glue".step);
 @"lifecycle".step.dependOn(&@"rlang".step);
@@ -626,6 +715,7 @@ _ = @"lifecycle".addFileArg(asset_dir.path(b, "lifecycle_1.0.4.tar.gz"));
 
 @"lifecycle_install".step.dependOn(&@"lifecycle".step);
 b.getInstallStep().dependOn(&@"lifecycle_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"lifecycle_out", .{ .custom = "logs" }, "lifecycle.log").step);
 
 const @"stringi" = b.addSystemCommand(&.{ "R" });
 @"stringi".addArgs(&.{
@@ -638,6 +728,8 @@ const @"stringi" = b.addSystemCommand(&.{ "R" });
  _ = @"stringi".addDirectoryArg(libdir.getDirectory());
 _ = @"stringi".addFileArg(asset_dir.path(b, "stringi_1.8.4.tar.gz"));
 @"stringi".step.name = "stringi";
+const @"stringi_out" = @"stringi".captureStdOut();
+_ = @"stringi".captureStdErr();
  const @"stringi_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "stringi"),
 .install_dir = .{ .custom = "lib" },
@@ -646,6 +738,7 @@ _ = @"stringi".addFileArg(asset_dir.path(b, "stringi_1.8.4.tar.gz"));
 
 @"stringi_install".step.dependOn(&@"stringi".step);
 b.getInstallStep().dependOn(&@"stringi_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"stringi_out", .{ .custom = "logs" }, "stringi.log").step);
 
 const @"vctrs" = b.addSystemCommand(&.{ "R" });
 @"vctrs".addArgs(&.{
@@ -658,6 +751,8 @@ const @"vctrs" = b.addSystemCommand(&.{ "R" });
  _ = @"vctrs".addDirectoryArg(libdir.getDirectory());
 _ = @"vctrs".addFileArg(asset_dir.path(b, "vctrs_0.6.5.tar.gz"));
 @"vctrs".step.name = "vctrs";
+const @"vctrs_out" = @"vctrs".captureStdOut();
+_ = @"vctrs".captureStdErr();
 @"vctrs".step.dependOn(&@"cli".step);
 @"vctrs".step.dependOn(&@"glue".step);
 @"vctrs".step.dependOn(&@"lifecycle".step);
@@ -670,6 +765,7 @@ _ = @"vctrs".addFileArg(asset_dir.path(b, "vctrs_0.6.5.tar.gz"));
 
 @"vctrs_install".step.dependOn(&@"vctrs".step);
 b.getInstallStep().dependOn(&@"vctrs_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"vctrs_out", .{ .custom = "logs" }, "vctrs.log").step);
 
 const @"mime" = b.addSystemCommand(&.{ "R" });
 @"mime".addArgs(&.{
@@ -682,6 +778,8 @@ const @"mime" = b.addSystemCommand(&.{ "R" });
  _ = @"mime".addDirectoryArg(libdir.getDirectory());
 _ = @"mime".addFileArg(asset_dir.path(b, "mime_0.12.tar.gz"));
 @"mime".step.name = "mime";
+const @"mime_out" = @"mime".captureStdOut();
+_ = @"mime".captureStdErr();
  const @"mime_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "mime"),
 .install_dir = .{ .custom = "lib" },
@@ -690,6 +788,7 @@ _ = @"mime".addFileArg(asset_dir.path(b, "mime_0.12.tar.gz"));
 
 @"mime_install".step.dependOn(&@"mime".step);
 b.getInstallStep().dependOn(&@"mime_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"mime_out", .{ .custom = "logs" }, "mime.log").step);
 
 const @"magrittr" = b.addSystemCommand(&.{ "R" });
 @"magrittr".addArgs(&.{
@@ -702,6 +801,8 @@ const @"magrittr" = b.addSystemCommand(&.{ "R" });
  _ = @"magrittr".addDirectoryArg(libdir.getDirectory());
 _ = @"magrittr".addFileArg(asset_dir.path(b, "magrittr_2.0.3.tar.gz"));
 @"magrittr".step.name = "magrittr";
+const @"magrittr_out" = @"magrittr".captureStdOut();
+_ = @"magrittr".captureStdErr();
  const @"magrittr_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "magrittr"),
 .install_dir = .{ .custom = "lib" },
@@ -710,6 +811,7 @@ _ = @"magrittr".addFileArg(asset_dir.path(b, "magrittr_2.0.3.tar.gz"));
 
 @"magrittr_install".step.dependOn(&@"magrittr".step);
 b.getInstallStep().dependOn(&@"magrittr_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"magrittr_out", .{ .custom = "logs" }, "magrittr.log").step);
 
 const @"memoise" = b.addSystemCommand(&.{ "R" });
 @"memoise".addArgs(&.{
@@ -722,6 +824,8 @@ const @"memoise" = b.addSystemCommand(&.{ "R" });
  _ = @"memoise".addDirectoryArg(libdir.getDirectory());
 _ = @"memoise".addFileArg(asset_dir.path(b, "memoise_2.0.1.tar.gz"));
 @"memoise".step.name = "memoise";
+const @"memoise_out" = @"memoise".captureStdOut();
+_ = @"memoise".captureStdErr();
 @"memoise".step.dependOn(&@"rlang".step);
 @"memoise".step.dependOn(&@"cachem".step);
  const @"memoise_install" = b.addInstallDirectory(.{
@@ -732,6 +836,7 @@ _ = @"memoise".addFileArg(asset_dir.path(b, "memoise_2.0.1.tar.gz"));
 
 @"memoise_install".step.dependOn(&@"memoise".step);
 b.getInstallStep().dependOn(&@"memoise_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"memoise_out", .{ .custom = "logs" }, "memoise.log").step);
 
 const @"jsonlite" = b.addSystemCommand(&.{ "R" });
 @"jsonlite".addArgs(&.{
@@ -744,6 +849,8 @@ const @"jsonlite" = b.addSystemCommand(&.{ "R" });
  _ = @"jsonlite".addDirectoryArg(libdir.getDirectory());
 _ = @"jsonlite".addFileArg(asset_dir.path(b, "jsonlite_1.8.8.tar.gz"));
 @"jsonlite".step.name = "jsonlite";
+const @"jsonlite_out" = @"jsonlite".captureStdOut();
+_ = @"jsonlite".captureStdErr();
  const @"jsonlite_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "jsonlite"),
 .install_dir = .{ .custom = "lib" },
@@ -752,6 +859,7 @@ _ = @"jsonlite".addFileArg(asset_dir.path(b, "jsonlite_1.8.8.tar.gz"));
 
 @"jsonlite_install".step.dependOn(&@"jsonlite".step);
 b.getInstallStep().dependOn(&@"jsonlite_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"jsonlite_out", .{ .custom = "logs" }, "jsonlite.log").step);
 
 const @"jquerylib" = b.addSystemCommand(&.{ "R" });
 @"jquerylib".addArgs(&.{
@@ -764,6 +872,8 @@ const @"jquerylib" = b.addSystemCommand(&.{ "R" });
  _ = @"jquerylib".addDirectoryArg(libdir.getDirectory());
 _ = @"jquerylib".addFileArg(asset_dir.path(b, "jquerylib_0.1.4.tar.gz"));
 @"jquerylib".step.name = "jquerylib";
+const @"jquerylib_out" = @"jquerylib".captureStdOut();
+_ = @"jquerylib".captureStdErr();
 @"jquerylib".step.dependOn(&@"htmltools".step);
  const @"jquerylib_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "jquerylib"),
@@ -773,6 +883,7 @@ _ = @"jquerylib".addFileArg(asset_dir.path(b, "jquerylib_0.1.4.tar.gz"));
 
 @"jquerylib_install".step.dependOn(&@"jquerylib".step);
 b.getInstallStep().dependOn(&@"jquerylib_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"jquerylib_out", .{ .custom = "logs" }, "jquerylib.log").step);
 
 const @"stringr" = b.addSystemCommand(&.{ "R" });
 @"stringr".addArgs(&.{
@@ -785,6 +896,8 @@ const @"stringr" = b.addSystemCommand(&.{ "R" });
  _ = @"stringr".addDirectoryArg(libdir.getDirectory());
 _ = @"stringr".addFileArg(asset_dir.path(b, "stringr_1.5.1.tar.gz"));
 @"stringr".step.name = "stringr";
+const @"stringr_out" = @"stringr".captureStdOut();
+_ = @"stringr".captureStdErr();
 @"stringr".step.dependOn(&@"cli".step);
 @"stringr".step.dependOn(&@"glue".step);
 @"stringr".step.dependOn(&@"lifecycle".step);
@@ -800,6 +913,7 @@ _ = @"stringr".addFileArg(asset_dir.path(b, "stringr_1.5.1.tar.gz"));
 
 @"stringr_install".step.dependOn(&@"stringr".step);
 b.getInstallStep().dependOn(&@"stringr_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"stringr_out", .{ .custom = "logs" }, "stringr.log").step);
 
 const @"bslib" = b.addSystemCommand(&.{ "R" });
 @"bslib".addArgs(&.{
@@ -812,6 +926,8 @@ const @"bslib" = b.addSystemCommand(&.{ "R" });
  _ = @"bslib".addDirectoryArg(libdir.getDirectory());
 _ = @"bslib".addFileArg(asset_dir.path(b, "bslib_0.8.0.tar.gz"));
 @"bslib".step.name = "bslib";
+const @"bslib_out" = @"bslib".captureStdOut();
+_ = @"bslib".captureStdErr();
 @"bslib".step.dependOn(&@"base64enc".step);
 @"bslib".step.dependOn(&@"cachem".step);
 @"bslib".step.dependOn(&@"fastmap".step);
@@ -831,6 +947,7 @@ _ = @"bslib".addFileArg(asset_dir.path(b, "bslib_0.8.0.tar.gz"));
 
 @"bslib_install".step.dependOn(&@"bslib".step);
 b.getInstallStep().dependOn(&@"bslib_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"bslib_out", .{ .custom = "logs" }, "bslib.log").step);
 
 const @"xfun" = b.addSystemCommand(&.{ "R" });
 @"xfun".addArgs(&.{
@@ -843,6 +960,8 @@ const @"xfun" = b.addSystemCommand(&.{ "R" });
  _ = @"xfun".addDirectoryArg(libdir.getDirectory());
 _ = @"xfun".addFileArg(asset_dir.path(b, "xfun_0.47.tar.gz"));
 @"xfun".step.name = "xfun";
+const @"xfun_out" = @"xfun".captureStdOut();
+_ = @"xfun".captureStdErr();
  const @"xfun_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "xfun"),
 .install_dir = .{ .custom = "lib" },
@@ -851,6 +970,7 @@ _ = @"xfun".addFileArg(asset_dir.path(b, "xfun_0.47.tar.gz"));
 
 @"xfun_install".step.dependOn(&@"xfun".step);
 b.getInstallStep().dependOn(&@"xfun_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"xfun_out", .{ .custom = "logs" }, "xfun.log").step);
 
 const @"curl" = b.addSystemCommand(&.{ "R" });
 @"curl".addArgs(&.{
@@ -863,6 +983,8 @@ const @"curl" = b.addSystemCommand(&.{ "R" });
  _ = @"curl".addDirectoryArg(libdir.getDirectory());
 _ = @"curl".addFileArg(asset_dir.path(b, "curl_5.2.2.tar.gz"));
 @"curl".step.name = "curl";
+const @"curl_out" = @"curl".captureStdOut();
+_ = @"curl".captureStdErr();
  const @"curl_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "curl"),
 .install_dir = .{ .custom = "lib" },
@@ -871,6 +993,7 @@ _ = @"curl".addFileArg(asset_dir.path(b, "curl_5.2.2.tar.gz"));
 
 @"curl_install".step.dependOn(&@"curl".step);
 b.getInstallStep().dependOn(&@"curl_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"curl_out", .{ .custom = "logs" }, "curl.log").step);
 
 const @"rprojroot" = b.addSystemCommand(&.{ "R" });
 @"rprojroot".addArgs(&.{
@@ -883,6 +1006,8 @@ const @"rprojroot" = b.addSystemCommand(&.{ "R" });
  _ = @"rprojroot".addDirectoryArg(libdir.getDirectory());
 _ = @"rprojroot".addFileArg(asset_dir.path(b, "rprojroot_2.0.4.tar.gz"));
 @"rprojroot".step.name = "rprojroot";
+const @"rprojroot_out" = @"rprojroot".captureStdOut();
+_ = @"rprojroot".captureStdErr();
  const @"rprojroot_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "rprojroot"),
 .install_dir = .{ .custom = "lib" },
@@ -891,6 +1016,7 @@ _ = @"rprojroot".addFileArg(asset_dir.path(b, "rprojroot_2.0.4.tar.gz"));
 
 @"rprojroot_install".step.dependOn(&@"rprojroot".step);
 b.getInstallStep().dependOn(&@"rprojroot_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rprojroot_out", .{ .custom = "logs" }, "rprojroot.log").step);
 
 const @"evaluate" = b.addSystemCommand(&.{ "R" });
 @"evaluate".addArgs(&.{
@@ -903,6 +1029,8 @@ const @"evaluate" = b.addSystemCommand(&.{ "R" });
  _ = @"evaluate".addDirectoryArg(libdir.getDirectory());
 _ = @"evaluate".addFileArg(asset_dir.path(b, "evaluate_0.24.0.tar.gz"));
 @"evaluate".step.name = "evaluate";
+const @"evaluate_out" = @"evaluate".captureStdOut();
+_ = @"evaluate".captureStdErr();
  const @"evaluate_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "evaluate"),
 .install_dir = .{ .custom = "lib" },
@@ -911,6 +1039,7 @@ _ = @"evaluate".addFileArg(asset_dir.path(b, "evaluate_0.24.0.tar.gz"));
 
 @"evaluate_install".step.dependOn(&@"evaluate".step);
 b.getInstallStep().dependOn(&@"evaluate_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"evaluate_out", .{ .custom = "logs" }, "evaluate.log").step);
 
 const @"fontawesome" = b.addSystemCommand(&.{ "R" });
 @"fontawesome".addArgs(&.{
@@ -923,6 +1052,8 @@ const @"fontawesome" = b.addSystemCommand(&.{ "R" });
  _ = @"fontawesome".addDirectoryArg(libdir.getDirectory());
 _ = @"fontawesome".addFileArg(asset_dir.path(b, "fontawesome_0.5.2.tar.gz"));
 @"fontawesome".step.name = "fontawesome";
+const @"fontawesome_out" = @"fontawesome".captureStdOut();
+_ = @"fontawesome".captureStdErr();
 @"fontawesome".step.dependOn(&@"rlang".step);
 @"fontawesome".step.dependOn(&@"htmltools".step);
  const @"fontawesome_install" = b.addInstallDirectory(.{
@@ -933,6 +1064,7 @@ _ = @"fontawesome".addFileArg(asset_dir.path(b, "fontawesome_0.5.2.tar.gz"));
 
 @"fontawesome_install".step.dependOn(&@"fontawesome".step);
 b.getInstallStep().dependOn(&@"fontawesome_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"fontawesome_out", .{ .custom = "logs" }, "fontawesome.log").step);
 
 const @"openssl" = b.addSystemCommand(&.{ "R" });
 @"openssl".addArgs(&.{
@@ -945,6 +1077,8 @@ const @"openssl" = b.addSystemCommand(&.{ "R" });
  _ = @"openssl".addDirectoryArg(libdir.getDirectory());
 _ = @"openssl".addFileArg(asset_dir.path(b, "openssl_2.2.1.tar.gz"));
 @"openssl".step.name = "openssl";
+const @"openssl_out" = @"openssl".captureStdOut();
+_ = @"openssl".captureStdErr();
 @"openssl".step.dependOn(&@"askpass".step);
  const @"openssl_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "openssl"),
@@ -954,6 +1088,7 @@ _ = @"openssl".addFileArg(asset_dir.path(b, "openssl_2.2.1.tar.gz"));
 
 @"openssl_install".step.dependOn(&@"openssl".step);
 b.getInstallStep().dependOn(&@"openssl_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"openssl_out", .{ .custom = "logs" }, "openssl.log").step);
 
 const @"httr" = b.addSystemCommand(&.{ "R" });
 @"httr".addArgs(&.{
@@ -966,6 +1101,8 @@ const @"httr" = b.addSystemCommand(&.{ "R" });
  _ = @"httr".addDirectoryArg(libdir.getDirectory());
 _ = @"httr".addFileArg(asset_dir.path(b, "httr_1.4.7.tar.gz"));
 @"httr".step.name = "httr";
+const @"httr_out" = @"httr".captureStdOut();
+_ = @"httr".captureStdErr();
 @"httr".step.dependOn(&@"curl".step);
 @"httr".step.dependOn(&@"jsonlite".step);
 @"httr".step.dependOn(&@"mime".step);
@@ -979,6 +1116,7 @@ _ = @"httr".addFileArg(asset_dir.path(b, "httr_1.4.7.tar.gz"));
 
 @"httr_install".step.dependOn(&@"httr".step);
 b.getInstallStep().dependOn(&@"httr_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"httr_out", .{ .custom = "logs" }, "httr.log").step);
 
 const @"github" = b.addSystemCommand(&.{ "R" });
 @"github".addArgs(&.{
@@ -991,6 +1129,8 @@ const @"github" = b.addSystemCommand(&.{ "R" });
  _ = @"github".addDirectoryArg(libdir.getDirectory());
 _ = @"github".addFileArg(asset_dir.path(b, "github_0.9.12.tar.gz"));
 @"github".step.name = "github";
+const @"github_out" = @"github".captureStdOut();
+_ = @"github".captureStdErr();
 @"github".step.dependOn(&@"httr".step);
 @"github".step.dependOn(&@"Rook".step);
 @"github".step.dependOn(&@"stringr".step);
@@ -1003,6 +1143,7 @@ _ = @"github".addFileArg(asset_dir.path(b, "github_0.9.12.tar.gz"));
 
 @"github_install".step.dependOn(&@"github".step);
 b.getInstallStep().dependOn(&@"github_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"github_out", .{ .custom = "logs" }, "github.log").step);
 
 const @"guitar" = b.addSystemCommand(&.{ "R" });
 @"guitar".addArgs(&.{
@@ -1015,6 +1156,8 @@ const @"guitar" = b.addSystemCommand(&.{ "R" });
  _ = @"guitar".addDirectoryArg(libdir.getDirectory());
 _ = @"guitar".addFileArg(asset_dir.path(b, "guitar_0.0.3.1.tar.gz"));
 @"guitar".step.name = "guitar";
+const @"guitar_out" = @"guitar".captureStdOut();
+_ = @"guitar".captureStdErr();
 @"guitar".step.dependOn(&@"Rcpp".step);
 @"guitar".step.dependOn(&@"stringr".step);
 @"guitar".step.dependOn(&@"BH".step);
@@ -1028,6 +1171,7 @@ _ = @"guitar".addFileArg(asset_dir.path(b, "guitar_0.0.3.1.tar.gz"));
 
 @"guitar_install".step.dependOn(&@"guitar".step);
 b.getInstallStep().dependOn(&@"guitar_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"guitar_out", .{ .custom = "logs" }, "guitar.log").step);
 
 const @"here" = b.addSystemCommand(&.{ "R" });
 @"here".addArgs(&.{
@@ -1040,6 +1184,8 @@ const @"here" = b.addSystemCommand(&.{ "R" });
  _ = @"here".addDirectoryArg(libdir.getDirectory());
 _ = @"here".addFileArg(asset_dir.path(b, "here_1.0.1.tar.gz"));
 @"here".step.name = "here";
+const @"here_out" = @"here".captureStdOut();
+_ = @"here".captureStdErr();
 @"here".step.dependOn(&@"rprojroot".step);
  const @"here_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "here"),
@@ -1049,6 +1195,7 @@ _ = @"here".addFileArg(asset_dir.path(b, "here_1.0.1.tar.gz"));
 
 @"here_install".step.dependOn(&@"here".step);
 b.getInstallStep().dependOn(&@"here_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"here_out", .{ .custom = "logs" }, "here.log").step);
 
 const @"highr" = b.addSystemCommand(&.{ "R" });
 @"highr".addArgs(&.{
@@ -1061,6 +1208,8 @@ const @"highr" = b.addSystemCommand(&.{ "R" });
  _ = @"highr".addDirectoryArg(libdir.getDirectory());
 _ = @"highr".addFileArg(asset_dir.path(b, "highr_0.11.tar.gz"));
 @"highr".step.name = "highr";
+const @"highr_out" = @"highr".captureStdOut();
+_ = @"highr".captureStdErr();
 @"highr".step.dependOn(&@"xfun".step);
  const @"highr_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "highr"),
@@ -1070,6 +1219,7 @@ _ = @"highr".addFileArg(asset_dir.path(b, "highr_0.11.tar.gz"));
 
 @"highr_install".step.dependOn(&@"highr".step);
 b.getInstallStep().dependOn(&@"highr_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"highr_out", .{ .custom = "logs" }, "highr.log").step);
 
 const @"knitr" = b.addSystemCommand(&.{ "R" });
 @"knitr".addArgs(&.{
@@ -1082,6 +1232,8 @@ const @"knitr" = b.addSystemCommand(&.{ "R" });
  _ = @"knitr".addDirectoryArg(libdir.getDirectory());
 _ = @"knitr".addFileArg(asset_dir.path(b, "knitr_1.48.tar.gz"));
 @"knitr".step.name = "knitr";
+const @"knitr_out" = @"knitr".captureStdOut();
+_ = @"knitr".captureStdErr();
 @"knitr".step.dependOn(&@"evaluate".step);
 @"knitr".step.dependOn(&@"highr".step);
 @"knitr".step.dependOn(&@"xfun".step);
@@ -1094,6 +1246,7 @@ _ = @"knitr".addFileArg(asset_dir.path(b, "knitr_1.48.tar.gz"));
 
 @"knitr_install".step.dependOn(&@"knitr".step);
 b.getInstallStep().dependOn(&@"knitr_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"knitr_out", .{ .custom = "logs" }, "knitr.log").step);
 
 const @"withr" = b.addSystemCommand(&.{ "R" });
 @"withr".addArgs(&.{
@@ -1106,6 +1259,8 @@ const @"withr" = b.addSystemCommand(&.{ "R" });
  _ = @"withr".addDirectoryArg(libdir.getDirectory());
 _ = @"withr".addFileArg(asset_dir.path(b, "withr_3.0.1.tar.gz"));
 @"withr".step.name = "withr";
+const @"withr_out" = @"withr".captureStdOut();
+_ = @"withr".captureStdErr();
  const @"withr_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "withr"),
 .install_dir = .{ .custom = "lib" },
@@ -1114,6 +1269,7 @@ _ = @"withr".addFileArg(asset_dir.path(b, "withr_3.0.1.tar.gz"));
 
 @"withr_install".step.dependOn(&@"withr".step);
 b.getInstallStep().dependOn(&@"withr_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"withr_out", .{ .custom = "logs" }, "withr.log").step);
 
 const @"markdown" = b.addSystemCommand(&.{ "R" });
 @"markdown".addArgs(&.{
@@ -1126,6 +1282,8 @@ const @"markdown" = b.addSystemCommand(&.{ "R" });
  _ = @"markdown".addDirectoryArg(libdir.getDirectory());
 _ = @"markdown".addFileArg(asset_dir.path(b, "markdown_1.13.tar.gz"));
 @"markdown".step.name = "markdown";
+const @"markdown_out" = @"markdown".captureStdOut();
+_ = @"markdown".captureStdErr();
 @"markdown".step.dependOn(&@"commonmark".step);
 @"markdown".step.dependOn(&@"xfun".step);
  const @"markdown_install" = b.addInstallDirectory(.{
@@ -1136,6 +1294,7 @@ _ = @"markdown".addFileArg(asset_dir.path(b, "markdown_1.13.tar.gz"));
 
 @"markdown_install".step.dependOn(&@"markdown".step);
 b.getInstallStep().dependOn(&@"markdown_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"markdown_out", .{ .custom = "logs" }, "markdown.log").step);
 
 const @"png" = b.addSystemCommand(&.{ "R" });
 @"png".addArgs(&.{
@@ -1148,6 +1307,8 @@ const @"png" = b.addSystemCommand(&.{ "R" });
  _ = @"png".addDirectoryArg(libdir.getDirectory());
 _ = @"png".addFileArg(asset_dir.path(b, "png_0.1-8.tar.gz"));
 @"png".step.name = "png";
+const @"png_out" = @"png".captureStdOut();
+_ = @"png".captureStdErr();
  const @"png_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "png"),
 .install_dir = .{ .custom = "lib" },
@@ -1156,6 +1317,7 @@ _ = @"png".addFileArg(asset_dir.path(b, "png_0.1-8.tar.gz"));
 
 @"png_install".step.dependOn(&@"png".step);
 b.getInstallStep().dependOn(&@"png_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"png_out", .{ .custom = "logs" }, "png.log").step);
 
 const @"tinytex" = b.addSystemCommand(&.{ "R" });
 @"tinytex".addArgs(&.{
@@ -1168,6 +1330,8 @@ const @"tinytex" = b.addSystemCommand(&.{ "R" });
  _ = @"tinytex".addDirectoryArg(libdir.getDirectory());
 _ = @"tinytex".addFileArg(asset_dir.path(b, "tinytex_0.53.tar.gz"));
 @"tinytex".step.name = "tinytex";
+const @"tinytex_out" = @"tinytex".captureStdOut();
+_ = @"tinytex".captureStdErr();
 @"tinytex".step.dependOn(&@"xfun".step);
  const @"tinytex_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "tinytex"),
@@ -1177,6 +1341,7 @@ _ = @"tinytex".addFileArg(asset_dir.path(b, "tinytex_0.53.tar.gz"));
 
 @"tinytex_install".step.dependOn(&@"tinytex".step);
 b.getInstallStep().dependOn(&@"tinytex_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"tinytex_out", .{ .custom = "logs" }, "tinytex.log").step);
 
 const @"reticulate" = b.addSystemCommand(&.{ "R" });
 @"reticulate".addArgs(&.{
@@ -1189,6 +1354,8 @@ const @"reticulate" = b.addSystemCommand(&.{ "R" });
  _ = @"reticulate".addDirectoryArg(libdir.getDirectory());
 _ = @"reticulate".addFileArg(asset_dir.path(b, "reticulate_1.39.0.tar.gz"));
 @"reticulate".step.name = "reticulate";
+const @"reticulate_out" = @"reticulate".captureStdOut();
+_ = @"reticulate".captureStdErr();
 @"reticulate".step.dependOn(&@"Rcpp".step);
 @"reticulate".step.dependOn(&@"RcppTOML".step);
 @"reticulate".step.dependOn(&@"here".step);
@@ -1206,6 +1373,7 @@ _ = @"reticulate".addFileArg(asset_dir.path(b, "reticulate_1.39.0.tar.gz"));
 
 @"reticulate_install".step.dependOn(&@"reticulate".step);
 b.getInstallStep().dependOn(&@"reticulate_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"reticulate_out", .{ .custom = "logs" }, "reticulate.log").step);
 
 const @"rjson" = b.addSystemCommand(&.{ "R" });
 @"rjson".addArgs(&.{
@@ -1218,6 +1386,8 @@ const @"rjson" = b.addSystemCommand(&.{ "R" });
  _ = @"rjson".addDirectoryArg(libdir.getDirectory());
 _ = @"rjson".addFileArg(asset_dir.path(b, "rjson_0.2.23.tar.gz"));
 @"rjson".step.name = "rjson";
+const @"rjson_out" = @"rjson".captureStdOut();
+_ = @"rjson".captureStdErr();
  const @"rjson_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "rjson"),
 .install_dir = .{ .custom = "lib" },
@@ -1226,6 +1396,7 @@ _ = @"rjson".addFileArg(asset_dir.path(b, "rjson_0.2.23.tar.gz"));
 
 @"rjson_install".step.dependOn(&@"rjson".step);
 b.getInstallStep().dependOn(&@"rjson_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rjson_out", .{ .custom = "logs" }, "rjson.log").step);
 
 const @"rmarkdown" = b.addSystemCommand(&.{ "R" });
 @"rmarkdown".addArgs(&.{
@@ -1238,6 +1409,8 @@ const @"rmarkdown" = b.addSystemCommand(&.{ "R" });
  _ = @"rmarkdown".addDirectoryArg(libdir.getDirectory());
 _ = @"rmarkdown".addFileArg(asset_dir.path(b, "rmarkdown_2.28.tar.gz"));
 @"rmarkdown".step.name = "rmarkdown";
+const @"rmarkdown_out" = @"rmarkdown".captureStdOut();
+_ = @"rmarkdown".captureStdErr();
 @"rmarkdown".step.dependOn(&@"bslib".step);
 @"rmarkdown".step.dependOn(&@"evaluate".step);
 @"rmarkdown".step.dependOn(&@"fontawesome".step);
@@ -1256,6 +1429,7 @@ _ = @"rmarkdown".addFileArg(asset_dir.path(b, "rmarkdown_2.28.tar.gz"));
 
 @"rmarkdown_install".step.dependOn(&@"rmarkdown".step);
 b.getInstallStep().dependOn(&@"rmarkdown_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rmarkdown_out", .{ .custom = "logs" }, "rmarkdown.log").step);
 
 const @"sendmailR" = b.addSystemCommand(&.{ "R" });
 @"sendmailR".addArgs(&.{
@@ -1268,6 +1442,8 @@ const @"sendmailR" = b.addSystemCommand(&.{ "R" });
  _ = @"sendmailR".addDirectoryArg(libdir.getDirectory());
 _ = @"sendmailR".addFileArg(asset_dir.path(b, "sendmailR_1.4-0.tar.gz"));
 @"sendmailR".step.name = "sendmailR";
+const @"sendmailR_out" = @"sendmailR".captureStdOut();
+_ = @"sendmailR".captureStdErr();
 @"sendmailR".step.dependOn(&@"base64enc".step);
  const @"sendmailR_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "sendmailR"),
@@ -1277,6 +1453,7 @@ _ = @"sendmailR".addFileArg(asset_dir.path(b, "sendmailR_1.4-0.tar.gz"));
 
 @"sendmailR_install".step.dependOn(&@"sendmailR".step);
 b.getInstallStep().dependOn(&@"sendmailR_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"sendmailR_out", .{ .custom = "logs" }, "sendmailR.log").step);
 
 const @"unixtools" = b.addSystemCommand(&.{ "R" });
 @"unixtools".addArgs(&.{
@@ -1289,6 +1466,8 @@ const @"unixtools" = b.addSystemCommand(&.{ "R" });
  _ = @"unixtools".addDirectoryArg(libdir.getDirectory());
 _ = @"unixtools".addFileArg(asset_dir.path(b, "unixtools_0.1-1.tar.gz"));
 @"unixtools".step.name = "unixtools";
+const @"unixtools_out" = @"unixtools".captureStdOut();
+_ = @"unixtools".captureStdErr();
  const @"unixtools_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "unixtools"),
 .install_dir = .{ .custom = "lib" },
@@ -1297,6 +1476,7 @@ _ = @"unixtools".addFileArg(asset_dir.path(b, "unixtools_0.1-1.tar.gz"));
 
 @"unixtools_install".step.dependOn(&@"unixtools".step);
 b.getInstallStep().dependOn(&@"unixtools_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"unixtools_out", .{ .custom = "logs" }, "unixtools.log").step);
 
 const @"uuid" = b.addSystemCommand(&.{ "R" });
 @"uuid".addArgs(&.{
@@ -1309,6 +1489,8 @@ const @"uuid" = b.addSystemCommand(&.{ "R" });
  _ = @"uuid".addDirectoryArg(libdir.getDirectory());
 _ = @"uuid".addFileArg(asset_dir.path(b, "uuid_1.2-1.tar.gz"));
 @"uuid".step.name = "uuid";
+const @"uuid_out" = @"uuid".captureStdOut();
+_ = @"uuid".captureStdErr();
  const @"uuid_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "uuid"),
 .install_dir = .{ .custom = "lib" },
@@ -1317,6 +1499,7 @@ _ = @"uuid".addFileArg(asset_dir.path(b, "uuid_1.2-1.tar.gz"));
 
 @"uuid_install".step.dependOn(&@"uuid".step);
 b.getInstallStep().dependOn(&@"uuid_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"uuid_out", .{ .custom = "logs" }, "uuid.log").step);
 
 const @"rcloud.sh" = b.addSystemCommand(&.{ "R" });
 @"rcloud.sh".addArgs(&.{
@@ -1329,6 +1512,8 @@ const @"rcloud.sh" = b.addSystemCommand(&.{ "R" });
  _ = @"rcloud.sh".addDirectoryArg(libdir.getDirectory());
 _ = @"rcloud.sh".addDirectoryArg(b.path("rcloud.packages/rcloud.sh"));
 @"rcloud.sh".step.name = "rcloud.sh";
+const @"rcloud.sh_out" = @"rcloud.sh".captureStdOut();
+_ = @"rcloud.sh".captureStdErr();
  const @"rcloud.sh_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "rcloud.sh"),
 .install_dir = .{ .custom = "lib" },
@@ -1337,6 +1522,7 @@ _ = @"rcloud.sh".addDirectoryArg(b.path("rcloud.packages/rcloud.sh"));
 
 @"rcloud.sh_install".step.dependOn(&@"rcloud.sh".step);
 b.getInstallStep().dependOn(&@"rcloud.sh_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rcloud.sh_out", .{ .custom = "logs" }, "rcloud.sh.log").step);
 
 const @"gist" = b.addSystemCommand(&.{ "R" });
 @"gist".addArgs(&.{
@@ -1349,6 +1535,8 @@ const @"gist" = b.addSystemCommand(&.{ "R" });
  _ = @"gist".addDirectoryArg(libdir.getDirectory());
 _ = @"gist".addDirectoryArg(b.path("packages/gist"));
 @"gist".step.name = "gist";
+const @"gist_out" = @"gist".captureStdOut();
+_ = @"gist".captureStdErr();
  const @"gist_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "gist"),
 .install_dir = .{ .custom = "lib" },
@@ -1357,6 +1545,7 @@ _ = @"gist".addDirectoryArg(b.path("packages/gist"));
 
 @"gist_install".step.dependOn(&@"gist".step);
 b.getInstallStep().dependOn(&@"gist_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"gist_out", .{ .custom = "logs" }, "gist.log").step);
 
 const @"githubgist" = b.addSystemCommand(&.{ "R" });
 @"githubgist".addArgs(&.{
@@ -1369,6 +1558,8 @@ const @"githubgist" = b.addSystemCommand(&.{ "R" });
  _ = @"githubgist".addDirectoryArg(libdir.getDirectory());
 _ = @"githubgist".addDirectoryArg(b.path("packages/githubgist"));
 @"githubgist".step.name = "githubgist";
+const @"githubgist_out" = @"githubgist".captureStdOut();
+_ = @"githubgist".captureStdErr();
 @"githubgist".step.dependOn(&@"gist".step);
 @"githubgist".step.dependOn(&@"github".step);
 @"githubgist".step.dependOn(&@"httr".step);
@@ -1380,6 +1571,7 @@ _ = @"githubgist".addDirectoryArg(b.path("packages/githubgist"));
 
 @"githubgist_install".step.dependOn(&@"githubgist".step);
 b.getInstallStep().dependOn(&@"githubgist_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"githubgist_out", .{ .custom = "logs" }, "githubgist.log").step);
 
 const @"gitgist" = b.addSystemCommand(&.{ "R" });
 @"gitgist".addArgs(&.{
@@ -1392,6 +1584,8 @@ const @"gitgist" = b.addSystemCommand(&.{ "R" });
  _ = @"gitgist".addDirectoryArg(libdir.getDirectory());
 _ = @"gitgist".addDirectoryArg(b.path("packages/gitgist"));
 @"gitgist".step.name = "gitgist";
+const @"gitgist_out" = @"gitgist".captureStdOut();
+_ = @"gitgist".captureStdErr();
 @"gitgist".step.dependOn(&@"Rcpp".step);
 @"gitgist".step.dependOn(&@"guitar".step);
 @"gitgist".step.dependOn(&@"PKI".step);
@@ -1403,6 +1597,7 @@ _ = @"gitgist".addDirectoryArg(b.path("packages/gitgist"));
 
 @"gitgist_install".step.dependOn(&@"gitgist".step);
 b.getInstallStep().dependOn(&@"gitgist_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"gitgist_out", .{ .custom = "logs" }, "gitgist.log").step);
 
 const @"rcloud.client" = b.addSystemCommand(&.{ "R" });
 @"rcloud.client".addArgs(&.{
@@ -1415,6 +1610,8 @@ const @"rcloud.client" = b.addSystemCommand(&.{ "R" });
  _ = @"rcloud.client".addDirectoryArg(libdir.getDirectory());
 _ = @"rcloud.client".addDirectoryArg(b.path("rcloud.client"));
 @"rcloud.client".step.name = "rcloud.client";
+const @"rcloud.client_out" = @"rcloud.client".captureStdOut();
+_ = @"rcloud.client".captureStdErr();
 @"rcloud.client".step.dependOn(&@"RSclient".step);
 @"rcloud.client".step.dependOn(&@"FastRWeb".step);
  const @"rcloud.client_install" = b.addInstallDirectory(.{
@@ -1425,6 +1622,7 @@ _ = @"rcloud.client".addDirectoryArg(b.path("rcloud.client"));
 
 @"rcloud.client_install".step.dependOn(&@"rcloud.client".step);
 b.getInstallStep().dependOn(&@"rcloud.client_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rcloud.client_out", .{ .custom = "logs" }, "rcloud.client.log").step);
 
 const @"rcloud.support" = b.addSystemCommand(&.{ "R" });
 @"rcloud.support".addArgs(&.{
@@ -1437,6 +1635,8 @@ const @"rcloud.support" = b.addSystemCommand(&.{ "R" });
  _ = @"rcloud.support".addDirectoryArg(libdir.getDirectory());
 _ = @"rcloud.support".addDirectoryArg(b.path("rcloud.support"));
 @"rcloud.support".step.name = "rcloud.support";
+const @"rcloud.support_out" = @"rcloud.support".captureStdOut();
+_ = @"rcloud.support".captureStdErr();
 @"rcloud.support".step.dependOn(&@"base64enc".step);
 @"rcloud.support".step.dependOn(&@"rjson".step);
 @"rcloud.support".step.dependOn(&@"uuid".step);
@@ -1462,6 +1662,7 @@ _ = @"rcloud.support".addDirectoryArg(b.path("rcloud.support"));
 
 @"rcloud.support_install".step.dependOn(&@"rcloud.support".step);
 b.getInstallStep().dependOn(&@"rcloud.support_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rcloud.support_out", .{ .custom = "logs" }, "rcloud.support.log").step);
 
 const @"rcloud.notebook.info" = b.addSystemCommand(&.{ "R" });
 @"rcloud.notebook.info".addArgs(&.{
@@ -1474,6 +1675,8 @@ const @"rcloud.notebook.info" = b.addSystemCommand(&.{ "R" });
  _ = @"rcloud.notebook.info".addDirectoryArg(libdir.getDirectory());
 _ = @"rcloud.notebook.info".addDirectoryArg(b.path("rcloud.packages/rcloud.notebook.info"));
 @"rcloud.notebook.info".step.name = "rcloud.notebook.info";
+const @"rcloud.notebook.info_out" = @"rcloud.notebook.info".captureStdOut();
+_ = @"rcloud.notebook.info".captureStdErr();
 @"rcloud.notebook.info".step.dependOn(&@"rcloud.support".step);
  const @"rcloud.notebook.info_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "rcloud.notebook.info"),
@@ -1483,6 +1686,7 @@ _ = @"rcloud.notebook.info".addDirectoryArg(b.path("rcloud.packages/rcloud.noteb
 
 @"rcloud.notebook.info_install".step.dependOn(&@"rcloud.notebook.info".step);
 b.getInstallStep().dependOn(&@"rcloud.notebook.info_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rcloud.notebook.info_out", .{ .custom = "logs" }, "rcloud.notebook.info.log").step);
 
 const @"rcloud.python" = b.addSystemCommand(&.{ "R" });
 @"rcloud.python".addArgs(&.{
@@ -1495,6 +1699,8 @@ const @"rcloud.python" = b.addSystemCommand(&.{ "R" });
  _ = @"rcloud.python".addDirectoryArg(libdir.getDirectory());
 _ = @"rcloud.python".addDirectoryArg(b.path("rcloud.packages/rcloud.python"));
 @"rcloud.python".step.name = "rcloud.python";
+const @"rcloud.python_out" = @"rcloud.python".captureStdOut();
+_ = @"rcloud.python".captureStdErr();
 @"rcloud.python".step.dependOn(&@"knitr".step);
 @"rcloud.python".step.dependOn(&@"markdown".step);
  const @"rcloud.python_install" = b.addInstallDirectory(.{
@@ -1505,6 +1711,7 @@ _ = @"rcloud.python".addDirectoryArg(b.path("rcloud.packages/rcloud.python"));
 
 @"rcloud.python_install".step.dependOn(&@"rcloud.python".step);
 b.getInstallStep().dependOn(&@"rcloud.python_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rcloud.python_out", .{ .custom = "logs" }, "rcloud.python.log").step);
 
 const @"rcloud.r" = b.addSystemCommand(&.{ "R" });
 @"rcloud.r".addArgs(&.{
@@ -1517,6 +1724,8 @@ const @"rcloud.r" = b.addSystemCommand(&.{ "R" });
  _ = @"rcloud.r".addDirectoryArg(libdir.getDirectory());
 _ = @"rcloud.r".addDirectoryArg(b.path("rcloud.packages/rcloud.r"));
 @"rcloud.r".step.name = "rcloud.r";
+const @"rcloud.r_out" = @"rcloud.r".captureStdOut();
+_ = @"rcloud.r".captureStdErr();
 @"rcloud.r".step.dependOn(&@"knitr".step);
 @"rcloud.r".step.dependOn(&@"markdown".step);
  const @"rcloud.r_install" = b.addInstallDirectory(.{
@@ -1527,6 +1736,7 @@ _ = @"rcloud.r".addDirectoryArg(b.path("rcloud.packages/rcloud.r"));
 
 @"rcloud.r_install".step.dependOn(&@"rcloud.r".step);
 b.getInstallStep().dependOn(&@"rcloud.r_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rcloud.r_out", .{ .custom = "logs" }, "rcloud.r.log").step);
 
 const @"rcloud.web" = b.addSystemCommand(&.{ "R" });
 @"rcloud.web".addArgs(&.{
@@ -1539,6 +1749,8 @@ const @"rcloud.web" = b.addSystemCommand(&.{ "R" });
  _ = @"rcloud.web".addDirectoryArg(libdir.getDirectory());
 _ = @"rcloud.web".addDirectoryArg(b.path("rcloud.packages/rcloud.web"));
 @"rcloud.web".step.name = "rcloud.web";
+const @"rcloud.web_out" = @"rcloud.web".captureStdOut();
+_ = @"rcloud.web".captureStdErr();
 @"rcloud.web".step.dependOn(&@"Rserve".step);
  const @"rcloud.web_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "rcloud.web"),
@@ -1548,6 +1760,7 @@ _ = @"rcloud.web".addDirectoryArg(b.path("rcloud.packages/rcloud.web"));
 
 @"rcloud.web_install".step.dependOn(&@"rcloud.web".step);
 b.getInstallStep().dependOn(&@"rcloud.web_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rcloud.web_out", .{ .custom = "logs" }, "rcloud.web.log").step);
 
 const @"rcloud.jupyter" = b.addSystemCommand(&.{ "R" });
 @"rcloud.jupyter".addArgs(&.{
@@ -1560,6 +1773,8 @@ const @"rcloud.jupyter" = b.addSystemCommand(&.{ "R" });
  _ = @"rcloud.jupyter".addDirectoryArg(libdir.getDirectory());
 _ = @"rcloud.jupyter".addDirectoryArg(b.path("rcloud.packages/rcloud.jupyter"));
 @"rcloud.jupyter".step.name = "rcloud.jupyter";
+const @"rcloud.jupyter_out" = @"rcloud.jupyter".captureStdOut();
+_ = @"rcloud.jupyter".captureStdErr();
 @"rcloud.jupyter".step.dependOn(&@"knitr".step);
 @"rcloud.jupyter".step.dependOn(&@"markdown".step);
 @"rcloud.jupyter".step.dependOn(&@"reticulate".step);
@@ -1573,6 +1788,7 @@ _ = @"rcloud.jupyter".addDirectoryArg(b.path("rcloud.packages/rcloud.jupyter"));
 
 @"rcloud.jupyter_install".step.dependOn(&@"rcloud.jupyter".step);
 b.getInstallStep().dependOn(&@"rcloud.jupyter_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rcloud.jupyter_out", .{ .custom = "logs" }, "rcloud.jupyter.log").step);
 
 const @"rcloud.enviewer" = b.addSystemCommand(&.{ "R" });
 @"rcloud.enviewer".addArgs(&.{
@@ -1585,6 +1801,8 @@ const @"rcloud.enviewer" = b.addSystemCommand(&.{ "R" });
  _ = @"rcloud.enviewer".addDirectoryArg(libdir.getDirectory());
 _ = @"rcloud.enviewer".addDirectoryArg(b.path("rcloud.packages/rcloud.enviewer"));
 @"rcloud.enviewer".step.name = "rcloud.enviewer";
+const @"rcloud.enviewer_out" = @"rcloud.enviewer".captureStdOut();
+_ = @"rcloud.enviewer".captureStdErr();
 @"rcloud.enviewer".step.dependOn(&@"rcloud.support".step);
  const @"rcloud.enviewer_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "rcloud.enviewer"),
@@ -1594,6 +1812,7 @@ _ = @"rcloud.enviewer".addDirectoryArg(b.path("rcloud.packages/rcloud.enviewer")
 
 @"rcloud.enviewer_install".step.dependOn(&@"rcloud.enviewer".step);
 b.getInstallStep().dependOn(&@"rcloud.enviewer_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rcloud.enviewer_out", .{ .custom = "logs" }, "rcloud.enviewer.log").step);
 
 const @"rcloud.rmarkdown" = b.addSystemCommand(&.{ "R" });
 @"rcloud.rmarkdown".addArgs(&.{
@@ -1606,6 +1825,8 @@ const @"rcloud.rmarkdown" = b.addSystemCommand(&.{ "R" });
  _ = @"rcloud.rmarkdown".addDirectoryArg(libdir.getDirectory());
 _ = @"rcloud.rmarkdown".addDirectoryArg(b.path("rcloud.packages/rcloud.rmarkdown"));
 @"rcloud.rmarkdown".step.name = "rcloud.rmarkdown";
+const @"rcloud.rmarkdown_out" = @"rcloud.rmarkdown".captureStdOut();
+_ = @"rcloud.rmarkdown".captureStdErr();
 @"rcloud.rmarkdown".step.dependOn(&@"knitr".step);
 @"rcloud.rmarkdown".step.dependOn(&@"rmarkdown".step);
  const @"rcloud.rmarkdown_install" = b.addInstallDirectory(.{
@@ -1616,6 +1837,7 @@ _ = @"rcloud.rmarkdown".addDirectoryArg(b.path("rcloud.packages/rcloud.rmarkdown
 
 @"rcloud.rmarkdown_install".step.dependOn(&@"rcloud.rmarkdown".step);
 b.getInstallStep().dependOn(&@"rcloud.rmarkdown_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rcloud.rmarkdown_out", .{ .custom = "logs" }, "rcloud.rmarkdown.log").step);
 
 const @"rcloud.viewer" = b.addSystemCommand(&.{ "R" });
 @"rcloud.viewer".addArgs(&.{
@@ -1628,6 +1850,8 @@ const @"rcloud.viewer" = b.addSystemCommand(&.{ "R" });
  _ = @"rcloud.viewer".addDirectoryArg(libdir.getDirectory());
 _ = @"rcloud.viewer".addDirectoryArg(b.path("rcloud.packages/rcloud.viewer"));
 @"rcloud.viewer".step.name = "rcloud.viewer";
+const @"rcloud.viewer_out" = @"rcloud.viewer".captureStdOut();
+_ = @"rcloud.viewer".captureStdErr();
 @"rcloud.viewer".step.dependOn(&@"rcloud.support".step);
  const @"rcloud.viewer_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "rcloud.viewer"),
@@ -1637,6 +1861,7 @@ _ = @"rcloud.viewer".addDirectoryArg(b.path("rcloud.packages/rcloud.viewer"));
 
 @"rcloud.viewer_install".step.dependOn(&@"rcloud.viewer".step);
 b.getInstallStep().dependOn(&@"rcloud.viewer_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rcloud.viewer_out", .{ .custom = "logs" }, "rcloud.viewer.log").step);
 
 const @"rcloud.lux" = b.addSystemCommand(&.{ "R" });
 @"rcloud.lux".addArgs(&.{
@@ -1649,6 +1874,8 @@ const @"rcloud.lux" = b.addSystemCommand(&.{ "R" });
  _ = @"rcloud.lux".addDirectoryArg(libdir.getDirectory());
 _ = @"rcloud.lux".addDirectoryArg(b.path("rcloud.packages/rcloud.lux"));
 @"rcloud.lux".step.name = "rcloud.lux";
+const @"rcloud.lux_out" = @"rcloud.lux".captureStdOut();
+_ = @"rcloud.lux".captureStdErr();
 @"rcloud.lux".step.dependOn(&@"rcloud.support".step);
  const @"rcloud.lux_install" = b.addInstallDirectory(.{
 .source_dir = libdir.getDirectory().path(b, "rcloud.lux"),
@@ -1658,5 +1885,6 @@ _ = @"rcloud.lux".addDirectoryArg(b.path("rcloud.packages/rcloud.lux"));
 
 @"rcloud.lux_install".step.dependOn(&@"rcloud.lux".step);
 b.getInstallStep().dependOn(&@"rcloud.lux_install".step);
+b.getInstallStep().dependOn(&b.addInstallFileWithDir(@"rcloud.lux_out", .{ .custom = "logs" }, "rcloud.lux.log").step);
 
 }

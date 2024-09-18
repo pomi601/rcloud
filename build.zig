@@ -35,7 +35,7 @@ fn b_fetch_assets_and_build(
     return &step.step;
 }
 
-fn b_discover_dependencies(
+fn b_generate_build(
     b: *Build,
     config_path: []const u8,
     updateStep: *Step,
@@ -45,7 +45,7 @@ fn b_discover_dependencies(
     const exe = b.dependency("rdepinfo", .{
         .target = target,
         .optimize = optimize,
-    }).artifact("discover-dependencies");
+    }).artifact("generate-build");
 
     // arguments: config_file out_dir package_dirs...
     const step = b.addRunArtifact(exe);
@@ -80,5 +80,5 @@ pub fn build(b: *std.Build) !void {
     _ = fetch;
 
     // step: update
-    try b_discover_dependencies(b, config_path, update_step, target, optimize);
+    try b_generate_build(b, config_path, update_step, target, optimize);
 }

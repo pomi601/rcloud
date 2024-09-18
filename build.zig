@@ -28,14 +28,6 @@ fn b_fetch_assets_and_build(
     _ = step.addArg(config_path);
     const out_dir = step.addOutputDirectoryArg("assets");
 
-    // for now for testing
-    // const install_step = b.addInstallDirectory(.{
-    //     .source_dir = out_dir,
-    //     .install_dir = .{ .custom = "assets" },
-    //     .install_subdir = "",
-    // });
-    // b.getInstallStep().dependOn(&install_step.step);
-
     //
 
     try generated_build.build(b, out_dir);

@@ -7,8 +7,8 @@ const UpdateSourceFiles = Step.UpdateSourceFiles;
 const ResolvedTarget = Build.ResolvedTarget;
 const OptimizeMode = std.builtin.OptimizeMode;
 
-// import build tools from rdepinfo
-const rdepinfo = @import("rdepinfo");
+// import build tools from r_build_zig
+const r_build_zig = @import("r-build-zig");
 
 const generated_build = @import("build-aux/generated/build.zig");
 
@@ -18,7 +18,7 @@ fn b_fetch_assets_and_build(
     target: ResolvedTarget,
     optimize: OptimizeMode,
 ) !*Step {
-    const exe = b.dependency("rdepinfo", .{
+    const exe = b.dependency("r-build-zig", .{
         .target = target,
         .optimize = optimize,
     }).artifact("fetch-assets");
@@ -42,7 +42,7 @@ fn b_generate_build(
     target: ResolvedTarget,
     optimize: OptimizeMode,
 ) !void {
-    const exe = b.dependency("rdepinfo", .{
+    const exe = b.dependency("r-build-zig", .{
         .target = target,
         .optimize = optimize,
     }).artifact("generate-build");

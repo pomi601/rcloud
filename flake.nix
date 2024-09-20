@@ -39,13 +39,13 @@
           devShells.default =
             pkgs.mkShell {
               buildInputs = with pkgs; [
-                autoconf
-                automake
+                # autoconf
+                # automake
                 cairo
                 curl
                 killall
                 git
-                gnumake
+                # gnumake
                 icu
                 libxcrypt
                 libxml2

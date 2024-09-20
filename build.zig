@@ -4,6 +4,7 @@ const Step = Build.Step;
 const Compile = Step.Compile;
 const Run = Step.Run;
 const UpdateSourceFiles = Step.UpdateSourceFiles;
+const WriteFile = Step.WriteFile;
 const ResolvedTarget = Build.ResolvedTarget;
 const OptimizeMode = std.builtin.OptimizeMode;
 
@@ -21,6 +22,7 @@ pub fn build(b: *std.Build) !void {
 
     // additional steps
     const update_step = b.step("update", "Generate R package build files");
+    const tarball_step = b.step("dist", "Make a source archive");
 
     // declare build install rules
     try fetch_assets_and_build(b, config_path, target, optimize);
@@ -29,7 +31,7 @@ pub fn build(b: *std.Build) !void {
     try generate_build_script(
         b,
         config_path,
-        &.{ // relative to this file, and no trailing slashes
+        &.{ // dirs relative to this build.zig file, and no trailing slashes
             "packages",
             "rcloud.client",
             "rcloud.packages",
@@ -39,6 +41,9 @@ pub fn build(b: *std.Build) !void {
         target,
         optimize,
     );
+
+    // declare step: dist
+    try make_tarball(b, tarball_step);
 }
 
 /// Declare steps which fetch external assets and declare the rules
@@ -72,7 +77,7 @@ fn generate_build_script(
     b: *Build,
     config_path: []const u8,
     relative_source_package_paths: []const []const u8,
-    updateStep: *Step,
+    update_step: *Step,
     target: ResolvedTarget,
     optimize: OptimizeMode,
 ) !void {
@@ -97,5 +102,82 @@ fn generate_build_script(
     const uf = b.addUpdateSourceFiles();
     uf.addCopyFileToSource(out_dir.path(b, "build.zig"), "build-aux/generated/build.zig");
 
-    updateStep.dependOn(&uf.step);
+    update_step.dependOn(&uf.step);
+}
+
+fn make_tarball(
+    b: *Build,
+    step: *Step,
+) !void {
+    const version = try read_version_file(b.allocator);
+    const dirname = b.fmt("rcloud-{s}", .{version});
+    const tarname = b.fmt("rcloud-{s}.tar.gz", .{version});
+
+    const wf = b.addWriteFiles();
+    const tar = b.addSystemCommand(&.{ "tar", "czf" });
+    tar.setCwd(wf.getDirectory());
+    const tar_out = tar.addOutputFileArg(tarname);
+    _ = tar.addArg(dirname);
+    add_all_source_files(b, wf, dirname);
+
+    const tar_install = b.addInstallFileWithDir(tar_out, .prefix, tarname);
+    step.dependOn(&tar_install.step);
+}
+
+fn add_all_source_files(b: *Build, wf: *WriteFile, dirname: []const u8) void {
+    const options = WriteFile.Directory.Options{
+        .exclude_extensions = &.{},
+    };
+
+    _ = add_copy_directory(b, wf, "build-aux", dirname, options);
+    _ = add_copy_directory(b, wf, "conf", dirname, options);
+    _ = add_copy_directory(b, wf, "doc", dirname, options);
+    _ = add_copy_directory(b, wf, "docker", dirname, options);
+    _ = add_copy_directory(b, wf, "htdocs", dirname, options);
+    _ = add_copy_directory(b, wf, "m4", dirname, options);
+    _ = add_copy_directory(b, wf, "packages", dirname, options);
+    _ = add_copy_directory(b, wf, "rcloud.client", dirname, options);
+    _ = add_copy_directory(b, wf, "rcloud.packages", dirname, options);
+    _ = add_copy_directory(b, wf, "rcloud.support", dirname, options);
+    _ = add_copy_directory(b, wf, "scripts", dirname, options);
+    _ = add_copy_directory(b, wf, "services", dirname, options);
+    _ = add_copy_directory(b, wf, "vendor", dirname, options);
+    _ = add_copy_directory(b, wf, "packages", dirname, options);
+
+    _ = add_copy_file(b, wf, "build.zig", dirname);
+    _ = add_copy_file(b, wf, "build.zig.zon", dirname);
+    _ = add_copy_file(b, wf, "flake.lock", dirname);
+    _ = add_copy_file(b, wf, "flake.nix", dirname);
+    _ = add_copy_file(b, wf, "Gruntfile.js", dirname);
+    _ = add_copy_file(b, wf, "LICENSE", dirname);
+    _ = add_copy_file(b, wf, "NEWS.md", dirname);
+    _ = add_copy_file(b, wf, "package.json", dirname);
+    _ = add_copy_file(b, wf, "package-lock.json", dirname);
+    _ = add_copy_file(b, wf, "README.md", dirname);
+    _ = add_copy_file(b, wf, "VERSION", dirname);
+}
+
+fn add_copy_directory(
+    b: *Build,
+    wf: *WriteFile,
+    name: []const u8,
+    root: []const u8,
+    options: WriteFile.Directory.Options,
+) void {
+    _ = wf.addCopyDirectory(b.path(name), b.fmt("{s}/{s}", .{ root, name }), options);
+}
+
+fn add_copy_file(b: *Build, wf: *WriteFile, name: []const u8, root: []const u8) void {
+    _ = wf.addCopyFile(b.path(name), b.fmt("{s}/{s}", .{ root, name }));
+}
+
+fn read_version_file(alloc: std.mem.Allocator) ![]const u8 {
+    const file = try std.fs.cwd().openFile("VERSION", .{});
+    defer file.close();
+    const content = try file.readToEndAlloc(alloc, 1024);
+    var i: usize = 0;
+    while (i < content.len) : (i += 1) {
+        if (content[i] == '\n') return content[0..i];
+    }
+    return content;
 }

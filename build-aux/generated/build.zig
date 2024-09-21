@@ -847,7 +847,7 @@ const @"jsonlite" = b.addSystemCommand(&.{ "R" });
     "-l",
 });
  _ = @"jsonlite".addDirectoryArg(libdir.getDirectory());
-_ = @"jsonlite".addFileArg(asset_dir.path(b, "jsonlite_1.8.8.tar.gz"));
+_ = @"jsonlite".addFileArg(asset_dir.path(b, "jsonlite_1.8.9.tar.gz"));
 @"jsonlite".step.name = "jsonlite";
 const @"jsonlite_out" = @"jsonlite".captureStdOut();
 _ = @"jsonlite".captureStdErr();
@@ -981,7 +981,7 @@ const @"curl" = b.addSystemCommand(&.{ "R" });
     "-l",
 });
  _ = @"curl".addDirectoryArg(libdir.getDirectory());
-_ = @"curl".addFileArg(asset_dir.path(b, "curl_5.2.2.tar.gz"));
+_ = @"curl".addFileArg(asset_dir.path(b, "curl_5.2.3.tar.gz"));
 @"curl".step.name = "curl";
 const @"curl_out" = @"curl".captureStdOut();
 _ = @"curl".captureStdErr();
@@ -1075,7 +1075,7 @@ const @"openssl" = b.addSystemCommand(&.{ "R" });
     "-l",
 });
  _ = @"openssl".addDirectoryArg(libdir.getDirectory());
-_ = @"openssl".addFileArg(asset_dir.path(b, "openssl_2.2.1.tar.gz"));
+_ = @"openssl".addFileArg(asset_dir.path(b, "openssl_2.2.2.tar.gz"));
 @"openssl".step.name = "openssl";
 const @"openssl_out" = @"openssl".captureStdOut();
 _ = @"openssl".captureStdErr();

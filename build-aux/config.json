@@ -11,6 +11,14 @@
       }
     ],
     "assets": {
+      "ulog": {
+        "url": "https://www.rforge.net/src/contrib/ulog_0.1-2.tar.gz",
+        "hash": "8b91286433ec03af17096dcc6bbfd9b095a72260830abff990a0269c6d86f86e"
+      },
+      "rcloud.solr": {
+        "url": "https://www.rforge.net/src/contrib/rcloud.solr_0.3.8.tar.gz",
+        "hash": "980d5a902ab838012ea7acbbf63aa6f810992b80df08158c3ffacdc69581e9ed"
+      },
       "BH": {
         "url": "https://cran.stat.auckland.ac.nz/src/contrib/BH_1.84.0-0.tar.gz",
         "hash": "6fb660755f572cd975073d7052075654acf8db12d208954ca223b8e4f77ef1ac"
@@ -88,8 +96,8 @@
         "hash": "9517a13f4ce4a99bb157493453b04419b222cb65a9471cd3b11e5045ac0db53b"
       },
       "curl": {
-        "url": "https://cran.stat.auckland.ac.nz/src/contrib/curl_5.2.2.tar.gz",
-        "hash": "a658530f7d89e3ab6e7842ace2c79098a1a979bf9249a76599799f6e38ea11ff"
+        "url": "https://cran.stat.auckland.ac.nz/src/contrib/curl_5.2.3.tar.gz",
+        "hash": "bbe090fced6035fa5189a62a96cd2288067bf5bb4b2b17f1832ed287861707bf"
       },
       "digest": {
         "url": "https://cran.stat.auckland.ac.nz/src/contrib/digest_0.6.37.tar.gz",
@@ -144,8 +152,8 @@
         "hash": "f0bcc11dcde3a6ff180277e45c24642d3da3c8690900e38f44495efbc9064411"
       },
       "jsonlite": {
-        "url": "https://cran.stat.auckland.ac.nz/src/contrib/jsonlite_1.8.8.tar.gz",
-        "hash": "7de21316984c3ba3d7423d12f43d1c30c716007c5e39bf07e11885e0ceb0caa4"
+        "url": "https://cran.stat.auckland.ac.nz/src/contrib/jsonlite_1.8.9.tar.gz",
+        "hash": "89f130e0e1163328c01decd54e7712b5ebf3d0a667da0052833722cb9a6e90b0"
       },
       "knitr": {
         "url": "https://cran.stat.auckland.ac.nz/src/contrib/knitr_1.48.tar.gz",
@@ -172,8 +180,8 @@
         "hash": "a9001051d6c1e556e881910b1816b42872a1ee41ab76d0040ce66a27135e3849"
       },
       "openssl": {
-        "url": "https://cran.stat.auckland.ac.nz/src/contrib/openssl_2.2.1.tar.gz",
-        "hash": "25a12328d584212d8d4c095b3d2a71152c5d2bc4adda7a9addb25da01136f78d"
+        "url": "https://cran.stat.auckland.ac.nz/src/contrib/openssl_2.2.2.tar.gz",
+        "hash": "0cb45f413e8ce4664f79a20768fd7853c538ddb87f33819b5e7a6527ae828c96"
       },
       "png": {
         "url": "https://cran.stat.auckland.ac.nz/src/contrib/png_0.1-8.tar.gz",

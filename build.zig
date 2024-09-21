@@ -28,6 +28,9 @@ pub fn build(b: *std.Build) !void {
     // declare build install rules
     try fetch_assets_and_build(b, config_path, target, optimize);
 
+    // declare rules for htdocs
+    build_htdocs(b);
+
     // declare step: update
     try generate_build_script(
         b,
@@ -185,6 +188,42 @@ fn read_version_file(alloc: std.mem.Allocator) ![]const u8 {
         if (content[i] == '\n') return content[0..i];
     }
     return content;
+}
+
+fn build_htdocs(b: *Build) void {
+    const wf = b.addWriteFiles();
+
+    // copy htdocs source
+    _ = wf.addCopyDirectory(b.path("htdocs"), "htdocs", .{});
+
+    // install js requirements
+    const npm_ci = b.addSystemCommand(&.{ "npm", "ci" });
+    npm_ci.setCwd(wf.getDirectory());
+    npm_ci.addFileInput(wf.addCopyFile(b.path("package.json"), "package.json"));
+    npm_ci.addFileInput(wf.addCopyFile(b.path("package-lock.json"), "package-lock.json"));
+    npm_ci.expectExitCode(0);
+
+    // run grunt
+    const grunt = b.addSystemCommand(&.{"node_modules/grunt-cli/bin/grunt"});
+    grunt.setCwd(wf.getDirectory());
+    grunt.addFileInput(wf.addCopyFile(b.path("Gruntfile.js"), "Gruntfile.js"));
+    grunt.addFileInput(wf.addCopyFile(b.path("VERSION"), "VERSION"));
+    grunt.addFileInput(wf.getDirectory().path(b, "node_modules/grunt-cli/bin/grunt"));
+    grunt.expectExitCode(0);
+
+    // which depends on npm_ci
+    grunt.step.dependOn(&npm_ci.step);
+
+    // add an install step for post-grunt htdocs
+    const htdocs_install = b.addInstallDirectory(.{
+        .source_dir = wf.getDirectory().path(b, "htdocs"),
+        .install_dir = .prefix,
+        .install_subdir = "htdocs",
+    });
+    htdocs_install.step.dependOn(&grunt.step);
+
+    // install built htdocs files
+    b.getInstallStep().dependOn(&htdocs_install.step);
 }
 
 fn add_extra_rcloud_targets(b: *Build, asset_dir: LazyPath) void {

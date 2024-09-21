@@ -1,6 +1,7 @@
 const std = @import("std");
 const Build = std.Build;
 const Step = Build.Step;
+const LazyPath = Build.LazyPath;
 const Compile = Step.Compile;
 const Run = Step.Run;
 const UpdateSourceFiles = Step.UpdateSourceFiles;
@@ -68,6 +69,10 @@ fn fetch_assets_and_build(
 
     // supply output directory to build rule declarations
     try generated_build.build(b, out_dir);
+
+    // add extra rcloud targets.
+    // TODO: get rid of this when we move rcloud.solr into this repository
+    add_extra_rcloud_targets(b, out_dir);
 }
 
 /// Declare steps which generate a new build script given a
@@ -180,4 +185,75 @@ fn read_version_file(alloc: std.mem.Allocator) ![]const u8 {
         if (content[i] == '\n') return content[0..i];
     }
     return content;
+}
+
+fn add_extra_rcloud_targets(b: *Build, asset_dir: LazyPath) void {
+    // FIXME: This is a hack until rcloud.solr is added to this repository's source directories.
+    const libdir = b.addWriteFiles();
+
+    const ulog = b.addSystemCommand(&.{"R"});
+    ulog.addArgs(&.{
+        "CMD",
+        "INSTALL",
+        "--no-docs",
+        "--no-multiarch",
+        "-l",
+    });
+    _ = ulog.addDirectoryArg(libdir.getDirectory());
+    _ = ulog.addFileArg(asset_dir.path(b, "ulog_0.1-2.tar.gz"));
+    ulog.step.name = "ulog";
+    const ulog_out = ulog.captureStdOut();
+    _ = ulog.captureStdErr();
+    const ulog_install = b.addInstallDirectory(.{
+        .source_dir = libdir.getDirectory().path(b, "ulog"),
+        .install_dir = .{ .custom = "lib" },
+        .install_subdir = "ulog",
+    });
+
+    ulog_install.step.dependOn(&ulog.step);
+    b.getInstallStep().dependOn(&ulog_install.step);
+    b.getInstallStep().dependOn(&b.addInstallFileWithDir(ulog_out, .{ .custom = "logs" }, "ulog.log").step);
+
+    //
+
+    const rcloud_solr = b.addSystemCommand(&.{"R"});
+    rcloud_solr.addArgs(&.{
+        "CMD",
+        "INSTALL",
+        "--no-docs",
+        "--no-multiarch",
+        "-l",
+    });
+    _ = rcloud_solr.addDirectoryArg(libdir.getDirectory());
+    _ = rcloud_solr.addFileArg(asset_dir.path(b, "rcloud.solr_0.3.8.tar.gz"));
+    rcloud_solr.step.name = "rcloud.solr";
+    const rcloud_solr_out = rcloud_solr.captureStdOut();
+    _ = rcloud_solr.captureStdErr();
+
+    const rcloud_solr_install = b.addInstallDirectory(.{
+        .source_dir = libdir.getDirectory().path(b, "rcloud.solr"),
+        .install_dir = .{ .custom = "lib" },
+        .install_subdir = "rcloud.solr",
+    });
+
+    rcloud_solr_install.step.dependOn(&rcloud_solr.step);
+    b.getInstallStep().dependOn(&rcloud_solr_install.step);
+    b.getInstallStep().dependOn(&b.addInstallFileWithDir(rcloud_solr_out, .{ .custom = "logs" }, "rcloud.solr.log").step);
+
+    // this is so unfortunate but needed until we can get rid of this hack.
+    for (b.getInstallStep().dependencies.items) |install_step| {
+        for (install_step.dependencies.items) |step| {
+            if (std.mem.eql(u8, "rcloud.support", step.name)) {
+                rcloud_solr.step.dependOn(step);
+            } else if (std.mem.eql(u8, "Rserve", step.name)) {
+                rcloud_solr.step.dependOn(step);
+            } else if (std.mem.eql(u8, "httr", step.name)) {
+                rcloud_solr.step.dependOn(step);
+            } else if (std.mem.eql(u8, "ulog", step.name)) {
+                rcloud_solr.step.dependOn(step);
+            } else if (std.mem.eql(u8, "R6", step.name)) {
+                rcloud_solr.step.dependOn(step);
+            }
+        }
+    }
 }

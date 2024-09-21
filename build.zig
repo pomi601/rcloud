@@ -19,7 +19,7 @@ pub fn build(b: *std.Build) !void {
     // const buf: [std.mem.page_size]u8 = undefined;
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
-    const config_path = b.pathJoin(&.{ "build-aux", "config.json" });
+    const config_path = "build-aux/config.json";
 
     // additional steps
     const update_step = b.step("update", "Generate R package build files");
@@ -67,7 +67,7 @@ fn fetch_assets_and_build(
 
     // run it
     const step = b.addRunArtifact(exe);
-    _ = step.addArg(config_path);
+    _ = step.addFileArg(b.path(config_path));
     const out_dir = step.addOutputDirectoryArg("assets");
 
     // supply output directory to build rule declarations

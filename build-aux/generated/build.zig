@@ -13,9 +13,10 @@ const @"yaml" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"yaml".addDirectoryArg(libdir.getDirectory());
+_ = @"yaml".addDirectoryArg(libdir.getDirectory());
 _ = @"yaml".addFileArg(asset_dir.path(b, "yaml_2.3.10.tar.gz"));
 @"yaml".step.name = "yaml";
+@"yaml".addFileInput(b.path("build-aux/config.json"));
 const @"yaml_out" = @"yaml".captureStdOut();
 _ = @"yaml".captureStdErr();
  const @"yaml_install" = b.addInstallDirectory(.{
@@ -36,9 +37,10 @@ const @"sys" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"sys".addDirectoryArg(libdir.getDirectory());
+_ = @"sys".addDirectoryArg(libdir.getDirectory());
 _ = @"sys".addFileArg(asset_dir.path(b, "sys_3.4.2.tar.gz"));
 @"sys".step.name = "sys";
+@"sys".addFileInput(b.path("build-aux/config.json"));
 const @"sys_out" = @"sys".captureStdOut();
 _ = @"sys".captureStdErr();
  const @"sys_install" = b.addInstallDirectory(.{
@@ -59,9 +61,10 @@ const @"rediscc" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rediscc".addDirectoryArg(libdir.getDirectory());
+_ = @"rediscc".addDirectoryArg(libdir.getDirectory());
 _ = @"rediscc".addFileArg(asset_dir.path(b, "rediscc_0.1-6.tar.gz"));
 @"rediscc".step.name = "rediscc";
+@"rediscc".addFileInput(b.path("build-aux/config.json"));
 const @"rediscc_out" = @"rediscc".captureStdOut();
 _ = @"rediscc".captureStdErr();
  const @"rediscc_install" = b.addInstallDirectory(.{
@@ -82,9 +85,10 @@ const @"fastmap" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"fastmap".addDirectoryArg(libdir.getDirectory());
+_ = @"fastmap".addDirectoryArg(libdir.getDirectory());
 _ = @"fastmap".addFileArg(asset_dir.path(b, "fastmap_1.2.0.tar.gz"));
 @"fastmap".step.name = "fastmap";
+@"fastmap".addFileInput(b.path("build-aux/config.json"));
 const @"fastmap_out" = @"fastmap".captureStdOut();
 _ = @"fastmap".captureStdErr();
  const @"fastmap_install" = b.addInstallDirectory(.{
@@ -105,9 +109,10 @@ const @"commonmark" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"commonmark".addDirectoryArg(libdir.getDirectory());
+_ = @"commonmark".addDirectoryArg(libdir.getDirectory());
 _ = @"commonmark".addFileArg(asset_dir.path(b, "commonmark_1.9.1.tar.gz"));
 @"commonmark".step.name = "commonmark";
+@"commonmark".addFileInput(b.path("build-aux/config.json"));
 const @"commonmark_out" = @"commonmark".captureStdOut();
 _ = @"commonmark".captureStdErr();
  const @"commonmark_install" = b.addInstallDirectory(.{
@@ -128,9 +133,10 @@ const @"brew" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"brew".addDirectoryArg(libdir.getDirectory());
+_ = @"brew".addDirectoryArg(libdir.getDirectory());
 _ = @"brew".addFileArg(asset_dir.path(b, "brew_1.0-10.tar.gz"));
 @"brew".step.name = "brew";
+@"brew".addFileInput(b.path("build-aux/config.json"));
 const @"brew_out" = @"brew".captureStdOut();
 _ = @"brew".captureStdErr();
  const @"brew_install" = b.addInstallDirectory(.{
@@ -151,9 +157,10 @@ const @"bitops" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"bitops".addDirectoryArg(libdir.getDirectory());
+_ = @"bitops".addDirectoryArg(libdir.getDirectory());
 _ = @"bitops".addFileArg(asset_dir.path(b, "bitops_1.0-8.tar.gz"));
 @"bitops".step.name = "bitops";
+@"bitops".addFileInput(b.path("build-aux/config.json"));
 const @"bitops_out" = @"bitops".captureStdOut();
 _ = @"bitops".captureStdErr();
  const @"bitops_install" = b.addInstallDirectory(.{
@@ -174,9 +181,10 @@ const @"BH" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"BH".addDirectoryArg(libdir.getDirectory());
+_ = @"BH".addDirectoryArg(libdir.getDirectory());
 _ = @"BH".addFileArg(asset_dir.path(b, "BH_1.84.0-0.tar.gz"));
 @"BH".step.name = "BH";
+@"BH".addFileInput(b.path("build-aux/config.json"));
 const @"BH_out" = @"BH".captureStdOut();
 _ = @"BH".captureStdErr();
  const @"BH_install" = b.addInstallDirectory(.{
@@ -197,9 +205,10 @@ const @"Cairo" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"Cairo".addDirectoryArg(libdir.getDirectory());
+_ = @"Cairo".addDirectoryArg(libdir.getDirectory());
 _ = @"Cairo".addFileArg(asset_dir.path(b, "Cairo_1.6-2.tar.gz"));
 @"Cairo".step.name = "Cairo";
+@"Cairo".addFileInput(b.path("build-aux/config.json"));
 const @"Cairo_out" = @"Cairo".captureStdOut();
 _ = @"Cairo".captureStdErr();
  const @"Cairo_install" = b.addInstallDirectory(.{
@@ -220,9 +229,10 @@ const @"base64enc" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"base64enc".addDirectoryArg(libdir.getDirectory());
+_ = @"base64enc".addDirectoryArg(libdir.getDirectory());
 _ = @"base64enc".addFileArg(asset_dir.path(b, "base64enc_0.1-3.tar.gz"));
 @"base64enc".step.name = "base64enc";
+@"base64enc".addFileInput(b.path("build-aux/config.json"));
 const @"base64enc_out" = @"base64enc".captureStdOut();
 _ = @"base64enc".captureStdErr();
  const @"base64enc_install" = b.addInstallDirectory(.{
@@ -243,9 +253,10 @@ const @"FastRWeb" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"FastRWeb".addDirectoryArg(libdir.getDirectory());
+_ = @"FastRWeb".addDirectoryArg(libdir.getDirectory());
 _ = @"FastRWeb".addFileArg(asset_dir.path(b, "FastRWeb_1.2-1.tar.gz"));
 @"FastRWeb".step.name = "FastRWeb";
+@"FastRWeb".addFileInput(b.path("build-aux/config.json"));
 const @"FastRWeb_out" = @"FastRWeb".captureStdOut();
 _ = @"FastRWeb".captureStdErr();
 @"FastRWeb".step.dependOn(&@"base64enc".step);
@@ -268,9 +279,10 @@ const @"PKI" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"PKI".addDirectoryArg(libdir.getDirectory());
+_ = @"PKI".addDirectoryArg(libdir.getDirectory());
 _ = @"PKI".addFileArg(asset_dir.path(b, "PKI_0.1-14.tar.gz"));
 @"PKI".step.name = "PKI";
+@"PKI".addFileInput(b.path("build-aux/config.json"));
 const @"PKI_out" = @"PKI".captureStdOut();
 _ = @"PKI".captureStdErr();
 @"PKI".step.dependOn(&@"base64enc".step);
@@ -292,9 +304,10 @@ const @"R6" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"R6".addDirectoryArg(libdir.getDirectory());
+_ = @"R6".addDirectoryArg(libdir.getDirectory());
 _ = @"R6".addFileArg(asset_dir.path(b, "R6_2.5.1.tar.gz"));
 @"R6".step.name = "R6";
+@"R6".addFileInput(b.path("build-aux/config.json"));
 const @"R6_out" = @"R6".captureStdOut();
 _ = @"R6".captureStdErr();
  const @"R6_install" = b.addInstallDirectory(.{
@@ -315,9 +328,10 @@ const @"RCurl" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"RCurl".addDirectoryArg(libdir.getDirectory());
+_ = @"RCurl".addDirectoryArg(libdir.getDirectory());
 _ = @"RCurl".addFileArg(asset_dir.path(b, "RCurl_1.98-1.16.tar.gz"));
 @"RCurl".step.name = "RCurl";
+@"RCurl".addFileInput(b.path("build-aux/config.json"));
 const @"RCurl_out" = @"RCurl".captureStdOut();
 _ = @"RCurl".captureStdErr();
 @"RCurl".step.dependOn(&@"bitops".step);
@@ -339,9 +353,10 @@ const @"RSclient" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"RSclient".addDirectoryArg(libdir.getDirectory());
+_ = @"RSclient".addDirectoryArg(libdir.getDirectory());
 _ = @"RSclient".addFileArg(asset_dir.path(b, "RSclient_0.7-10.tar.gz"));
 @"RSclient".step.name = "RSclient";
+@"RSclient".addFileInput(b.path("build-aux/config.json"));
 const @"RSclient_out" = @"RSclient".captureStdOut();
 _ = @"RSclient".captureStdErr();
  const @"RSclient_install" = b.addInstallDirectory(.{
@@ -362,9 +377,10 @@ const @"Rcpp" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"Rcpp".addDirectoryArg(libdir.getDirectory());
+_ = @"Rcpp".addDirectoryArg(libdir.getDirectory());
 _ = @"Rcpp".addFileArg(asset_dir.path(b, "Rcpp_1.0.13.tar.gz"));
 @"Rcpp".step.name = "Rcpp";
+@"Rcpp".addFileInput(b.path("build-aux/config.json"));
 const @"Rcpp_out" = @"Rcpp".captureStdOut();
 _ = @"Rcpp".captureStdErr();
  const @"Rcpp_install" = b.addInstallDirectory(.{
@@ -385,9 +401,10 @@ const @"RcppTOML" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"RcppTOML".addDirectoryArg(libdir.getDirectory());
+_ = @"RcppTOML".addDirectoryArg(libdir.getDirectory());
 _ = @"RcppTOML".addFileArg(asset_dir.path(b, "RcppTOML_0.2.2.tar.gz"));
 @"RcppTOML".step.name = "RcppTOML";
+@"RcppTOML".addFileInput(b.path("build-aux/config.json"));
 const @"RcppTOML_out" = @"RcppTOML".captureStdOut();
 _ = @"RcppTOML".captureStdErr();
 @"RcppTOML".step.dependOn(&@"Rcpp".step);
@@ -410,9 +427,10 @@ const @"Rook" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"Rook".addDirectoryArg(libdir.getDirectory());
+_ = @"Rook".addDirectoryArg(libdir.getDirectory());
 _ = @"Rook".addFileArg(asset_dir.path(b, "Rook_1.2.tar.gz"));
 @"Rook".step.name = "Rook";
+@"Rook".addFileInput(b.path("build-aux/config.json"));
 const @"Rook_out" = @"Rook".captureStdOut();
 _ = @"Rook".captureStdErr();
 @"Rook".step.dependOn(&@"brew".step);
@@ -434,9 +452,10 @@ const @"Rserve" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"Rserve".addDirectoryArg(libdir.getDirectory());
+_ = @"Rserve".addDirectoryArg(libdir.getDirectory());
 _ = @"Rserve".addFileArg(asset_dir.path(b, "Rserve_1.8-13.tar.gz"));
 @"Rserve".step.name = "Rserve";
+@"Rserve".addFileInput(b.path("build-aux/config.json"));
 const @"Rserve_out" = @"Rserve".captureStdOut();
 _ = @"Rserve".captureStdErr();
  const @"Rserve_install" = b.addInstallDirectory(.{
@@ -457,9 +476,10 @@ const @"askpass" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"askpass".addDirectoryArg(libdir.getDirectory());
+_ = @"askpass".addDirectoryArg(libdir.getDirectory());
 _ = @"askpass".addFileArg(asset_dir.path(b, "askpass_1.2.0.tar.gz"));
 @"askpass".step.name = "askpass";
+@"askpass".addFileInput(b.path("build-aux/config.json"));
 const @"askpass_out" = @"askpass".captureStdOut();
 _ = @"askpass".captureStdErr();
 @"askpass".step.dependOn(&@"sys".step);
@@ -481,9 +501,10 @@ const @"rappdirs" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rappdirs".addDirectoryArg(libdir.getDirectory());
+_ = @"rappdirs".addDirectoryArg(libdir.getDirectory());
 _ = @"rappdirs".addFileArg(asset_dir.path(b, "rappdirs_0.3.3.tar.gz"));
 @"rappdirs".step.name = "rappdirs";
+@"rappdirs".addFileInput(b.path("build-aux/config.json"));
 const @"rappdirs_out" = @"rappdirs".captureStdOut();
 _ = @"rappdirs".captureStdErr();
  const @"rappdirs_install" = b.addInstallDirectory(.{
@@ -504,9 +525,10 @@ const @"fs" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"fs".addDirectoryArg(libdir.getDirectory());
+_ = @"fs".addDirectoryArg(libdir.getDirectory());
 _ = @"fs".addFileArg(asset_dir.path(b, "fs_1.6.4.tar.gz"));
 @"fs".step.name = "fs";
+@"fs".addFileInput(b.path("build-aux/config.json"));
 const @"fs_out" = @"fs".captureStdOut();
 _ = @"fs".captureStdErr();
  const @"fs_install" = b.addInstallDirectory(.{
@@ -527,9 +549,10 @@ const @"digest" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"digest".addDirectoryArg(libdir.getDirectory());
+_ = @"digest".addDirectoryArg(libdir.getDirectory());
 _ = @"digest".addFileArg(asset_dir.path(b, "digest_0.6.37.tar.gz"));
 @"digest".step.name = "digest";
+@"digest".addFileInput(b.path("build-aux/config.json"));
 const @"digest_out" = @"digest".captureStdOut();
 _ = @"digest".captureStdErr();
  const @"digest_install" = b.addInstallDirectory(.{
@@ -550,9 +573,10 @@ const @"rlang" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rlang".addDirectoryArg(libdir.getDirectory());
+_ = @"rlang".addDirectoryArg(libdir.getDirectory());
 _ = @"rlang".addFileArg(asset_dir.path(b, "rlang_1.1.4.tar.gz"));
 @"rlang".step.name = "rlang";
+@"rlang".addFileInput(b.path("build-aux/config.json"));
 const @"rlang_out" = @"rlang".captureStdOut();
 _ = @"rlang".captureStdErr();
  const @"rlang_install" = b.addInstallDirectory(.{
@@ -573,9 +597,10 @@ const @"htmltools" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"htmltools".addDirectoryArg(libdir.getDirectory());
+_ = @"htmltools".addDirectoryArg(libdir.getDirectory());
 _ = @"htmltools".addFileArg(asset_dir.path(b, "htmltools_0.5.8.1.tar.gz"));
 @"htmltools".step.name = "htmltools";
+@"htmltools".addFileInput(b.path("build-aux/config.json"));
 const @"htmltools_out" = @"htmltools".captureStdOut();
 _ = @"htmltools".captureStdErr();
 @"htmltools".step.dependOn(&@"base64enc".step);
@@ -600,9 +625,10 @@ const @"sass" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"sass".addDirectoryArg(libdir.getDirectory());
+_ = @"sass".addDirectoryArg(libdir.getDirectory());
 _ = @"sass".addFileArg(asset_dir.path(b, "sass_0.4.9.tar.gz"));
 @"sass".step.name = "sass";
+@"sass".addFileInput(b.path("build-aux/config.json"));
 const @"sass_out" = @"sass".captureStdOut();
 _ = @"sass".captureStdErr();
 @"sass".step.dependOn(&@"fs".step);
@@ -628,9 +654,10 @@ const @"glue" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"glue".addDirectoryArg(libdir.getDirectory());
+_ = @"glue".addDirectoryArg(libdir.getDirectory());
 _ = @"glue".addFileArg(asset_dir.path(b, "glue_1.7.0.tar.gz"));
 @"glue".step.name = "glue";
+@"glue".addFileInput(b.path("build-aux/config.json"));
 const @"glue_out" = @"glue".captureStdOut();
 _ = @"glue".captureStdErr();
  const @"glue_install" = b.addInstallDirectory(.{
@@ -651,9 +678,10 @@ const @"cachem" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"cachem".addDirectoryArg(libdir.getDirectory());
+_ = @"cachem".addDirectoryArg(libdir.getDirectory());
 _ = @"cachem".addFileArg(asset_dir.path(b, "cachem_1.1.0.tar.gz"));
 @"cachem".step.name = "cachem";
+@"cachem".addFileInput(b.path("build-aux/config.json"));
 const @"cachem_out" = @"cachem".captureStdOut();
 _ = @"cachem".captureStdErr();
 @"cachem".step.dependOn(&@"rlang".step);
@@ -676,9 +704,10 @@ const @"cli" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"cli".addDirectoryArg(libdir.getDirectory());
+_ = @"cli".addDirectoryArg(libdir.getDirectory());
 _ = @"cli".addFileArg(asset_dir.path(b, "cli_3.6.3.tar.gz"));
 @"cli".step.name = "cli";
+@"cli".addFileInput(b.path("build-aux/config.json"));
 const @"cli_out" = @"cli".captureStdOut();
 _ = @"cli".captureStdErr();
  const @"cli_install" = b.addInstallDirectory(.{
@@ -699,9 +728,10 @@ const @"lifecycle" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"lifecycle".addDirectoryArg(libdir.getDirectory());
+_ = @"lifecycle".addDirectoryArg(libdir.getDirectory());
 _ = @"lifecycle".addFileArg(asset_dir.path(b, "lifecycle_1.0.4.tar.gz"));
 @"lifecycle".step.name = "lifecycle";
+@"lifecycle".addFileInput(b.path("build-aux/config.json"));
 const @"lifecycle_out" = @"lifecycle".captureStdOut();
 _ = @"lifecycle".captureStdErr();
 @"lifecycle".step.dependOn(&@"cli".step);
@@ -725,9 +755,10 @@ const @"stringi" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"stringi".addDirectoryArg(libdir.getDirectory());
+_ = @"stringi".addDirectoryArg(libdir.getDirectory());
 _ = @"stringi".addFileArg(asset_dir.path(b, "stringi_1.8.4.tar.gz"));
 @"stringi".step.name = "stringi";
+@"stringi".addFileInput(b.path("build-aux/config.json"));
 const @"stringi_out" = @"stringi".captureStdOut();
 _ = @"stringi".captureStdErr();
  const @"stringi_install" = b.addInstallDirectory(.{
@@ -748,9 +779,10 @@ const @"vctrs" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"vctrs".addDirectoryArg(libdir.getDirectory());
+_ = @"vctrs".addDirectoryArg(libdir.getDirectory());
 _ = @"vctrs".addFileArg(asset_dir.path(b, "vctrs_0.6.5.tar.gz"));
 @"vctrs".step.name = "vctrs";
+@"vctrs".addFileInput(b.path("build-aux/config.json"));
 const @"vctrs_out" = @"vctrs".captureStdOut();
 _ = @"vctrs".captureStdErr();
 @"vctrs".step.dependOn(&@"cli".step);
@@ -775,9 +807,10 @@ const @"mime" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"mime".addDirectoryArg(libdir.getDirectory());
+_ = @"mime".addDirectoryArg(libdir.getDirectory());
 _ = @"mime".addFileArg(asset_dir.path(b, "mime_0.12.tar.gz"));
 @"mime".step.name = "mime";
+@"mime".addFileInput(b.path("build-aux/config.json"));
 const @"mime_out" = @"mime".captureStdOut();
 _ = @"mime".captureStdErr();
  const @"mime_install" = b.addInstallDirectory(.{
@@ -798,9 +831,10 @@ const @"magrittr" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"magrittr".addDirectoryArg(libdir.getDirectory());
+_ = @"magrittr".addDirectoryArg(libdir.getDirectory());
 _ = @"magrittr".addFileArg(asset_dir.path(b, "magrittr_2.0.3.tar.gz"));
 @"magrittr".step.name = "magrittr";
+@"magrittr".addFileInput(b.path("build-aux/config.json"));
 const @"magrittr_out" = @"magrittr".captureStdOut();
 _ = @"magrittr".captureStdErr();
  const @"magrittr_install" = b.addInstallDirectory(.{
@@ -821,9 +855,10 @@ const @"memoise" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"memoise".addDirectoryArg(libdir.getDirectory());
+_ = @"memoise".addDirectoryArg(libdir.getDirectory());
 _ = @"memoise".addFileArg(asset_dir.path(b, "memoise_2.0.1.tar.gz"));
 @"memoise".step.name = "memoise";
+@"memoise".addFileInput(b.path("build-aux/config.json"));
 const @"memoise_out" = @"memoise".captureStdOut();
 _ = @"memoise".captureStdErr();
 @"memoise".step.dependOn(&@"rlang".step);
@@ -846,9 +881,10 @@ const @"jsonlite" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"jsonlite".addDirectoryArg(libdir.getDirectory());
+_ = @"jsonlite".addDirectoryArg(libdir.getDirectory());
 _ = @"jsonlite".addFileArg(asset_dir.path(b, "jsonlite_1.8.9.tar.gz"));
 @"jsonlite".step.name = "jsonlite";
+@"jsonlite".addFileInput(b.path("build-aux/config.json"));
 const @"jsonlite_out" = @"jsonlite".captureStdOut();
 _ = @"jsonlite".captureStdErr();
  const @"jsonlite_install" = b.addInstallDirectory(.{
@@ -869,9 +905,10 @@ const @"jquerylib" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"jquerylib".addDirectoryArg(libdir.getDirectory());
+_ = @"jquerylib".addDirectoryArg(libdir.getDirectory());
 _ = @"jquerylib".addFileArg(asset_dir.path(b, "jquerylib_0.1.4.tar.gz"));
 @"jquerylib".step.name = "jquerylib";
+@"jquerylib".addFileInput(b.path("build-aux/config.json"));
 const @"jquerylib_out" = @"jquerylib".captureStdOut();
 _ = @"jquerylib".captureStdErr();
 @"jquerylib".step.dependOn(&@"htmltools".step);
@@ -893,9 +930,10 @@ const @"stringr" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"stringr".addDirectoryArg(libdir.getDirectory());
+_ = @"stringr".addDirectoryArg(libdir.getDirectory());
 _ = @"stringr".addFileArg(asset_dir.path(b, "stringr_1.5.1.tar.gz"));
 @"stringr".step.name = "stringr";
+@"stringr".addFileInput(b.path("build-aux/config.json"));
 const @"stringr_out" = @"stringr".captureStdOut();
 _ = @"stringr".captureStdErr();
 @"stringr".step.dependOn(&@"cli".step);
@@ -923,9 +961,10 @@ const @"bslib" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"bslib".addDirectoryArg(libdir.getDirectory());
+_ = @"bslib".addDirectoryArg(libdir.getDirectory());
 _ = @"bslib".addFileArg(asset_dir.path(b, "bslib_0.8.0.tar.gz"));
 @"bslib".step.name = "bslib";
+@"bslib".addFileInput(b.path("build-aux/config.json"));
 const @"bslib_out" = @"bslib".captureStdOut();
 _ = @"bslib".captureStdErr();
 @"bslib".step.dependOn(&@"base64enc".step);
@@ -957,9 +996,10 @@ const @"xfun" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"xfun".addDirectoryArg(libdir.getDirectory());
+_ = @"xfun".addDirectoryArg(libdir.getDirectory());
 _ = @"xfun".addFileArg(asset_dir.path(b, "xfun_0.47.tar.gz"));
 @"xfun".step.name = "xfun";
+@"xfun".addFileInput(b.path("build-aux/config.json"));
 const @"xfun_out" = @"xfun".captureStdOut();
 _ = @"xfun".captureStdErr();
  const @"xfun_install" = b.addInstallDirectory(.{
@@ -980,9 +1020,10 @@ const @"curl" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"curl".addDirectoryArg(libdir.getDirectory());
+_ = @"curl".addDirectoryArg(libdir.getDirectory());
 _ = @"curl".addFileArg(asset_dir.path(b, "curl_5.2.3.tar.gz"));
 @"curl".step.name = "curl";
+@"curl".addFileInput(b.path("build-aux/config.json"));
 const @"curl_out" = @"curl".captureStdOut();
 _ = @"curl".captureStdErr();
  const @"curl_install" = b.addInstallDirectory(.{
@@ -1003,9 +1044,10 @@ const @"rprojroot" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rprojroot".addDirectoryArg(libdir.getDirectory());
+_ = @"rprojroot".addDirectoryArg(libdir.getDirectory());
 _ = @"rprojroot".addFileArg(asset_dir.path(b, "rprojroot_2.0.4.tar.gz"));
 @"rprojroot".step.name = "rprojroot";
+@"rprojroot".addFileInput(b.path("build-aux/config.json"));
 const @"rprojroot_out" = @"rprojroot".captureStdOut();
 _ = @"rprojroot".captureStdErr();
  const @"rprojroot_install" = b.addInstallDirectory(.{
@@ -1026,9 +1068,10 @@ const @"evaluate" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"evaluate".addDirectoryArg(libdir.getDirectory());
+_ = @"evaluate".addDirectoryArg(libdir.getDirectory());
 _ = @"evaluate".addFileArg(asset_dir.path(b, "evaluate_1.0.0.tar.gz"));
 @"evaluate".step.name = "evaluate";
+@"evaluate".addFileInput(b.path("build-aux/config.json"));
 const @"evaluate_out" = @"evaluate".captureStdOut();
 _ = @"evaluate".captureStdErr();
  const @"evaluate_install" = b.addInstallDirectory(.{
@@ -1049,9 +1092,10 @@ const @"fontawesome" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"fontawesome".addDirectoryArg(libdir.getDirectory());
+_ = @"fontawesome".addDirectoryArg(libdir.getDirectory());
 _ = @"fontawesome".addFileArg(asset_dir.path(b, "fontawesome_0.5.2.tar.gz"));
 @"fontawesome".step.name = "fontawesome";
+@"fontawesome".addFileInput(b.path("build-aux/config.json"));
 const @"fontawesome_out" = @"fontawesome".captureStdOut();
 _ = @"fontawesome".captureStdErr();
 @"fontawesome".step.dependOn(&@"rlang".step);
@@ -1074,9 +1118,10 @@ const @"openssl" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"openssl".addDirectoryArg(libdir.getDirectory());
+_ = @"openssl".addDirectoryArg(libdir.getDirectory());
 _ = @"openssl".addFileArg(asset_dir.path(b, "openssl_2.2.2.tar.gz"));
 @"openssl".step.name = "openssl";
+@"openssl".addFileInput(b.path("build-aux/config.json"));
 const @"openssl_out" = @"openssl".captureStdOut();
 _ = @"openssl".captureStdErr();
 @"openssl".step.dependOn(&@"askpass".step);
@@ -1098,9 +1143,10 @@ const @"httr" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"httr".addDirectoryArg(libdir.getDirectory());
+_ = @"httr".addDirectoryArg(libdir.getDirectory());
 _ = @"httr".addFileArg(asset_dir.path(b, "httr_1.4.7.tar.gz"));
 @"httr".step.name = "httr";
+@"httr".addFileInput(b.path("build-aux/config.json"));
 const @"httr_out" = @"httr".captureStdOut();
 _ = @"httr".captureStdErr();
 @"httr".step.dependOn(&@"curl".step);
@@ -1126,9 +1172,10 @@ const @"github" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"github".addDirectoryArg(libdir.getDirectory());
+_ = @"github".addDirectoryArg(libdir.getDirectory());
 _ = @"github".addFileArg(asset_dir.path(b, "github_0.9.12.tar.gz"));
 @"github".step.name = "github";
+@"github".addFileInput(b.path("build-aux/config.json"));
 const @"github_out" = @"github".captureStdOut();
 _ = @"github".captureStdErr();
 @"github".step.dependOn(&@"httr".step);
@@ -1153,9 +1200,10 @@ const @"guitar" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"guitar".addDirectoryArg(libdir.getDirectory());
+_ = @"guitar".addDirectoryArg(libdir.getDirectory());
 _ = @"guitar".addFileArg(asset_dir.path(b, "guitar_0.0.3.1.tar.gz"));
 @"guitar".step.name = "guitar";
+@"guitar".addFileInput(b.path("build-aux/config.json"));
 const @"guitar_out" = @"guitar".captureStdOut();
 _ = @"guitar".captureStdErr();
 @"guitar".step.dependOn(&@"Rcpp".step);
@@ -1181,9 +1229,10 @@ const @"here" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"here".addDirectoryArg(libdir.getDirectory());
+_ = @"here".addDirectoryArg(libdir.getDirectory());
 _ = @"here".addFileArg(asset_dir.path(b, "here_1.0.1.tar.gz"));
 @"here".step.name = "here";
+@"here".addFileInput(b.path("build-aux/config.json"));
 const @"here_out" = @"here".captureStdOut();
 _ = @"here".captureStdErr();
 @"here".step.dependOn(&@"rprojroot".step);
@@ -1205,9 +1254,10 @@ const @"highr" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"highr".addDirectoryArg(libdir.getDirectory());
+_ = @"highr".addDirectoryArg(libdir.getDirectory());
 _ = @"highr".addFileArg(asset_dir.path(b, "highr_0.11.tar.gz"));
 @"highr".step.name = "highr";
+@"highr".addFileInput(b.path("build-aux/config.json"));
 const @"highr_out" = @"highr".captureStdOut();
 _ = @"highr".captureStdErr();
 @"highr".step.dependOn(&@"xfun".step);
@@ -1229,9 +1279,10 @@ const @"knitr" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"knitr".addDirectoryArg(libdir.getDirectory());
+_ = @"knitr".addDirectoryArg(libdir.getDirectory());
 _ = @"knitr".addFileArg(asset_dir.path(b, "knitr_1.48.tar.gz"));
 @"knitr".step.name = "knitr";
+@"knitr".addFileInput(b.path("build-aux/config.json"));
 const @"knitr_out" = @"knitr".captureStdOut();
 _ = @"knitr".captureStdErr();
 @"knitr".step.dependOn(&@"evaluate".step);
@@ -1256,9 +1307,10 @@ const @"withr" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"withr".addDirectoryArg(libdir.getDirectory());
+_ = @"withr".addDirectoryArg(libdir.getDirectory());
 _ = @"withr".addFileArg(asset_dir.path(b, "withr_3.0.1.tar.gz"));
 @"withr".step.name = "withr";
+@"withr".addFileInput(b.path("build-aux/config.json"));
 const @"withr_out" = @"withr".captureStdOut();
 _ = @"withr".captureStdErr();
  const @"withr_install" = b.addInstallDirectory(.{
@@ -1279,9 +1331,10 @@ const @"markdown" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"markdown".addDirectoryArg(libdir.getDirectory());
+_ = @"markdown".addDirectoryArg(libdir.getDirectory());
 _ = @"markdown".addFileArg(asset_dir.path(b, "markdown_1.13.tar.gz"));
 @"markdown".step.name = "markdown";
+@"markdown".addFileInput(b.path("build-aux/config.json"));
 const @"markdown_out" = @"markdown".captureStdOut();
 _ = @"markdown".captureStdErr();
 @"markdown".step.dependOn(&@"commonmark".step);
@@ -1304,9 +1357,10 @@ const @"png" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"png".addDirectoryArg(libdir.getDirectory());
+_ = @"png".addDirectoryArg(libdir.getDirectory());
 _ = @"png".addFileArg(asset_dir.path(b, "png_0.1-8.tar.gz"));
 @"png".step.name = "png";
+@"png".addFileInput(b.path("build-aux/config.json"));
 const @"png_out" = @"png".captureStdOut();
 _ = @"png".captureStdErr();
  const @"png_install" = b.addInstallDirectory(.{
@@ -1327,9 +1381,10 @@ const @"tinytex" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"tinytex".addDirectoryArg(libdir.getDirectory());
+_ = @"tinytex".addDirectoryArg(libdir.getDirectory());
 _ = @"tinytex".addFileArg(asset_dir.path(b, "tinytex_0.53.tar.gz"));
 @"tinytex".step.name = "tinytex";
+@"tinytex".addFileInput(b.path("build-aux/config.json"));
 const @"tinytex_out" = @"tinytex".captureStdOut();
 _ = @"tinytex".captureStdErr();
 @"tinytex".step.dependOn(&@"xfun".step);
@@ -1351,9 +1406,10 @@ const @"reticulate" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"reticulate".addDirectoryArg(libdir.getDirectory());
+_ = @"reticulate".addDirectoryArg(libdir.getDirectory());
 _ = @"reticulate".addFileArg(asset_dir.path(b, "reticulate_1.39.0.tar.gz"));
 @"reticulate".step.name = "reticulate";
+@"reticulate".addFileInput(b.path("build-aux/config.json"));
 const @"reticulate_out" = @"reticulate".captureStdOut();
 _ = @"reticulate".captureStdErr();
 @"reticulate".step.dependOn(&@"Rcpp".step);
@@ -1383,9 +1439,10 @@ const @"rjson" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rjson".addDirectoryArg(libdir.getDirectory());
+_ = @"rjson".addDirectoryArg(libdir.getDirectory());
 _ = @"rjson".addFileArg(asset_dir.path(b, "rjson_0.2.23.tar.gz"));
 @"rjson".step.name = "rjson";
+@"rjson".addFileInput(b.path("build-aux/config.json"));
 const @"rjson_out" = @"rjson".captureStdOut();
 _ = @"rjson".captureStdErr();
  const @"rjson_install" = b.addInstallDirectory(.{
@@ -1406,9 +1463,10 @@ const @"rmarkdown" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rmarkdown".addDirectoryArg(libdir.getDirectory());
+_ = @"rmarkdown".addDirectoryArg(libdir.getDirectory());
 _ = @"rmarkdown".addFileArg(asset_dir.path(b, "rmarkdown_2.28.tar.gz"));
 @"rmarkdown".step.name = "rmarkdown";
+@"rmarkdown".addFileInput(b.path("build-aux/config.json"));
 const @"rmarkdown_out" = @"rmarkdown".captureStdOut();
 _ = @"rmarkdown".captureStdErr();
 @"rmarkdown".step.dependOn(&@"bslib".step);
@@ -1439,9 +1497,10 @@ const @"sendmailR" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"sendmailR".addDirectoryArg(libdir.getDirectory());
+_ = @"sendmailR".addDirectoryArg(libdir.getDirectory());
 _ = @"sendmailR".addFileArg(asset_dir.path(b, "sendmailR_1.4-0.tar.gz"));
 @"sendmailR".step.name = "sendmailR";
+@"sendmailR".addFileInput(b.path("build-aux/config.json"));
 const @"sendmailR_out" = @"sendmailR".captureStdOut();
 _ = @"sendmailR".captureStdErr();
 @"sendmailR".step.dependOn(&@"base64enc".step);
@@ -1463,9 +1522,10 @@ const @"unixtools" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"unixtools".addDirectoryArg(libdir.getDirectory());
+_ = @"unixtools".addDirectoryArg(libdir.getDirectory());
 _ = @"unixtools".addFileArg(asset_dir.path(b, "unixtools_0.1-1.tar.gz"));
 @"unixtools".step.name = "unixtools";
+@"unixtools".addFileInput(b.path("build-aux/config.json"));
 const @"unixtools_out" = @"unixtools".captureStdOut();
 _ = @"unixtools".captureStdErr();
  const @"unixtools_install" = b.addInstallDirectory(.{
@@ -1486,9 +1546,10 @@ const @"uuid" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"uuid".addDirectoryArg(libdir.getDirectory());
+_ = @"uuid".addDirectoryArg(libdir.getDirectory());
 _ = @"uuid".addFileArg(asset_dir.path(b, "uuid_1.2-1.tar.gz"));
 @"uuid".step.name = "uuid";
+@"uuid".addFileInput(b.path("build-aux/config.json"));
 const @"uuid_out" = @"uuid".captureStdOut();
 _ = @"uuid".captureStdErr();
  const @"uuid_install" = b.addInstallDirectory(.{
@@ -1509,7 +1570,7 @@ const @"rcloud.sh" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rcloud.sh".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.sh".addDirectoryArg(libdir.getDirectory());
 const @"rcloud.sh_src" = b.addWriteFiles();
 _ = @"rcloud.sh_src".addCopyDirectory(b.path("rcloud.packages/rcloud.sh"), "", .{});
 _ = @"rcloud.sh".addDirectoryArg(@"rcloud.sh_src".getDirectory());
@@ -1534,7 +1595,7 @@ const @"gist" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"gist".addDirectoryArg(libdir.getDirectory());
+_ = @"gist".addDirectoryArg(libdir.getDirectory());
 const @"gist_src" = b.addWriteFiles();
 _ = @"gist_src".addCopyDirectory(b.path("packages/gist"), "", .{});
 _ = @"gist".addDirectoryArg(@"gist_src".getDirectory());
@@ -1559,7 +1620,7 @@ const @"githubgist" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"githubgist".addDirectoryArg(libdir.getDirectory());
+_ = @"githubgist".addDirectoryArg(libdir.getDirectory());
 const @"githubgist_src" = b.addWriteFiles();
 _ = @"githubgist_src".addCopyDirectory(b.path("packages/githubgist"), "", .{});
 _ = @"githubgist".addDirectoryArg(@"githubgist_src".getDirectory());
@@ -1587,7 +1648,7 @@ const @"gitgist" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"gitgist".addDirectoryArg(libdir.getDirectory());
+_ = @"gitgist".addDirectoryArg(libdir.getDirectory());
 const @"gitgist_src" = b.addWriteFiles();
 _ = @"gitgist_src".addCopyDirectory(b.path("packages/gitgist"), "", .{});
 _ = @"gitgist".addDirectoryArg(@"gitgist_src".getDirectory());
@@ -1615,7 +1676,7 @@ const @"rcloud.client" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rcloud.client".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.client".addDirectoryArg(libdir.getDirectory());
 const @"rcloud.client_src" = b.addWriteFiles();
 _ = @"rcloud.client_src".addCopyDirectory(b.path("rcloud.client"), "", .{});
 _ = @"rcloud.client".addDirectoryArg(@"rcloud.client_src".getDirectory());
@@ -1642,7 +1703,7 @@ const @"rcloud.support" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rcloud.support".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.support".addDirectoryArg(libdir.getDirectory());
 const @"rcloud.support_src" = b.addWriteFiles();
 _ = @"rcloud.support_src".addCopyDirectory(b.path("rcloud.support"), "", .{});
 _ = @"rcloud.support".addDirectoryArg(@"rcloud.support_src".getDirectory());
@@ -1684,7 +1745,7 @@ const @"rcloud.notebook.info" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rcloud.notebook.info".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.notebook.info".addDirectoryArg(libdir.getDirectory());
 const @"rcloud.notebook.info_src" = b.addWriteFiles();
 _ = @"rcloud.notebook.info_src".addCopyDirectory(b.path("rcloud.packages/rcloud.notebook.info"), "", .{});
 _ = @"rcloud.notebook.info".addDirectoryArg(@"rcloud.notebook.info_src".getDirectory());
@@ -1710,7 +1771,7 @@ const @"rcloud.python" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rcloud.python".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.python".addDirectoryArg(libdir.getDirectory());
 const @"rcloud.python_src" = b.addWriteFiles();
 _ = @"rcloud.python_src".addCopyDirectory(b.path("rcloud.packages/rcloud.python"), "", .{});
 _ = @"rcloud.python".addDirectoryArg(@"rcloud.python_src".getDirectory());
@@ -1737,7 +1798,7 @@ const @"rcloud.r" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rcloud.r".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.r".addDirectoryArg(libdir.getDirectory());
 const @"rcloud.r_src" = b.addWriteFiles();
 _ = @"rcloud.r_src".addCopyDirectory(b.path("rcloud.packages/rcloud.r"), "", .{});
 _ = @"rcloud.r".addDirectoryArg(@"rcloud.r_src".getDirectory());
@@ -1764,7 +1825,7 @@ const @"rcloud.web" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rcloud.web".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.web".addDirectoryArg(libdir.getDirectory());
 const @"rcloud.web_src" = b.addWriteFiles();
 _ = @"rcloud.web_src".addCopyDirectory(b.path("rcloud.packages/rcloud.web"), "", .{});
 _ = @"rcloud.web".addDirectoryArg(@"rcloud.web_src".getDirectory());
@@ -1790,7 +1851,7 @@ const @"rcloud.jupyter" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rcloud.jupyter".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.jupyter".addDirectoryArg(libdir.getDirectory());
 const @"rcloud.jupyter_src" = b.addWriteFiles();
 _ = @"rcloud.jupyter_src".addCopyDirectory(b.path("rcloud.packages/rcloud.jupyter"), "", .{});
 _ = @"rcloud.jupyter".addDirectoryArg(@"rcloud.jupyter_src".getDirectory());
@@ -1820,7 +1881,7 @@ const @"rcloud.enviewer" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rcloud.enviewer".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.enviewer".addDirectoryArg(libdir.getDirectory());
 const @"rcloud.enviewer_src" = b.addWriteFiles();
 _ = @"rcloud.enviewer_src".addCopyDirectory(b.path("rcloud.packages/rcloud.enviewer"), "", .{});
 _ = @"rcloud.enviewer".addDirectoryArg(@"rcloud.enviewer_src".getDirectory());
@@ -1846,7 +1907,7 @@ const @"rcloud.rmarkdown" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rcloud.rmarkdown".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.rmarkdown".addDirectoryArg(libdir.getDirectory());
 const @"rcloud.rmarkdown_src" = b.addWriteFiles();
 _ = @"rcloud.rmarkdown_src".addCopyDirectory(b.path("rcloud.packages/rcloud.rmarkdown"), "", .{});
 _ = @"rcloud.rmarkdown".addDirectoryArg(@"rcloud.rmarkdown_src".getDirectory());
@@ -1873,7 +1934,7 @@ const @"rcloud.viewer" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rcloud.viewer".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.viewer".addDirectoryArg(libdir.getDirectory());
 const @"rcloud.viewer_src" = b.addWriteFiles();
 _ = @"rcloud.viewer_src".addCopyDirectory(b.path("rcloud.packages/rcloud.viewer"), "", .{});
 _ = @"rcloud.viewer".addDirectoryArg(@"rcloud.viewer_src".getDirectory());
@@ -1899,7 +1960,7 @@ const @"rcloud.lux" = b.addSystemCommand(&.{ "R" });
     "--no-multiarch",
     "-l",
 });
- _ = @"rcloud.lux".addDirectoryArg(libdir.getDirectory());
+_ = @"rcloud.lux".addDirectoryArg(libdir.getDirectory());
 const @"rcloud.lux_src" = b.addWriteFiles();
 _ = @"rcloud.lux_src".addCopyDirectory(b.path("rcloud.packages/rcloud.lux"), "", .{});
 _ = @"rcloud.lux".addDirectoryArg(@"rcloud.lux_src".getDirectory());

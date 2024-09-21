@@ -70,7 +70,7 @@ RFORGE_PACKAGES := \
 # create a separate installation target for them.
 # NOTE: these must be listed in dependency order, not alphabetical.
 # TODO: if these depend on rcloud.support, and rcloud.support is not
-# available as an R package outside of this repository, then when are
+# available as an R package outside of this repository, then why are
 # these two packages published on rforge and not a part of this repo?
 RFORGE_PACKAGES_LATE := \
 	ulog_0.1-2.tar.gz \

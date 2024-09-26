@@ -96,11 +96,12 @@ fn generate_build_script(
 
     // arguments: config_file out_dir package_dirs...
     const step = b.addRunArtifact(exe);
-    _ = step.addArg(config_path);
 
-    // by using a temp directory here, we ensure the results of this
-    // step are never cached.
-    // const out_dir = step.addOutputDirectoryArg(b.makeTempPath());
+    // the tool wants a relative path, so we use addArg, and manually
+    // add the dependency with addFileInput
+    _ = step.addArg(config_path);
+    _ = step.addFileInput(b.path(config_path));
+
     const out_dir = step.addOutputDirectoryArg("deps");
     for (relative_source_package_paths) |path| {
         _ = step.addArg(path);

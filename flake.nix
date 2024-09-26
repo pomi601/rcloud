@@ -66,5 +66,32 @@
               LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];
               LOCALE_ARCHIVE = if pkgs.stdenv.isLinux then "${pkgs.glibcLocales}/lib/locale/locale-archive" else "";
             };
+
+          devShells.stable =
+            pkgs.mkShell {
+              buildInputs = with pkgs; [
+                bashInteractive
+                cairo
+                curl
+                killall
+                git
+                icu
+                libxcrypt
+                libxml2
+                nodejs-slim
+                nodePackages.npm
+                openssl
+                pkg-config
+                redis
+                R
+                rPackages.codetools
+                rPackages.Matrix
+                pkgs.zig
+                pkgs.zls
+              ];
+
+              LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];
+              LOCALE_ARCHIVE = if pkgs.stdenv.isLinux then "${pkgs.glibcLocales}/lib/locale/locale-archive" else "";
+            };
         });
 }

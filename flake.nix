@@ -41,6 +41,7 @@
               buildInputs = with pkgs; [
                 # autoconf
                 # automake
+                bashInteractive
                 cairo
                 curl
                 killall

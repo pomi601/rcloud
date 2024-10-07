@@ -44,6 +44,30 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     && rm -rf /var/lib/apt/lists/*
 
 #
+# build-dep-java: this stage includes build dependencies for java, for
+# use with session key server
+#
+FROM base as build-dep-java
+
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install --no-install-recommends -y \
+    build-essential \
+    default-jdk \
+    git \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+FROM build-dep-java as dev-sks
+WORKDIR /data
+RUN git clone --depth 1 https://github.com/s-u/SessionKeyServer.git && cd SessionKeyServer && make -j${BUILD_JOBS}
+
+FROM dev-sks as runtime-sks
+WORKDIR /data/SessionKeyServer
+ENTRYPOINT ["/bin/bash", "-c", "sh run"]
+
+
+#
 # a development environment target
 #
 # Use like this:
@@ -72,7 +96,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     redis-server
 
 
-RUN groupadd -g $GID $USER && useradd -m -u $UID -g $GID $USER
+# add group, exiting successfully if it already exists
+RUN groupadd -f -g $GID $USER && useradd -m -u $UID -g $GID $USER
 USER $USER
 WORKDIR /home/$USER
 
@@ -187,7 +212,7 @@ RUN node_modules/grunt-cli/bin/grunt
 # prior stages together. It also pulls in the remaining debian
 # packages needed for runtime.
 #
-FROM base as runtime
+FROM base as runtime-simple
 USER root
 WORKDIR /data/rcloud
 RUN chown -f rcloud:rcloud /data/rcloud

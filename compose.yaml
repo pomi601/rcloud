@@ -1,0 +1,26 @@
+name: rcloud
+
+services:
+  rcloud-simple:
+    image: rcloud-simple
+    build:
+      context: .
+      dockerfile: debian.Dockerfile
+      target: runtime-simple
+    ports:
+      - "8080:8080"
+    volumes:
+      - rcloud-data:/data
+
+  sks:
+    image: rcloud-sks
+    build:
+      context: .
+      dockerfile: debian.Dockerfile
+      target: runtime-sks
+    ports:
+      - "4301:4301"
+
+
+volumes:
+  rcloud-data:

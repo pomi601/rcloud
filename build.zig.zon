@@ -24,8 +24,8 @@
     // internet connectivity.
     .dependencies = .{
         .@"r-build-zig" = .{
-            .url = "https://codeberg.org/mocompute/r-build-zig/archive/v0.2.0.tar.gz",
-            .hash = "12209555bf9fb79f212f6116144887b3428a64f933356eed9e1a510b890041de31b7",
+            .url = "https://codeberg.org/mocompute/r-build-zig/archive/v0.3.0.tar.gz",
+            .hash = "12202a32686e0aedfebd3dd97318dcca6ce99cefbd74ae9447b870e3dd2a48de8e6b",
         },
     },
     .paths = .{

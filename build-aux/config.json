@@ -28,16 +28,16 @@
         "hash": "7e5d312fca8029d746f60e7d9e701129561942f97dfc33b036b123f159d69a4c"
       },
       "askpass": {
-        "url": "https://cloud.r-project.org/package=askpass&version=1.2.0",
-        "hash": "b922369781934d0ffc8d0c0177e8ace56796c2e6a726f65e460c16f792592cef"
+        "url": "https://cloud.r-project.org/package=askpass&version=1.2.1",
+        "hash": "6c2106a74c44a748f2cea795d9686e27a0058a90debcfd8558b62b06aec0c7dd"
       },
       "base64enc": {
         "url": "https://cloud.r-project.org/package=base64enc&version=0.1-3",
         "hash": "6d856d8a364bcdc499a0bf38bfd283b7c743d08f0b288174fba7dbf0a04b688d"
       },
       "bitops": {
-        "url": "https://cloud.r-project.org/package=bitops&version=1.0-8",
-        "hash": "78a14b9f69645dc65e1973e1f1a9968c53d5c5edc6aa1ac85661e1112f212738"
+        "url": "https://cloud.r-project.org/package=bitops&version=1.0-9",
+        "hash": "cff3a5b77b72bb3b8fde92b690d0f803466d218a3ead6b731ae7c77ac1740d08"
       },
       "brew": {
         "url": "https://cloud.r-project.org/package=brew&version=1.0-10",
@@ -56,8 +56,8 @@
         "hash": "4295085f11221c54b1dd2b1d39a675a85dfd9f900294297567e1d36f65ac4841"
       },
       "commonmark": {
-        "url": "https://cloud.r-project.org/package=commonmark&version=1.9.1",
-        "hash": "9517a13f4ce4a99bb157493453b04419b222cb65a9471cd3b11e5045ac0db53b"
+        "url": "https://cloud.r-project.org/package=commonmark&version=1.9.2",
+        "hash": "1d6adcfbe8e2b8f7302bef80e2364ba4f186238e4e5593511908ade57eb486eb"
       },
       "curl": {
         "url": "https://cloud.r-project.org/package=curl&version=5.2.3",
@@ -68,8 +68,8 @@
         "hash": "82c4d149994b8a4a9af930f5a8e47420829935abed41f3f9030e94b6a48f0321"
       },
       "evaluate": {
-        "url": "https://cloud.r-project.org/package=evaluate&version=1.0.0",
-        "hash": "61e095e28f93c73828649ea755c8d2cad5b533ed9b5d1bfc2f6ba49dc20b937a"
+        "url": "https://cloud.r-project.org/package=evaluate&version=1.0.1",
+        "hash": "436cc3e55b53e3c618b2f31324840875b5d66076c737af6fb31c650c783171e2"
       },
       "fastmap": {
         "url": "https://cloud.r-project.org/package=fastmap&version=1.2.0",
@@ -88,8 +88,8 @@
         "hash": "f911c48b7aa64807366f5f18a1c908af35b9e1839fb00dd45f4140302b71c291"
       },
       "glue": {
-        "url": "https://cloud.r-project.org/package=glue&version=1.7.0",
-        "hash": "1af51b51f52c1aeb3bfe9349f55896dd78b5542ffdd5654e432e4d646e4a86dc"
+        "url": "https://cloud.r-project.org/package=glue&version=1.8.0",
+        "hash": "c86f364ba899b8662f5da3e1a75f43ae081ab04e0d51171d052356e7ee4b72a0"
       },
       "guitar": {
         "url": "https://www.rforge.net/src/contrib/guitar_0.0.3.1.tar.gz",
@@ -196,8 +196,8 @@
         "hash": "a4adec51bb3f04214b1d8ef40d3a58949f21b1497cbeaf2ba552e0891eef45de"
       },
       "sys": {
-        "url": "https://cloud.r-project.org/package=sys&version=3.4.2",
-        "hash": "b7bdce66f0fb681830ea6fb77b5a2c6babb43920abb1eddc733f95c0a63ce5b3"
+        "url": "https://cloud.r-project.org/package=sys&version=3.4.3",
+        "hash": "051e7332e3074db826efef9059067721864f9d70adc55bbcae3a72e5ae83913a"
       },
       "tinytex": {
         "url": "https://cloud.r-project.org/package=tinytex&version=0.53",
@@ -220,8 +220,8 @@
         "hash": "d573f1ac2f733c7dd89669feb495d68f1f15d7a9774473c2e46a9848945a3841"
       },
       "xfun": {
-        "url": "https://cloud.r-project.org/package=xfun&version=0.47",
-        "hash": "999874fdbf4df2e686a3cb134bfef782c0d3eb0141006191ca1eda94ce232c4b"
+        "url": "https://cloud.r-project.org/package=xfun&version=0.48",
+        "hash": "27668c445257456a759015ab494edb4dc54af06e36523be423d313af651c932e"
       },
       "yaml": {
         "url": "https://cloud.r-project.org/package=yaml&version=2.3.10",

@@ -38,7 +38,7 @@ const @"sys" = b.addSystemCommand(&.{ "R" });
     "-l",
 });
 _ = @"sys".addDirectoryArg(libdir.getDirectory());
-_ = @"sys".addFileArg(asset_dir.path(b, "sys_3.4.2.tar.gz"));
+_ = @"sys".addFileArg(asset_dir.path(b, "sys_3.4.3.tar.gz"));
 @"sys".step.name = "sys";
 @"sys".addFileInput(b.path("build-aux/config.json"));
 const @"sys_out" = @"sys".captureStdOut();
@@ -110,7 +110,7 @@ const @"commonmark" = b.addSystemCommand(&.{ "R" });
     "-l",
 });
 _ = @"commonmark".addDirectoryArg(libdir.getDirectory());
-_ = @"commonmark".addFileArg(asset_dir.path(b, "commonmark_1.9.1.tar.gz"));
+_ = @"commonmark".addFileArg(asset_dir.path(b, "commonmark_1.9.2.tar.gz"));
 @"commonmark".step.name = "commonmark";
 @"commonmark".addFileInput(b.path("build-aux/config.json"));
 const @"commonmark_out" = @"commonmark".captureStdOut();
@@ -158,7 +158,7 @@ const @"bitops" = b.addSystemCommand(&.{ "R" });
     "-l",
 });
 _ = @"bitops".addDirectoryArg(libdir.getDirectory());
-_ = @"bitops".addFileArg(asset_dir.path(b, "bitops_1.0-8.tar.gz"));
+_ = @"bitops".addFileArg(asset_dir.path(b, "bitops_1.0-9.tar.gz"));
 @"bitops".step.name = "bitops";
 @"bitops".addFileInput(b.path("build-aux/config.json"));
 const @"bitops_out" = @"bitops".captureStdOut();
@@ -477,7 +477,7 @@ const @"askpass" = b.addSystemCommand(&.{ "R" });
     "-l",
 });
 _ = @"askpass".addDirectoryArg(libdir.getDirectory());
-_ = @"askpass".addFileArg(asset_dir.path(b, "askpass_1.2.0.tar.gz"));
+_ = @"askpass".addFileArg(asset_dir.path(b, "askpass_1.2.1.tar.gz"));
 @"askpass".step.name = "askpass";
 @"askpass".addFileInput(b.path("build-aux/config.json"));
 const @"askpass_out" = @"askpass".captureStdOut();
@@ -655,7 +655,7 @@ const @"glue" = b.addSystemCommand(&.{ "R" });
     "-l",
 });
 _ = @"glue".addDirectoryArg(libdir.getDirectory());
-_ = @"glue".addFileArg(asset_dir.path(b, "glue_1.7.0.tar.gz"));
+_ = @"glue".addFileArg(asset_dir.path(b, "glue_1.8.0.tar.gz"));
 @"glue".step.name = "glue";
 @"glue".addFileInput(b.path("build-aux/config.json"));
 const @"glue_out" = @"glue".captureStdOut();
@@ -997,7 +997,7 @@ const @"xfun" = b.addSystemCommand(&.{ "R" });
     "-l",
 });
 _ = @"xfun".addDirectoryArg(libdir.getDirectory());
-_ = @"xfun".addFileArg(asset_dir.path(b, "xfun_0.47.tar.gz"));
+_ = @"xfun".addFileArg(asset_dir.path(b, "xfun_0.48.tar.gz"));
 @"xfun".step.name = "xfun";
 @"xfun".addFileInput(b.path("build-aux/config.json"));
 const @"xfun_out" = @"xfun".captureStdOut();
@@ -1069,7 +1069,7 @@ const @"evaluate" = b.addSystemCommand(&.{ "R" });
     "-l",
 });
 _ = @"evaluate".addDirectoryArg(libdir.getDirectory());
-_ = @"evaluate".addFileArg(asset_dir.path(b, "evaluate_1.0.0.tar.gz"));
+_ = @"evaluate".addFileArg(asset_dir.path(b, "evaluate_1.0.1.tar.gz"));
 @"evaluate".step.name = "evaluate";
 @"evaluate".addFileInput(b.path("build-aux/config.json"));
 const @"evaluate_out" = @"evaluate".captureStdOut();

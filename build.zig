@@ -18,7 +18,6 @@ const generated_build = @import("build-aux/generated/build.zig");
 pub fn build(b: *std.Build) !void {
     // const buf: [std.mem.page_size]u8 = undefined;
     const target = b.standardTargetOptions(.{});
-    const optimize = b.standardOptimizeOption(.{});
     const config_path = "build-aux/config.json";
 
     // additional steps
@@ -26,7 +25,7 @@ pub fn build(b: *std.Build) !void {
     const tarball_step = b.step("dist", "Make a source archive");
 
     // declare build install rules
-    try fetch_assets_and_build(b, config_path, target, optimize);
+    try fetch_assets_and_build(b, config_path, target, .ReleaseSafe);
 
     // declare rules for htdocs
     build_htdocs(b);
@@ -43,7 +42,7 @@ pub fn build(b: *std.Build) !void {
         },
         update_step,
         target,
-        optimize,
+        .ReleaseSafe,
     );
 
     // declare step: dist
@@ -58,7 +57,6 @@ fn fetch_assets_and_build(
     target: ResolvedTarget,
     optimize: OptimizeMode,
 ) !void {
-
     // get the fetch-assets tool
     const exe = b.dependency("r-build-zig", .{
         .target = target,

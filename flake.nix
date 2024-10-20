@@ -58,6 +58,35 @@
                 R
                 rPackages.codetools
                 rPackages.Matrix
+                zig.packages.${system}.master
+              ];
+
+              LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];
+              LOCALE_ARCHIVE = if pkgs.stdenv.isLinux then "${pkgs.glibcLocales}/lib/locale/locale-archive" else "";
+            };
+
+          devShells.dev =
+            pkgs.mkShell {
+              buildInputs = with pkgs; [
+                # autoconf
+                # automake
+                bashInteractive
+                cairo
+                curl
+                killall
+                git
+                # gnumake
+                icu
+                libxcrypt
+                libxml2
+                nodejs-slim
+                nodePackages.npm
+                openssl
+                pkg-config
+                redis
+                R
+                rPackages.codetools
+                rPackages.Matrix
 
                 zig.packages.${system}.master
                 zlsOverride

@@ -5,6 +5,7 @@ pkgs.mkShell {
   packages = with pkgs; [
     autoconf
     automake
+    bashInteractive
     cairo
     curl
     killall

@@ -30,6 +30,9 @@ pub fn build(b: *std.Build) !void {
     // declare rules for htdocs
     build_htdocs(b);
 
+    // declare rules for conf
+    build_conf(b);
+
     // declare step: update
     try generate_build_script(
         b,
@@ -223,6 +226,21 @@ fn build_htdocs(b: *Build) void {
 
     // install built htdocs files
     b.getInstallStep().dependOn(&htdocs_install.step);
+}
+
+fn build_conf(b: *Build) void {
+    // install conf directory
+    b.getInstallStep().dependOn(&b.addInstallDirectory(.{
+        .source_dir = b.path("conf"),
+        .install_dir = .prefix,
+        .install_subdir = "conf",
+    }).step);
+
+    // install VERSION file
+    b.getInstallStep().dependOn(&b.addInstallFile(
+        b.path("VERSION"),
+        "VERSION",
+    ).step);
 }
 
 fn add_extra_rcloud_targets(b: *Build, asset_dir: LazyPath) void {

@@ -24,8 +24,8 @@
     // internet connectivity.
     .dependencies = .{
         .@"r-build-zig" = .{
-            .url = "https://github.com/mocompute/r-build-zig/archive/v0.3.0.tar.gz",
-            .hash = "12202a32686e0aedfebd3dd97318dcca6ce99cefbd74ae9447b870e3dd2a48de8e6b",
+            .url = "https://github.com/mocompute/r-build-zig/archive/v0.3.1.tar.gz",
+            .hash = "1220dd8ab916dcd84395da83d4777ab64950c7f3570e31c7250c7214c5cf3b56971c",
         },
     },
     .paths = .{

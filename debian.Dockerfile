@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1.7-labs
-# needed for COPY --exclude
 # build with: docker buildx build -f debian.Dockerfile -t rcloud .
 
 ARG BUILD_JOBS=8
@@ -9,38 +7,38 @@ ARG BUILD_JOBS=8
 #
 FROM debian as base
 
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked        \
     apt-get update && apt-get install --no-install-recommends -y \
-    curl \
-    locales \
+    curl                                                         \
+    git                                                          \
+    locales                                                      \
+    wget                                                         \
     && rm -rf /var/lib/apt/lists/*
 
 # Make rcloud user
 RUN useradd -m rcloud
 
 #
-# build-dep: this stage includes all debian build dependencies
-# required to build rcloud from source.
+# build-dep: this stage includes all debian system requirements
+# required to build rcloud and its dependencies from source.
 #
 FROM base as build-dep
 
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked        \
     apt-get update && apt-get install --no-install-recommends -y \
-    automake \
-    build-essential \
-    git \
-    libcairo2-dev \
-    libcurl4-openssl-dev \
-    libicu-dev \
-    libssl-dev \
-    pkg-config \
-    r-base \
-    wget \
-    \
-    nodejs \
-    npm \
+    automake                                                     \
+    build-essential                                              \
+    libcairo2-dev                                                \
+    libcurl4-openssl-dev                                         \
+    libicu-dev                                                   \
+    libssl-dev                                                   \
+    pkg-config                                                   \
+    r-base                                                       \
+                                                                 \
+    nodejs                                                       \
+    npm                                                          \
     && rm -rf /var/lib/apt/lists/*
 
 #
@@ -49,13 +47,11 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 #
 FROM base as build-dep-java
 
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked        \
     apt-get update && apt-get install --no-install-recommends -y \
-    build-essential \
-    default-jdk \
-    git \
-    wget \
+    build-essential                                              \
+    default-jdk                                                  \
     && rm -rf /var/lib/apt/lists/*
 
 FROM build-dep-java as dev-sks
@@ -66,16 +62,9 @@ FROM dev-sks as runtime-sks
 WORKDIR /data/SessionKeyServer
 ENTRYPOINT ["/bin/bash", "-c", "sh run"]
 
-
 #
 # a development environment target
 #
-# Use like this:
-#
-# docker buildx build --target dev -f debian.Dockerfile --build-arg UID=$(id -u) --build-arg GID=$(id -g) -t rcloud-dev .
-# docker create --init --name rcloud-dev -v/home/me/src:/home/dev/src -p8080:8080 rcloud-dev
-# docker start rcloud-dev # runs forever
-# docker exec -it rcloud-dev bash
 FROM build-dep as dev
 
 ARG UID=1001
@@ -86,7 +75,6 @@ ARG USER=dev
 RUN echo "en_NZ.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
 ENV LANG=en_NZ.UTF-8
 ENV ROOT=/data/rcloud
-
 
 # install runtime system dependencies for testing
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -101,50 +89,32 @@ RUN groupadd -f -g $GID $USER && useradd -m -u $UID -g $GID $USER
 USER $USER
 WORKDIR /home/$USER
 
-# ENTRYPOINT ["/bin/bash", "-c"]
-# CMD ["sleep infinity"]
-
 #
-# build: build vendored sources first, then our sources. At the end of
-# the stage, everything will be installed in
-# /usr/local/lib/rcloud/site-library
+# build: builds all dependencies and RCloud sources
 #
 FROM build-dep as build
 WORKDIR /data/rcloud
 RUN chown -R rcloud:rcloud /data/rcloud
 
-# Copy build instructions, checksum and install, then remove dist files.
-# Copies existing tarfiles, if any, from build context.
-# Documentation is part of the build.
-COPY configure.ac .
-COPY m4 m4
-COPY Makefile.am .
-COPY VERSION .
-COPY vendor/Makefile.am vendor/
-COPY vendor/depend.mk vendor/
-COPY vendor/dist/cran/checksums.txt vendor/dist/cran/checksums.txt
-COPY vendor/dist/cran/*.tar.gz vendor/dist/cran/
-COPY vendor/dist/rforge/checksums.txt vendor/dist/rforge/checksums.txt
-COPY vendor/dist/rforge/*.tar.gz vendor/dist/rforge/
-
-# set up autoconf and make a build directory, then fetch all our
-# vendored dependencies, which are defined in vendor/Makefile.am.
-# checksums are verified in the make all step.
 #
-# NOTE: it's not necessary to split the `make` into two steps like
-# this, we just do it for the sake of Docker incremental development.
-# When building locally, all you need to do is `make`, which will
-# fetch the dependencies, verify checksums, and build everything.
-RUN --mount=type=cache,target=/data/rcloud/build \
-    autoreconf --install \
-    && mkdir -p ./build \
-    && cd build \
-    && ../configure \
-    && make -j${BUILD_JOBS} vendor-fetch
+# Download a version of Zig 0.14.0
+#
+# NOTE: this is not reproducible, as the official ziglang.org site
+# does not maintain older pre-release (master) builds. The download.sh
+# script will download the latest master for version 0.14.0 available.
+# When 0.14.0 is released (est. Jan 2025), this build will be
+# reproducible.
+#
+COPY zig/download.sh zig/download.sh
+RUN zig/download.sh 0.14.0
 
-# build and install rcloud sources and remaining ("late") vendored
-# dependents.
-WORKDIR /data/rcloud
+# Add zig executable to path
+ENV PATH=/data/rcloud/zig:$PATH
+
+# Copy sources to build context
+COPY build.zig .
+COPY build.zig.zon .
+COPY VERSION .
 COPY build-aux       build-aux
 COPY conf            conf
 COPY doc             doc
@@ -155,57 +125,13 @@ COPY rcloud.packages rcloud.packages
 COPY rcloud.support  rcloud.support
 COPY scripts         scripts
 COPY services        services
-COPY vendor/dist/cran/checksums.txt   vendor/dist/cran/
-COPY vendor/dist/rforge/checksums.txt vendor/dist/rforge/
 COPY Gruntfile.js    .
-COPY LICENSE         LICENSE
-COPY NEWS.md         .
-COPY README-CREDENTIALS.txt .
-COPY README.md       .
+COPY LICENSE         .
 COPY package-lock.json    .
 COPY package.json    .
-RUN --mount=type=cache,target=/data/rcloud/build \
-    cd build && make -j${BUILD_JOBS} && make install
 
-#
-# build-js: this stage builds the rcloud JavaScript bundles and its dependencies.
-#
-FROM build-dep as build-js
-
-# Make htdocs directory
-WORKDIR /data/rcloud/htdocs
-WORKDIR /data/rcloud
-RUN chown -R rcloud:rcloud /data/rcloud
-
-# Install MathJax
-COPY scripts/fetch-mathjax.sh scripts/fetch-mathjax.sh
-
-# tell the install script we're where it wants us to be
-RUN mkdir rcloud.support \
-    && touch rcloud.support/DESCRIPTION \
-    && sh scripts/fetch-mathjax.sh \
-    && rm -r rcloud.support
-
-# Do JavaScript dependencies build
-
-COPY --chown=rcloud:rcloud Gruntfile.js       .
-COPY --chown=rcloud:rcloud package.json       .
-COPY --chown=rcloud:rcloud package-lock.json  .
-
-USER rcloud:rcloud
-ENV PYTHON=python3
-RUN npm ci
-
-# Do JavaScript bundle
-
-COPY --chown=rcloud:rcloud htdocs/css      htdocs/css
-COPY --chown=rcloud:rcloud htdocs/js       htdocs/js
-COPY --chown=rcloud:rcloud htdocs/lib      htdocs/lib
-COPY --chown=rcloud:rcloud htdocs/sass     htdocs/sass
-COPY --chown=rcloud:rcloud LICENSE         LICENSE
-COPY --chown=rcloud:rcloud VERSION         VERSION
-
-RUN node_modules/grunt-cli/bin/grunt
+# build
+RUN zig build --summary new
 
 #
 # runtime: this is the final stage which brings everything from the
@@ -220,7 +146,6 @@ RUN chown -f rcloud:rcloud /data/rcloud
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y \
-    git \
     redis-server \
     \
     jupyter \
@@ -237,26 +162,18 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Set locale: needed because rcloud won't run in C locale
 RUN echo "en_NZ.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
 ENV LANG=en_NZ.UTF-8
-ENV ROOT=/data/rcloud
 
-# Copy site-library and rcloud library
-COPY --from=build /usr/local/lib/R/site-library /usr/local/lib/R/site-library
-COPY --from=build /usr/local/lib/rcloud/site-library /usr/local/lib/rcloud/site-library
+# Copy build artifacts (zig-out)
+COPY --from=build --chown=rcloud:rcloud /data/rcloud/zig-out /data/rcloud/zig-out
 
-# Copy source directories from context
-COPY --chown=rcloud:rcloud scripts /data/rcloud/scripts
-COPY --chown=rcloud:rcloud services /data/rcloud/services
-COPY --chown=rcloud:rcloud htdocs /data/rcloud/htdocs
+# Set RCloud root directory
+ENV ROOT=/data/rcloud/zig-out
 
-# Copy JavaScript artifacts from build-js
-COPY --from=build-js --chown=rcloud:rcloud /data/rcloud/htdocs /data/rcloud/htdocs
-COPY --from=build-js --chown=rcloud:rcloud /data/rcloud/node_modules /data/rcloud/node_modules
-
-# Copy conf directory and version
-COPY --chown=rcloud:rcloud conf /data/rcloud/conf
-COPY --from=build-js --chown=rcloud:rcloud /data/rcloud/VERSION /data/rcloud/VERSION
-
+#
+# runtime-simple: the single-user local RCloud installation
+#
 FROM runtime AS runtime-simple
+WORKDIR /data/rcloud/zig-out
 
 # Make gists directory
 RUN mkdir -p data/gists && chown -Rf rcloud:rcloud data
@@ -266,24 +183,9 @@ RUN mkdir -p data/gists && chown -Rf rcloud:rcloud data
 RUN cp conf/rcloud.conf.docker conf/rcloud.conf
 
 EXPOSE 8080
-ENV R_LIBS_USER /usr/local/lib/rcloud/site-library
+ENV R_LIBS      /data/rcloud/zig-out/lib
+ENV R_LIBS_USER /data/rcloud/zig-out/lib
 
 # -d: DEBUG
 USER rcloud:rcloud
 ENTRYPOINT ["/bin/bash", "-c", "redis-server & sh conf/start && sleep infinity"]
-
-FROM runtime as runtime-qap
-RUN mkdir -p data/gists && chown -Rf rcloud:rcloud data
-
-## note that currently the start script will choose rserve conf based
-## on results of a grep of the rcloud.conf file.
-RUN cp conf/rcloud-qap.conf.docker conf/rcloud.conf
-
-EXPOSE 8080
-ENV R_LIBS_USER /usr/local/lib/rcloud/site-library
-
-# -d: DEBUG
-USER rcloud:rcloud
-ENTRYPOINT ["/bin/bash", "-c", "redis-server & sh conf/start && sleep infinity"]
-
-FROM runtime as runtime-rserve-qap

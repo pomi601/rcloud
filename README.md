@@ -17,7 +17,33 @@ make install` experience for end users. Detailed instructions follow,
 however, because rcloud has a few additional required steps due to its
 many external dependencies.
 
-# Quick start
+# Quick start - Zig build
+
+First, install [Zig master](https://ziglang.org/) (version 0.14.0 or
+later), and all system requirements needed to build. Alternatively, if
+you have the Nix package manager installed:
+
+```sh
+$ nix develop
+```
+
+Then:
+
+```sh
+$ zig build
+```
+
+The build will complete in about 10 minutes. Then:
+
+```sh
+$ cd zig out
+$ conf/start2
+
+# to stop the servers:
+$ conf/stop
+```
+
+# Quick start - Makefile
 
 If you're on a system that already has the necessary system
 requirements, you can just configure, build and run a single-user

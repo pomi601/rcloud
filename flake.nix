@@ -58,6 +58,7 @@
                 R
                 rPackages.codetools
                 rPackages.Matrix
+                wget
                 zig.packages.${system}.master
               ];
 
@@ -87,6 +88,7 @@
                 R
                 rPackages.codetools
                 rPackages.Matrix
+                wget
 
                 zig.packages.${system}.master
                 zlsOverride
@@ -115,6 +117,7 @@
                 R
                 rPackages.codetools
                 rPackages.Matrix
+                wget
                 pkgs.zig
                 pkgs.zls
               ];

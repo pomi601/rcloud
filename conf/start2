@@ -18,4 +18,4 @@ if ! redis-cli ping; then  redis-server & fi
 
 R --slave --no-restore --vanilla \
   --file="$ROOT/conf/run_rcloud.R" \
-  --args "$ROOT/conf/rserve.conf.docker"
+  --args "$ROOT/conf/rserve.conf"

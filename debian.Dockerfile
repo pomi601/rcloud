@@ -212,7 +212,7 @@ RUN node_modules/grunt-cli/bin/grunt
 # prior stages together. It also pulls in the remaining debian
 # packages needed for runtime.
 #
-FROM base as runtime-simple
+FROM base as runtime
 USER root
 WORKDIR /data/rcloud
 RUN chown -f rcloud:rcloud /data/rcloud
@@ -256,11 +256,14 @@ COPY --from=build-js --chown=rcloud:rcloud /data/rcloud/node_modules /data/rclou
 COPY --chown=rcloud:rcloud conf /data/rcloud/conf
 COPY --from=build-js --chown=rcloud:rcloud /data/rcloud/VERSION /data/rcloud/VERSION
 
+FROM runtime AS runtime-simple
+
 # Make gists directory
 RUN mkdir -p data/gists && chown -Rf rcloud:rcloud data
 
-RUN cp conf/rcloud.conf.docker conf/rcloud.conf \
-    && cp conf/rserve.conf.docker conf/rserve.conf
+## note that currently the start script will choose rserve conf based
+## on results of a grep of the rcloud.conf file.
+RUN cp conf/rcloud.conf.docker conf/rcloud.conf
 
 EXPOSE 8080
 ENV R_LIBS_USER /usr/local/lib/rcloud/site-library
@@ -268,3 +271,19 @@ ENV R_LIBS_USER /usr/local/lib/rcloud/site-library
 # -d: DEBUG
 USER rcloud:rcloud
 ENTRYPOINT ["/bin/bash", "-c", "redis-server & sh conf/start && sleep infinity"]
+
+FROM runtime as runtime-qap
+RUN mkdir -p data/gists && chown -Rf rcloud:rcloud data
+
+## note that currently the start script will choose rserve conf based
+## on results of a grep of the rcloud.conf file.
+RUN cp conf/rcloud-qap.conf.docker conf/rcloud.conf
+
+EXPOSE 8080
+ENV R_LIBS_USER /usr/local/lib/rcloud/site-library
+
+# -d: DEBUG
+USER rcloud:rcloud
+ENTRYPOINT ["/bin/bash", "-c", "redis-server & sh conf/start && sleep infinity"]
+
+FROM runtime as runtime-rserve-qap

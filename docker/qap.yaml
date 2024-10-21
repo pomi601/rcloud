@@ -1,17 +1,6 @@
-name: rcloud
+name: rcloud-qap
 
 services:
-  rcloud-simple:
-    image: rcloud-simple
-    build:
-      context: .
-      dockerfile: debian.Dockerfile
-      target: runtime-simple
-    ports:
-      - "8080:8080"
-    volumes:
-      - rcloud-data:/data
-
   rcloud-qap:
     image: rcloud-qap
     build:
@@ -22,6 +11,14 @@ services:
       - "8080:8080"
     volumes:
       - rcloud-data:/data
+      - rcloud-run:/run
+
+  rserve-qap:
+    image: rcloud-qap
+    build:
+      context: .
+      dockerfile: debian.Dockerfile
+      target: runtime-rserve-qap
 
   sks:
     image: rcloud-sks
@@ -35,3 +32,4 @@ services:
 
 volumes:
   rcloud-data:
+  rcloud-run:

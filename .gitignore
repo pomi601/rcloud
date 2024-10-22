@@ -78,3 +78,8 @@ Makefile
 *.log
 **/.zig-cache/
 /zig-out/
+/zig/LICENSE
+/zig/README.md
+/zig/doc/
+/zig/lib/
+/zig/zig

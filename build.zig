@@ -63,7 +63,7 @@ fn fetch_assets_and_build(
     const assets = b.option(
         []const u8,
         "assets",
-        "R package dependency tar.gz source distributions for offline build",
+        "Path to directory with R dependencies for offline build. Enables dist-fat step.",
     );
 
     if (assets) |assets_dir| {

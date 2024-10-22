@@ -92,6 +92,12 @@ the offline machine since you are still building from source. Simply
 packing the zig/ directory and unpacking it on the other machine is
 sufficient to have a working Zig installation.
 
+### Caveat: npm build
+
+Currently, this purported "offline" build _still_ requires a network
+connection for npm to install the dependencies it needs to bundle all
+the JavaScript files, but that's a bug that needs to be addressed.
+
 ## Preparing a source distribution
 
 ```sh

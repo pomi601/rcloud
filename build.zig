@@ -76,6 +76,11 @@ fn fetch_assets_and_build(
         // add extra rcloud targets.
         // TODO: get rid of this when we move rcloud.solr into this repository
         add_extra_rcloud_targets(b, assets_path);
+
+        // declare fat dist step. TODO: it's a bit awkward declaring
+        // this here rather than in build().
+        const tarball_step = b.step("dist-fat", "Make a source archive with all R dependencies");
+        try make_fat_tarball(b, tarball_step, assets_dir);
     } else {
         // we are doing a standard online build
 
@@ -164,12 +169,31 @@ fn make_tarball(
     step.dependOn(&tar_install.step);
 }
 
+fn make_fat_tarball(
+    b: *Build,
+    step: *Step,
+    assets: []const u8,
+) !void {
+    const version = try read_version_file(b.allocator);
+    const dirname = b.fmt("rcloud-full-{s}", .{version});
+    const tarname = b.fmt("rcloud-full-{s}.tar.gz", .{version});
+
+    const wf = b.addWriteFiles();
+    const tar = b.addSystemCommand(&.{ "tar", "czf" });
+    tar.setCwd(wf.getDirectory());
+    const tar_out = tar.addOutputFileArg(tarname);
+    _ = tar.addArg(dirname);
+    add_all_source_files_and_assets(b, wf, dirname, assets);
+
+    const tar_install = b.addInstallFileWithDir(tar_out, .prefix, tarname);
+    step.dependOn(&tar_install.step);
+}
+
 fn add_all_source_files(b: *Build, wf: *WriteFile, dirname: []const u8) void {
     const options = WriteFile.Directory.Options{
         .exclude_extensions = &.{},
     };
 
-    _ = add_copy_directory(b, wf, "build-aux", dirname, options);
     _ = add_copy_directory(b, wf, "conf", dirname, options);
     _ = add_copy_directory(b, wf, "doc", dirname, options);
     _ = add_copy_directory(b, wf, "docker", dirname, options);
@@ -183,6 +207,9 @@ fn add_all_source_files(b: *Build, wf: *WriteFile, dirname: []const u8) void {
     _ = add_copy_directory(b, wf, "services", dirname, options);
     _ = add_copy_directory(b, wf, "packages", dirname, options);
 
+    _ = add_copy_file(b, wf, "build-aux/config.json", dirname);
+    _ = add_copy_file(b, wf, "build-aux/generated/build.zig", dirname);
+
     _ = add_copy_file(b, wf, "build.zig", dirname);
     _ = add_copy_file(b, wf, "build.zig.zon", dirname);
     _ = add_copy_file(b, wf, "flake.lock", dirname);
@@ -194,6 +221,16 @@ fn add_all_source_files(b: *Build, wf: *WriteFile, dirname: []const u8) void {
     _ = add_copy_file(b, wf, "package-lock.json", dirname);
     _ = add_copy_file(b, wf, "README.md", dirname);
     _ = add_copy_file(b, wf, "VERSION", dirname);
+}
+
+fn add_all_source_files_and_assets(b: *Build, wf: *WriteFile, dirname: []const u8, assets: []const u8) void {
+    const options = WriteFile.Directory.Options{
+        .exclude_extensions = &.{},
+    };
+
+    add_all_source_files(b, wf, dirname);
+
+    _ = add_copy_directory(b, wf, assets, dirname, options);
 }
 
 fn add_copy_directory(

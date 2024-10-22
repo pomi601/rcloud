@@ -151,7 +151,6 @@ fn add_all_source_files(b: *Build, wf: *WriteFile, dirname: []const u8) void {
     _ = add_copy_directory(b, wf, "rcloud.support", dirname, options);
     _ = add_copy_directory(b, wf, "scripts", dirname, options);
     _ = add_copy_directory(b, wf, "services", dirname, options);
-    _ = add_copy_directory(b, wf, "vendor", dirname, options);
     _ = add_copy_directory(b, wf, "packages", dirname, options);
 
     _ = add_copy_file(b, wf, "build.zig", dirname);

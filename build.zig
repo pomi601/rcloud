@@ -60,33 +60,53 @@ fn fetch_assets_and_build(
     target: ResolvedTarget,
     optimize: OptimizeMode,
 ) !void {
-    // get the fetch-assets tool
-    const exe = b.dependency("r-build-zig", .{
-        .target = target,
-        .optimize = optimize,
-    }).artifact("fetch-assets");
+    const assets = b.option(
+        []const u8,
+        "assets",
+        "R package dependency tar.gz source distributions for offline build",
+    );
 
-    // run it
-    const step = b.addRunArtifact(exe);
-    _ = step.addFileArg(b.path(config_path));
-    const out_dir = step.addOutputDirectoryArg("assets");
+    if (assets) |assets_dir| {
+        // we are doing an offline build
+        const assets_path = b.path(assets_dir);
 
-    // add install step to copy assets directory to prefix
-    const assets_install = b.addInstallDirectory(.{
-        .source_dir = out_dir,
-        .install_dir = .prefix,
-        .install_subdir = "assets",
-    });
+        // supply assets directory to build rule declarations
+        try generated_build.build(b, assets_path);
 
-    // install assets
-    b.getInstallStep().dependOn(&assets_install.step);
+        // add extra rcloud targets.
+        // TODO: get rid of this when we move rcloud.solr into this repository
+        add_extra_rcloud_targets(b, assets_path);
+    } else {
+        // we are doing a standard online build
 
-    // supply output directory to build rule declarations
-    try generated_build.build(b, out_dir);
+        // get the fetch-assets tool
+        const exe = b.dependency("r-build-zig", .{
+            .target = target,
+            .optimize = optimize,
+        }).artifact("fetch-assets");
 
-    // add extra rcloud targets.
-    // TODO: get rid of this when we move rcloud.solr into this repository
-    add_extra_rcloud_targets(b, out_dir);
+        // run it
+        const step = b.addRunArtifact(exe);
+        _ = step.addFileArg(b.path(config_path));
+        const out_dir = step.addOutputDirectoryArg("assets");
+
+        // add install step to copy assets directory to prefix
+        const assets_install = b.addInstallDirectory(.{
+            .source_dir = out_dir,
+            .install_dir = .prefix,
+            .install_subdir = "assets",
+        });
+
+        // install assets
+        b.getInstallStep().dependOn(&assets_install.step);
+
+        // supply output directory to build rule declarations
+        try generated_build.build(b, out_dir);
+
+        // add extra rcloud targets.
+        // TODO: get rid of this when we move rcloud.solr into this repository
+        add_extra_rcloud_targets(b, out_dir);
+    }
 }
 
 /// Declare steps which generate a new build script given a

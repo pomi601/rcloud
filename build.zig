@@ -71,6 +71,16 @@ fn fetch_assets_and_build(
     _ = step.addFileArg(b.path(config_path));
     const out_dir = step.addOutputDirectoryArg("assets");
 
+    // add install step to copy assets directory to prefix
+    const assets_install = b.addInstallDirectory(.{
+        .source_dir = out_dir,
+        .install_dir = .prefix,
+        .install_subdir = "assets",
+    });
+
+    // install assets
+    b.getInstallStep().dependOn(&assets_install.step);
+
     // supply output directory to build rule declarations
     try generated_build.build(b, out_dir);
 

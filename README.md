@@ -17,23 +17,23 @@ system requirements needed to build.
 Alternatively, if you have the Nix package manager installed:
 
 ```sh
-$ nix develop
+nix develop
 ```
 
 Then:
 
 ```sh
-$ zig build
+zig build
 ```
 
-The build will complete in about 10 minutes. Then:
+The build will complete in about 3 minutes. Then:
 
 ```sh
-$ cd zig-out
-$ conf/start2
+cd zig-out
+conf/start2
 
 # to stop the servers:
-$ conf/stop
+conf/stop
 ```
 
 ## Install Zig
@@ -46,7 +46,7 @@ download script expects a zig/ subdirectory to already exist from
 your current working directory:
 
 ```sh
-$ zig/download.sh 0.14.0
+zig/download.sh 0.14.0
 ```
 
 This will download and extract the latest 0.14.0 pre-release build and
@@ -54,6 +54,27 @@ install it in the zig/ directory. You can add that directory to your
 path, or simply run the zig executable by specifying its full path.
 Zig will find its library based on the executable's location, not your
 path.
+
+# Quick start - Docker build
+
+The same configuration can be built and run with Docker, which uses a
+Debian base image. The file [docker.Makefile](./docker.Makefile)
+includes targets and can be used as reference for the appropriate
+docker commands. For example:
+
+Build the image:
+
+```sh
+make -f docker.Makefile build
+```
+
+Run the image:
+
+```sh
+make -f docker.Makefile run
+```
+
+Other targets in the Makefile demonstrate other common Docker scenarios.
 
 # Maintainer concerns
 
@@ -74,7 +95,7 @@ sufficient to have a working Zig installation.
 ## Preparing a source distribution
 
 ```sh
-$ zig build dist
+zig build dist
 ```
 
 This will create `zig-out/rcloud-{version}.tar.gz`.
@@ -88,7 +109,7 @@ repositories for the latest versions available which satisfy any
 version constraints expressed in the package definitions.
 
 ```sh
-$ zig build update
+zig build update
 ```
 
 will perform this process and rewrite `build-aux/config.json`. If any
@@ -109,9 +130,9 @@ requirements, you can just configure, build and run a single-user
 version of RCloud from this repository:
 
 ```sh
-$ configure
-$ make -j16
-$ make run
+configure
+make -j16
+make run
 ```
 
 Open a browser to https://127.0.0.1:8080/login.R and you should see
@@ -120,7 +141,7 @@ RCloud's main interface.
 To stop the server:
 
 ```sh
-$ make stop
+make stop
 ```
 
 Build files are placed in an `out/` subdirectory. This directory is
@@ -173,7 +194,7 @@ development directory mounted, so you can build the software.
 Initially, build the devcontainer:
 
 ```sh
-$ scripts/devcontainer.sh build -f debian.Dockerfile --target dev --tag rcloud-dev
+scripts/devcontainer.sh build -f debian.Dockerfile --target dev --tag rcloud-dev
 ```
 
 This uses the [debian.Dockerfile](debian.Dockerfile) to build the
@@ -188,7 +209,7 @@ all of that.
 Next, run the devcontainer:
 
 ```sh
-$ scripts/devcontainer.sh run rcloud-dev
+scripts/devcontainer.sh run rcloud-dev
 ```
 
 This will bind to your local filesystem and also bind a random port
@@ -197,7 +218,7 @@ number you can use for testing and drop you in a bash shell. See
 to build new versions of RCloud after editing the code.
 
 ```sh
-$ scripts/devcontainer.sh --help
+scripts/devcontainer.sh --help
 ```
 
 ## Caching the downloaded R package dependencies
@@ -208,7 +229,7 @@ this repeatedly if you delete your `build` directory, run the
 `vendor-copy` target:
 
 ```sh
-$ make vendor-copy
+make vendor-copy
 ```
 
 This will copy the downloaded tarballs into your source directory, at
@@ -227,13 +248,13 @@ This will start a redis server and start the Rserve process to host
 rcloud.
 
 ```sh
-$ make run
+make run
 ```
 
 To stop the service, use the `make stop` target.
 
 ```sh
-$ make stop
+make stop
 ```
 
 ## Edit - compile - run
@@ -242,8 +263,8 @@ Subsequently, to rebuild only what is necessary and to run the
 service:
 
 ```sh
-$ make
-$ make run
+make
+make run
 ```
 
 # Building and running a docker image
@@ -251,17 +272,17 @@ $ make run
 First ensure docker is properly installed and works:
 
 ```sh
-$ docker run hello-world
+docker run hello-world
 ```
 
 Then use the utility makefile to build an image tagged `rcloud`:
 ```sh
-$ make -f docker.Makefile build
+make -f docker.Makefile build
 ```
 
 After a few minutes, if the build is successful, you may:
 ```sh
-$ make -f docker.Makefile run
+make -f docker.Makefile run
 ```
 
 # Using nix-shell

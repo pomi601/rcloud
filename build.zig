@@ -198,7 +198,6 @@ fn add_all_source_files(b: *Build, wf: *WriteFile, dirname: []const u8) void {
     _ = add_copy_directory(b, wf, "doc", dirname, options);
     _ = add_copy_directory(b, wf, "docker", dirname, options);
     _ = add_copy_directory(b, wf, "htdocs", dirname, options);
-    _ = add_copy_directory(b, wf, "m4", dirname, options);
     _ = add_copy_directory(b, wf, "packages", dirname, options);
     _ = add_copy_directory(b, wf, "rcloud.client", dirname, options);
     _ = add_copy_directory(b, wf, "rcloud.packages", dirname, options);

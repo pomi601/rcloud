@@ -20,12 +20,23 @@ pub fn build(b: *std.Build) !void {
     const target = b.standardTargetOptions(.{});
     const config_path = "build-aux/config.json";
 
+    const assets = b.option(
+        []const u8,
+        "assets",
+        "Path to directory with R dependencies for offline build",
+    );
+
     // additional steps
     const update_step = b.step("update", "Generate R package build files");
     const tarball_step = b.step("dist", "Make a source archive");
+    const fat_tarball_step = b.step("dist-fat", "Make a source archive with all R dependencies");
+
+    // step dist-fat requires assets option
+    if (assets == null)
+        fat_tarball_step.dependOn(&b.addFail("The dist-fat step requires -Dassets to be set.").step);
 
     // declare build install rules
-    try fetch_assets_and_build(b, config_path, target, .ReleaseSafe);
+    try fetch_assets_and_build(b, config_path, target, .ReleaseSafe, assets);
 
     // declare rules for conf
     build_conf(b);
@@ -47,6 +58,9 @@ pub fn build(b: *std.Build) !void {
 
     // declare step: dist
     try make_tarball(b, tarball_step);
+
+    // declare step: dist-fat
+    try make_fat_tarball(b, fat_tarball_step, assets);
 }
 
 /// Declare steps which fetch external assets and declare the rules
@@ -56,13 +70,8 @@ fn fetch_assets_and_build(
     config_path: []const u8,
     target: ResolvedTarget,
     optimize: OptimizeMode,
+    assets: ?[]const u8,
 ) !void {
-    const assets = b.option(
-        []const u8,
-        "assets",
-        "Path to directory with R dependencies for offline build. Enables dist-fat step.",
-    );
-
     if (assets) |assets_dir| {
         // we are doing an offline build
         const assets_path = b.path(assets_dir);
@@ -73,11 +82,6 @@ fn fetch_assets_and_build(
         // add extra rcloud targets.
         // TODO: get rid of this when we move rcloud.solr into this repository
         add_extra_rcloud_targets(b, assets_path);
-
-        // declare fat dist step. TODO: it's a bit awkward declaring
-        // this here rather than in build().
-        const tarball_step = b.step("dist-fat", "Make a source archive with all R dependencies");
-        try make_fat_tarball(b, tarball_step, assets_dir);
 
         // declare rules for offline htdocs, which is just a copy of source files
         build_htdocs_offline(b);
@@ -176,8 +180,12 @@ fn make_tarball(
 fn make_fat_tarball(
     b: *Build,
     step: *Step,
-    assets: []const u8,
+    assets: ?[]const u8,
 ) !void {
+    if (assets == null) {
+        return;
+    }
+
     const version = try read_version_file(b.allocator);
     const dirname = b.fmt("rcloud-full-{s}", .{version});
     const tarname = b.fmt("rcloud-full-{s}.tar.gz", .{version});
@@ -187,7 +195,7 @@ fn make_fat_tarball(
     tar.setCwd(wf.getDirectory());
     const tar_out = tar.addOutputFileArg(tarname);
     _ = tar.addArg(dirname);
-    add_all_source_files_and_assets(b, wf, dirname, assets);
+    add_all_source_files_and_assets(b, wf, dirname, assets.?);
 
     const tar_install = b.addInstallFileWithDir(tar_out, .prefix, tarname);
     step.dependOn(&tar_install.step);

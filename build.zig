@@ -27,9 +27,6 @@ pub fn build(b: *std.Build) !void {
     // declare build install rules
     try fetch_assets_and_build(b, config_path, target, .ReleaseSafe);
 
-    // declare rules for htdocs
-    build_htdocs(b);
-
     // declare rules for conf
     build_conf(b);
 
@@ -81,6 +78,9 @@ fn fetch_assets_and_build(
         // this here rather than in build().
         const tarball_step = b.step("dist-fat", "Make a source archive with all R dependencies");
         try make_fat_tarball(b, tarball_step, assets_dir);
+
+        // declare rules for offline htdocs, which is just a copy of source files
+        build_htdocs_offline(b);
     } else {
         // we are doing a standard online build
 
@@ -111,6 +111,9 @@ fn fetch_assets_and_build(
         // add extra rcloud targets.
         // TODO: get rid of this when we move rcloud.solr into this repository
         add_extra_rcloud_targets(b, out_dir);
+
+        // declare rules for htdocs, which require an online build
+        build_htdocs(b);
     }
 }
 
@@ -319,6 +322,24 @@ fn build_htdocs(b: *Build) void {
         .install_subdir = "htdocs",
     });
     htdocs_install.step.dependOn(&grunt.step);
+
+    // install built htdocs files
+    b.getInstallStep().dependOn(&htdocs_install.step);
+}
+
+/// An offline build of htdocs, just a copy.
+fn build_htdocs_offline(b: *Build) void {
+    const wf = b.addWriteFiles();
+
+    // copy htdocs source
+    _ = wf.addCopyDirectory(b.path("htdocs"), "htdocs", .{});
+
+    // add an install step for post-grunt htdocs
+    const htdocs_install = b.addInstallDirectory(.{
+        .source_dir = wf.getDirectory().path(b, "htdocs"),
+        .install_dir = .prefix,
+        .install_subdir = "htdocs",
+    });
 
     // install built htdocs files
     b.getInstallStep().dependOn(&htdocs_install.step);

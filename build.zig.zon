@@ -1,38 +1,15 @@
 .{
-    // This is the default name used by packages depending on this one. For
-    // example, when a user runs `zig fetch --save <url>`, this field is used
-    // as the key in the `dependencies` table. Although the user can choose a
-    // different name, most users will stick with this provided value.
-    //
-    // It is redundant to include "zig" in this name because it is already
-    // within the Zig package namespace.
     .name = "rcloud",
-
-    // This is a [Semantic Version](https://semver.org/).
-    // In a future version of Zig it will be used for package deduplication.
-    .version = "0.0.0",
-
-    // This field is optional.
-    // This is currently advisory only; Zig does not yet do anything
-    // with this value.
+    .version = "0.0.0", // TODO: we can ignore this because we don't package for Zig?
     .minimum_zig_version = "0.14.0",
-
-    // This field is optional.
-    // Each dependency must either provide a `url` and `hash`, or a `path`.
-    // `zig build --fetch` can be used to fetch all dependencies of a package, recursively.
-    // Once all dependencies are fetched, `zig build` no longer requires
-    // internet connectivity.
     .dependencies = .{
         .@"r-build-zig" = .{
-            .url = "https://github.com/mocompute/r-build-zig/archive/v0.3.2.tar.gz",
-            .hash = "122005ce459be86ad341f17c98e59b2289a14ba24a3b02a06c3eaebba5074616fdca",
+            .url = "https://github.com/mocompute/r-build-zig/archive/v0.3.3.tar.gz",
+            .hash = "122037a63faef586d79379d1112216bc28a356d122f8c091754e84efcdf6d5a15dd6",
         },
     },
     .paths = .{
         "build.zig",
         "build.zig.zon",
-        // For example...
-        //"LICENSE",
-        //"README.md",
     },
 }

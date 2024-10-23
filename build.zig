@@ -135,6 +135,7 @@ fn generate_build_script(
 
     // arguments: config_file out_dir package_dirs...
     const step = b.addRunArtifact(exe);
+    step.has_side_effects = true;
 
     // the tool wants a relative path, so we use addArg, and manually
     // add the dependency with addFileInput

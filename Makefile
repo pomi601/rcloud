@@ -1,4 +1,4 @@
-DEBIAN_DOCKERFILE = debian.Dockerfile
+DEBIAN_DOCKERFILE = Dockerfile
 DEBIAN_TAG = rcloud-simple
 DOCKER_TARGET = runtime-simple
 HOST_PORT = 8080

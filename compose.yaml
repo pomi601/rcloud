@@ -5,7 +5,7 @@ services:
     image: rcloud-simple
     build:
       context: .
-      dockerfile: debian.Dockerfile
+      dockerfile: Dockerfile
       target: runtime-simple
     ports:
       - "8080:8080"
@@ -16,7 +16,7 @@ services:
     image: rcloud-qap
     build:
       context: .
-      dockerfile: debian.Dockerfile
+      dockerfile: Dockerfile
       target: runtime-qap
     ports:
       - "8080:8080"
@@ -27,7 +27,7 @@ services:
     image: rcloud-sks
     build:
       context: .
-      dockerfile: debian.Dockerfile
+      dockerfile: Dockerfile
       target: runtime-sks
     ports:
       - "4301:4301"

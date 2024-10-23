@@ -1,4 +1,4 @@
-# build with: docker buildx build -f debian.Dockerfile -t rcloud .
+# build with: docker buildx build -f Dockerfile --target runtime-simple -t rcloud .
 
 ARG BUILD_JOBS=8
 

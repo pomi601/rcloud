@@ -58,20 +58,20 @@ path.
 # Quick start - Docker build
 
 The same configuration can be built and run with Docker, which uses a
-Debian base image. The file [docker.Makefile](./docker.Makefile)
+Debian base image. The file [Makefile](./Makefile)
 includes targets and can be used as reference for the appropriate
 docker commands. For example:
 
 Build the image:
 
 ```sh
-make -f docker.Makefile build
+make build
 ```
 
 Run the image:
 
 ```sh
-make -f docker.Makefile run
+make run
 ```
 
 Other targets in the Makefile demonstrate other common Docker scenarios.

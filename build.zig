@@ -235,7 +235,8 @@ fn add_all_source_files_and_assets(b: *Build, wf: *WriteFile, dirname: []const u
     // include assets directory
     _ = add_copy_directory(b, wf, assets, dirname, options);
 
-    // include generated javascript bundles
+    // include generated javascript bundles. TODO: these paths depend
+    // on the default install prefix, zig-out. It will fail otherwise.
     _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud.css", dirname);
     _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud.css.map", dirname);
     _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-discover.css", dirname);

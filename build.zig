@@ -229,7 +229,38 @@ fn add_all_source_files_and_assets(b: *Build, wf: *WriteFile, dirname: []const u
 
     add_all_source_files(b, wf, dirname);
 
+    // include assets directory
     _ = add_copy_directory(b, wf, assets, dirname, options);
+
+    // include generated javascript bundles
+    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud.css", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud.css.map", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-discover.css", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-discover.css.map", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-edit.css", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-edit.css.map", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-view.css", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-view.css.map", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-viewer.css", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-viewer.css.map", dirname);
+
+    _ = add_copy_file(b, wf, "zig-out/htdocs/js/merger_bundle.js", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/js/merger_bundle.js.gz", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/js/merger_bundle.js.map", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/js/merger_bundle.min.js", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/js/merger_bundle.min.js.gz", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/js/merger_bundle.min.js.map", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/js/rcloud_bundle.js", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/js/rcloud_bundle.js.gz", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/js/rcloud_bundle.js.map", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/js/rcloud_bundle.min.js", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/js/rcloud_bundle.min.js.gz", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/js/rcloud_bundle.min.js.map", dirname);
+
+    _ = add_copy_file(b, wf, "zig-out/htdocs/lib/ace_bundle.js.gz", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/lib/ace_bundle.min.js", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/lib/ace_bundle.min.js.gz", dirname);
+    _ = add_copy_file(b, wf, "zig-out/htdocs/lib/ace_bundle.min.js.map", dirname);
 }
 
 fn add_copy_directory(

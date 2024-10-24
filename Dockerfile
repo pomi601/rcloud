@@ -218,19 +218,16 @@ ENTRYPOINT ["/bin/bash", "-c", "redis-server & sh conf/start-qap && sleep infini
 #
 FROM runtime AS runtime-redis
 EXPOSE 6379
-
 ENTRYPOINT ["/bin/bash", "-c", "redis-server" ]
 
 #
 # runtime-scripts
 #
 FROM runtime AS runtime-scripts
-
-# ENTRYPOINT ["/bin/bash", "-c", "R CMD zig-out/lib/Rserve/libs/Rserve --RS-conf \"$ROOT/conf/scripts.conf\" --no-save && sleep infinity"]
-
 ENTRYPOINT ["R", "CMD",                                    \
     "zig-out/lib/Rserve/libs/Rserve",                      \
     "--RS-conf", "/data/rcloud/zig-out/conf/scripts.conf", \
+    "--RS-set", "daemon=no",                               \
     "--no-save"                                            \
     ]
 
@@ -239,21 +236,26 @@ ENTRYPOINT ["R", "CMD",                                    \
 #
 FROM runtime AS runtime-forward
 EXPOSE 8080
-
-
-ENTRYPOINT ["R", "CMD",                \
-    "zig-out/lib/Rserve/libs/forward", \
-    "-p", "8080",                      \
-    "-s", "/rcloud-run/qap",           \
-    "-r", "$ROOT/htdocs",              \
-    "-R", "/rcloud-run/Rscripts",      \
-    "-u", "/rcloud-run/ulog.proxy"     \
+ENTRYPOINT ["R", "CMD",                  \
+    "zig-out/lib/Rserve/libs/forward",   \
+    "-p", "8080",                        \
+    "-s", "/rcloud-run/qap",             \
+    "-r", "/data/rcloud/zig-out/htdocs", \
+    "-R", "/rcloud-run/Rscripts",        \
+    "-u", "/rcloud-run/ulog.proxy"       \
     ]
 
 #
 # runtime-rserve-proxified
 #
 FROM runtime AS runtime-rserve-proxified
+
+# FIXME -- don't know where Rserve is going to look for gists data
+# yet. /rcloud-data is the volume mount created by Docker Compose.
+RUN mkdir -p data/gists && chown -Rf rcloud:rcloud data
+RUN mkdir -p /rcloud-data/data/gists && chown -Rf rcloud:rcloud /rcloud-data
+RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
+
 ENTRYPOINT ["R", "--slave", "--no-restore", "--vanilla",             \
     "--file=/data/rcloud/zig-out/conf/run_rcloud.R",                 \
     "--args", "/data/rcloud/zig-out/conf/rserve-proxified.conf"      \

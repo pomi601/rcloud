@@ -30,6 +30,10 @@ sanitize.error <- function(x)
     ## serve files from the htdocs directory
     fn <- pathConf("root", "htdocs", url)
     self.path <- gsub("//+", "/", file.path("/", url))
+
+    cat("Looking for file '", fn, "'\n", sep="");
+
+
     if (!file.exists(fn)) {
       ## try to support PATH_INFO-like access
       htdocs <- pathConf("root", "htdocs")

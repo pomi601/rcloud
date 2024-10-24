@@ -7,10 +7,10 @@ services:
       context: .
       dockerfile: Dockerfile
       target: runtime-redis
-    # ports:
-    #   - "6379:6379"
+    ports:                      # only needed for debugging
+      - "6379:6379"
     volumes:
-      - rcloud-data:/rcloud-data
+      - rcloud-gists:/rcloud-data/gists
       - rcloud-run:/rcloud-run
 
   scripts:
@@ -22,7 +22,7 @@ services:
       dockerfile: Dockerfile
       target: runtime-scripts
     volumes:
-      - rcloud-data:/rcloud-data
+      - rcloud-gists:/rcloud-data/gists
       - rcloud-run:/rcloud-run
 
   forward:
@@ -34,7 +34,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - rcloud-data:/rcloud-data
+      - rcloud-gists:/rcloud-data/gists
       - rcloud-run:/rcloud-run
 
   proxified:
@@ -46,9 +46,9 @@ services:
       dockerfile: Dockerfile
       target: runtime-rserve-proxified
     volumes:
-      - rcloud-data:/rcloud-data
+      - rcloud-gists:/rcloud-data/gists
       - rcloud-run:/rcloud-run
 
 volumes:
   rcloud-run:
-  rcloud-data:
+  rcloud-gists:

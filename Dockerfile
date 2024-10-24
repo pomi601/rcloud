@@ -224,6 +224,13 @@ ENTRYPOINT ["/bin/bash", "-c", "redis-server" ]
 # runtime-scripts
 #
 FROM runtime AS runtime-scripts
+WORKDIR /data/rcloud
+
+RUN mkdir -p /rcloud-run && chown -Rf rcloud:rcloud /rcloud-run
+RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
+RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf
+
+USER rcloud:rcloud
 ENTRYPOINT ["R", "CMD",                                    \
     "zig-out/lib/Rserve/libs/Rserve",                      \
     "--RS-conf", "/data/rcloud/zig-out/conf/scripts.conf", \
@@ -235,7 +242,14 @@ ENTRYPOINT ["R", "CMD",                                    \
 # runtime-forward
 #
 FROM runtime AS runtime-forward
+WORKDIR /data/rcloud
 EXPOSE 8080
+
+RUN mkdir -p /rcloud-run && chown -Rf rcloud:rcloud /rcloud-run
+RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
+RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf
+
+USER rcloud:rcloud
 ENTRYPOINT ["R", "CMD",                  \
     "zig-out/lib/Rserve/libs/forward",   \
     "-p", "8080",                        \
@@ -249,13 +263,13 @@ ENTRYPOINT ["R", "CMD",                  \
 # runtime-rserve-proxified
 #
 FROM runtime AS runtime-rserve-proxified
+WORKDIR /data/rcloud
 
-# FIXME -- don't know where Rserve is going to look for gists data
-# yet. /rcloud-data is the volume mount created by Docker Compose.
-RUN mkdir -p data/gists && chown -Rf rcloud:rcloud data
-RUN mkdir -p /rcloud-data/data/gists && chown -Rf rcloud:rcloud /rcloud-data
+RUN mkdir -p /rcloud-run && chown -Rf rcloud:rcloud /rcloud-run
 RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
+RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf
 
+USER rcloud:rcloud
 ENTRYPOINT ["R", "--slave", "--no-restore", "--vanilla",             \
     "--file=/data/rcloud/zig-out/conf/run_rcloud.R",                 \
     "--args", "/data/rcloud/zig-out/conf/rserve-proxified.conf"      \

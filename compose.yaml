@@ -1,37 +1,52 @@
 name: rcloud
 
 services:
-  rcloud-simple:
-    image: rcloud-simple
+  redis:
+    image: rcloud-redis
     build:
       context: .
       dockerfile: Dockerfile
-      target: runtime-simple
-    ports:
-      - "8080:8080"
+      target: runtime-redis
+    # ports:
+    #   - "6379:6379"
     volumes:
-      - rcloud-data:/data
+      - rcloud-data:/rcloud-data
+      - rcloud-run:/rcloud-run
 
-  rcloud-qap:
-    image: rcloud-qap
+  scripts:
+    image: rcloud-scripts
+    depends_on:
+      - redis
     build:
       context: .
       dockerfile: Dockerfile
-      target: runtime-qap
-    ports:
-      - "8080:8080"
+      target: runtime-scripts
     volumes:
-      - rcloud-data:/data
+      - rcloud-data:/rcloud-data
+      - rcloud-run:/rcloud-run
 
-  sks:
-    image: rcloud-sks
+  forward:
+    image: rcloud-forward
     build:
       context: .
       dockerfile: Dockerfile
-      target: runtime-sks
-    ports:
-      - "4301:4301"
+      target: runtime-forward
+    volumes:
+      - rcloud-data:/rcloud-data
+      - rcloud-run:/rcloud-run
 
+  proxified:
+    image: rcloud-proxified
+    depends_on:
+      - redis
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime-rserve-proxified
+    volumes:
+      - rcloud-data:/rcloud-data
+      - rcloud-run:/rcloud-run
 
 volumes:
+  rcloud-run:
   rcloud-data:

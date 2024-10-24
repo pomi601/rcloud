@@ -226,8 +226,11 @@ ENTRYPOINT ["/bin/bash", "-c", "redis-server" ]
 FROM runtime AS runtime-scripts
 WORKDIR /data/rcloud
 
+# Create mount points for shared volumes with correct permissions
 RUN mkdir -p /rcloud-run && chown -Rf rcloud:rcloud /rcloud-run
 RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
+
+# Install configuration file
 RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf
 
 USER rcloud:rcloud
@@ -245,8 +248,11 @@ FROM runtime AS runtime-forward
 WORKDIR /data/rcloud
 EXPOSE 8080
 
+# Create mount points for shared volumes with correct permissions
 RUN mkdir -p /rcloud-run && chown -Rf rcloud:rcloud /rcloud-run
 RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
+
+# Install configuration file
 RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf
 
 USER rcloud:rcloud
@@ -265,8 +271,11 @@ ENTRYPOINT ["R", "CMD",                  \
 FROM runtime AS runtime-rserve-proxified
 WORKDIR /data/rcloud
 
+# Create mount points for shared volumes with correct permissions
 RUN mkdir -p /rcloud-run && chown -Rf rcloud:rcloud /rcloud-run
 RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
+
+# Install configuration file
 RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf
 
 USER rcloud:rcloud

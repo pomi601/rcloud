@@ -236,7 +236,7 @@ ENTRYPOINT ["/bin/bash", "-c", "redis-server & sh conf/start-qap && sleep infini
 #
 FROM runtime AS runtime-redis
 EXPOSE 6379
-ENTRYPOINT ["/bin/bash", "-c", "redis-server" ]
+ENTRYPOINT ["/bin/bash", "-c", "redis-server --protected-mode no" ]
 
 #
 # runtime-scripts

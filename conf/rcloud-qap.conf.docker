@@ -1,4 +1,6 @@
-exec.auth: as-local
+Exec.auth: pam
+Exec.match.user: login
+Exec.anon.user: nobody
 locale: en_NZ.UTF-8
 Host: 127.0.0.1
 gist.backend: gitgist
@@ -14,3 +16,4 @@ compute.separation.modes: IDE
 cookie.domain: 127.0.0.1
 rserve.socket: /rcloud-run/qap
 debug: 1
+session.server: http://sks:4301

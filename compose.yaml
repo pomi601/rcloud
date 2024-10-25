@@ -11,6 +11,13 @@ services:
       - rcloud-gists:/rcloud-data/gists
       - rcloud-run:/rcloud-run
 
+  sks:
+    image: rcloud-sks
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime-sks
+
   scripts:
     image: rcloud-scripts
     depends_on:

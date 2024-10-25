@@ -56,11 +56,31 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
 
 FROM build-dep-java AS dev-sks
 WORKDIR /data
+
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked        \
+    apt-get update && apt-get install --no-install-recommends -y \
+    libpam-doc                                                   \
+    libpam-modules                                               \
+    libpam-modules-bin                                           \
+    libpam-runtime                                               \
+    libpam0g                                                     \
+    libpam0g-dev                                                 \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN git clone --depth 1 https://github.com/s-u/SessionKeyServer.git && cd SessionKeyServer && make -j${BUILD_JOBS}
 
 FROM dev-sks AS runtime-sks
+
 WORKDIR /data/SessionKeyServer
-ENTRYPOINT ["/bin/bash", "-c", "sh run"]
+EXPOSE 4301
+
+RUN mkdir -p key.db && chmod 0700 key.db
+
+# FIXME: Assign dummy password to rcloud user to test auth.
+RUN usermod -p rcloud rcloud
+
+ENTRYPOINT ["/bin/bash", "-c", "java -Xmx256m -Djava.library.path=. -cp SessionKeyServer.jar com.att.research.RCloud.SessionKeyServer -l 0.0.0.0 -p 4301 -d key.db"]
 
 #
 # a development environment target

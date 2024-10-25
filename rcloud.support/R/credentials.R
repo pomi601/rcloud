@@ -103,7 +103,7 @@ check.token <- function(token, valid.sources="stored", realm="rcloud")
       FALSE
   } else {
     res <- session.server.get.token(realm, token)
-    # if (rcloud.debug.level()) cat("check.token(", token,", ", realm,") valid: ", res[1],", user: ", res[2], ", source: ", res[3], "\n", sep='')
+    if (rcloud.debug.level()) cat("check.token(", token,", ", realm,") valid: ", res[1],", user: ", res[2], ", source: ", res[3], "\n", sep='')
     if ((length(res) > 1) && isTRUE(res[1] == "YES") && isTRUE(res[3] %in% valid.sources)) res[2] else FALSE
   }
 }

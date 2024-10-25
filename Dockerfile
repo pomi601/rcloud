@@ -19,9 +19,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
 # Make rcloud user
 RUN useradd -m rcloud
 
-# FIXME: Assign dummy password to rcloud user to test auth.
-RUN echo "rcloud:rcloud" | chpasswd
-
 #
 # build-dep: this stage includes all debian system requirements
 # required to build rcloud and its dependencies from source.
@@ -74,6 +71,9 @@ FROM dev-sks AS runtime-sks
 
 WORKDIR /data/SessionKeyServer
 EXPOSE 4301
+
+# FIXME: Assign dummy password to rcloud user to test auth.
+RUN echo "rcloud:rcloud" | chpasswd
 
 RUN mkdir -p key.db && chmod 0700 key.db
 
@@ -290,6 +290,9 @@ WORKDIR /data/rcloud
 # Create mount points for shared volumes with correct permissions
 RUN mkdir -p /rcloud-run && chown -Rf rcloud:rcloud /rcloud-run
 RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
+
+# FIXME: Assign dummy password to rcloud user to test auth.
+RUN echo "rcloud:rcloud" | chpasswd
 
 # Install configuration file
 RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf

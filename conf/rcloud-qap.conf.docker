@@ -1,6 +1,7 @@
 Exec.auth: pam
 Exec.match.user: login
 Exec.anon.user: nobody
+HTTP.user: www-data
 locale: en_NZ.UTF-8
 Host: 127.0.0.1
 gist.backend: gitgist

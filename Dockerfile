@@ -19,6 +19,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
 # Make rcloud user
 RUN useradd -m rcloud
 
+# FIXME: Assign dummy password to rcloud user to test auth.
+RUN echo "rcloud:rcloud" | chpasswd
+
 #
 # build-dep: this stage includes all debian system requirements
 # required to build rcloud and its dependencies from source.
@@ -60,15 +63,12 @@ WORKDIR /data
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
     --mount=type=cache,target=/var/lib/apt,sharing=locked        \
     apt-get update && apt-get install --no-install-recommends -y \
-    libpam-doc                                                   \
-    libpam-modules                                               \
-    libpam-modules-bin                                           \
-    libpam-runtime                                               \
-    libpam0g                                                     \
     libpam0g-dev                                                 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN git clone --depth 1 https://github.com/s-u/SessionKeyServer.git && cd SessionKeyServer && make -j${BUILD_JOBS}
+RUN git clone --depth 1 https://github.com/s-u/SessionKeyServer.git && cd SessionKeyServer \
+    && make -j${BUILD_JOBS}                                                                \
+    && make -j${BUILD_JOBS} pam
 
 FROM dev-sks AS runtime-sks
 
@@ -77,8 +77,6 @@ EXPOSE 4301
 
 RUN mkdir -p key.db && chmod 0700 key.db
 
-# FIXME: Assign dummy password to rcloud user to test auth.
-RUN usermod -p rcloud rcloud
 
 ENTRYPOINT ["/bin/bash", "-c", "java -Xmx256m -Djava.library.path=. -cp SessionKeyServer.jar com.att.research.RCloud.SessionKeyServer -l 0.0.0.0 -p 4301 -d key.db"]
 
@@ -211,7 +209,7 @@ RUN cp conf/rcloud.conf.docker conf/rcloud.conf
 EXPOSE 8080
 
 # -d: DEBUG
-USER rcloud:rcloud
+USER rcloud
 ENTRYPOINT ["/bin/bash", "-c", "redis-server & sh conf/start && sleep infinity"]
 
 #
@@ -230,7 +228,7 @@ RUN cp conf/rcloud-qap.conf.docker conf/rcloud.conf
 EXPOSE 8080
 
 # -d: DEBUG
-USER rcloud:rcloud
+USER rcloud
 ENTRYPOINT ["/bin/bash", "-c", "redis-server & sh conf/start-qap && sleep infinity"]
 
 #
@@ -253,7 +251,6 @@ RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
 # Install configuration file
 RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf
 
-USER rcloud:rcloud
 ENTRYPOINT ["R", "CMD",                                    \
     "zig-out/lib/Rserve/libs/Rserve",                      \
     "--RS-conf", "/data/rcloud/zig-out/conf/scripts.conf", \
@@ -275,7 +272,6 @@ RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
 # Install configuration file
 RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf
 
-USER rcloud:rcloud
 ENTRYPOINT ["R", "CMD",                  \
     "zig-out/lib/Rserve/libs/forward",   \
     "-p", "8080",                        \
@@ -298,7 +294,6 @@ RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
 # Install configuration file
 RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf
 
-USER rcloud:rcloud
 ENTRYPOINT ["R", "--slave", "--no-restore", "--vanilla",             \
     "--file=/data/rcloud/zig-out/conf/run_rcloud.R",                 \
     "--args", "/data/rcloud/zig-out/conf/rserve-proxified.conf"      \

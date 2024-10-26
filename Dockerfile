@@ -269,7 +269,7 @@ EXPOSE 8080
 RUN mkdir -p /rcloud-run && chown -Rf rcloud:rcloud /rcloud-run
 RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
 
-# Install configuration file
+# install configuration file
 RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf
 
 ENTRYPOINT ["R", "CMD",                  \
@@ -290,9 +290,6 @@ WORKDIR /data/rcloud
 # Create mount points for shared volumes with correct permissions
 RUN mkdir -p /rcloud-run && chown -Rf rcloud:rcloud /rcloud-run
 RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
-
-# FIXME: Assign dummy password to rcloud user to test auth.
-RUN echo "rcloud:rcloud" | chpasswd
 
 # Install configuration file
 RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf

@@ -14,7 +14,7 @@ rcloud.alluser.addons: rcloud.viewer, rcloud.enviewer, rcloud.notebook.info, rcl
 rcloud.languages: rcloud.r, rcloud.rmarkdown, rcloud.sh
 rcloud.jupyter.python.path: /usr/bin/python3
 compute.separation.modes: IDE
-cookie.domain: 127.0.0.1
+cookie.domain: *
 rserve.socket: /rcloud-run/qap
 debug: 1
 session.server: http://sks:4301

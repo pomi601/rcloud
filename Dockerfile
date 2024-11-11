@@ -5,7 +5,9 @@ ARG BUILD_JOBS=8
 #
 # base: this stage is a minimal debian installation with an rcloud user created
 #
-FROM debian AS base
+# pinned to:
+# https://hub.docker.com/layers/library/debian/bookworm-20241016/images/sha256-bfee693abf500131d9c2aea2e9780a4797dc3641644bac1660b5eb9e1f1e3306?context=explore
+FROM debian@sha256:e11072c1614c08bf88b543fcfe09d75a0426d90896408e926454e88078274fcb AS base
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
     --mount=type=cache,target=/var/lib/apt,sharing=locked        \

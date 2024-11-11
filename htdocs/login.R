@@ -68,6 +68,7 @@ run <- function(url, query, body, headers) {
           cookies$execToken <- res[1]
           cookies$execUser <- res[2]
         }
+
       } else {
         return({
           ret <- rcloud.support:::getConf("authfail.page")
@@ -75,25 +76,35 @@ run <- function(url, query, body, headers) {
             format_html("", "Authentication failed - please check your username and password.")
           } else {
             if (!is.null(redirect)) ret <- paste0(ret, if (isTRUE(grepl("?", ret, fixed = TRUE))) "&" else "?", "redirect=", encode(redirect))
-            format_html("", "", paste0("Refresh: 0.1; url=", ret))
+            format_html("", "", paste0("Refresh: 5.0; url=", ret))
           }
         })
       }
     } else if (exec.only) {
-      ## use only the "token" cookie in exec-only mode
-      cookies$execToken <- cookies$token
+      ## if we already have a cookie, check its validity - if it's not valid, remove it as we need to generate a new one
+      if (isTRUE(cookies$user == usr) && !rcloud.support:::check.user.token.pair(usr, cookies$token)) {
+        cookies$user <- NULL
+        cookies$token <- NULL
+        cookies$execToken <- NULL
+        return(format_html("", "Invalid or expired user token, requesting authentication...",
+                           headers = paste0("Refresh: 5.0; url=", ret)
+                           ))
+      } else {
+        ## use only the "token" cookie in exec-only mode
+        cookies$execToken <- cookies$token
+      }
     }
 
     if (is.null(cookies$execToken)) {
       return(format_html("", "Missing execution token, requesting authentication...",
-        headers = paste0("Refresh: 0.1; url=", ret)
+        headers = paste0("Refresh: 5.0; url=", ret)
       ))
     }
 
     usr <- rcloud.support:::check.token(cookies$execToken, paste0("auth/", getConf("exec.auth")), exec.realm)
     if (usr == FALSE) {
       return(format_html("", "Invalid or expired execution token, requesting authentication...",
-        headers = paste0("Refresh: 0.1; url=", ret)
+        headers = paste0("Refresh: 5.0; url=", ret)
       ))
     }
   } else {
@@ -134,9 +145,6 @@ run <- function(url, query, body, headers) {
     url <- redirect
   }
 
-  ## list(
-  ##   paste("<html><head><meta http-equiv='refresh' content='0;URL=\"", url, "\"'></head></html>", sep = ""),
-  ##   "text/html", extra.headers
-  ## )
+  cat("login.R success, redirecting to", url, "\n")
   format_html("", "", headers = c(paste0("Refresh: 0.1; url=", url), extra.headers))
 }

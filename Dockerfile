@@ -5,7 +5,9 @@ ARG BUILD_JOBS=8
 #
 # base: this stage is a minimal debian installation with an rcloud user created
 #
-FROM debian as base
+# pinned to:
+# https://hub.docker.com/layers/library/debian/bookworm-20241016/images/sha256-bfee693abf500131d9c2aea2e9780a4797dc3641644bac1660b5eb9e1f1e3306?context=explore
+FROM debian@sha256:e11072c1614c08bf88b543fcfe09d75a0426d90896408e926454e88078274fcb AS base
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
     --mount=type=cache,target=/var/lib/apt,sharing=locked        \
@@ -23,7 +25,7 @@ RUN useradd -m rcloud
 # build-dep: this stage includes all debian system requirements
 # required to build rcloud and its dependencies from source.
 #
-FROM base as build-dep
+FROM base AS build-dep
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
     --mount=type=cache,target=/var/lib/apt,sharing=locked        \
@@ -45,7 +47,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
 # build-dep-java: this stage includes build dependencies for java, for
 # use with session key server
 #
-FROM base as build-dep-java
+FROM base AS build-dep-java
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
     --mount=type=cache,target=/var/lib/apt,sharing=locked        \
@@ -54,18 +56,36 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
     default-jdk                                                  \
     && rm -rf /var/lib/apt/lists/*
 
-FROM build-dep-java as dev-sks
+FROM build-dep-java AS dev-sks
 WORKDIR /data
-RUN git clone --depth 1 https://github.com/s-u/SessionKeyServer.git && cd SessionKeyServer && make -j${BUILD_JOBS}
 
-FROM dev-sks as runtime-sks
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked      \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked        \
+    apt-get update && apt-get install --no-install-recommends -y \
+    libpam0g-dev                                                 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git clone --depth 1 https://github.com/s-u/SessionKeyServer.git && cd SessionKeyServer \
+    && make -j${BUILD_JOBS}                                                                \
+    && make -j${BUILD_JOBS} pam
+
+FROM dev-sks AS runtime-sks
+
 WORKDIR /data/SessionKeyServer
-ENTRYPOINT ["/bin/bash", "-c", "sh run"]
+EXPOSE 4301
+
+# FIXME: Assign dummy password to rcloud user to test auth.
+RUN echo "rcloud:rcloud" | chpasswd
+
+RUN mkdir -p key.db && chmod 0700 key.db
+
+
+ENTRYPOINT ["/bin/bash", "-c", "java -Xmx256m -Djava.library.path=. -cp SessionKeyServer.jar com.att.research.RCloud.SessionKeyServer -l 0.0.0.0 -p 4301 -d key.db"]
 
 #
 # a development environment target
 #
-FROM build-dep as dev
+FROM build-dep AS dev
 
 ARG UID=1001
 ARG GID=1001
@@ -92,7 +112,7 @@ WORKDIR /home/$USER
 #
 # build: builds all dependencies and RCloud sources
 #
-FROM build-dep as build
+FROM build-dep AS build
 WORKDIR /data/rcloud
 RUN chown -R rcloud:rcloud /data/rcloud
 
@@ -131,14 +151,16 @@ COPY package-lock.json    .
 COPY package.json    .
 
 # build
-RUN zig build --summary new
+RUN --mount=type=cache,target=/zig/global,sharing=locked \
+    --mount=type=cache,target=/zig/local,sharing=locked \
+    zig build --cache-dir /zig/local --global-cache-dir /zig/global --summary new
 
 #
 # runtime: this is the final stage which brings everything from the
 # prior stages together. It also pulls in the remaining debian
 # packages needed for runtime.
 #
-FROM base as runtime
+FROM base AS runtime
 USER root
 WORKDIR /data/rcloud
 RUN chown -f rcloud:rcloud /data/rcloud
@@ -169,6 +191,10 @@ COPY --from=build --chown=rcloud:rcloud /data/rcloud/zig-out /data/rcloud/zig-ou
 # Set RCloud root directory
 ENV ROOT=/data/rcloud/zig-out
 
+# Set R libs directories
+ENV R_LIBS      /data/rcloud/zig-out/lib
+ENV R_LIBS_USER /data/rcloud/zig-out/lib
+
 #
 # runtime-simple: the single-user local RCloud installation
 #
@@ -183,11 +209,9 @@ RUN mkdir -p data/gists && chown -Rf rcloud:rcloud data
 RUN cp conf/rcloud.conf.docker conf/rcloud.conf
 
 EXPOSE 8080
-ENV R_LIBS      /data/rcloud/zig-out/lib
-ENV R_LIBS_USER /data/rcloud/zig-out/lib
 
 # -d: DEBUG
-USER rcloud:rcloud
+USER rcloud
 ENTRYPOINT ["/bin/bash", "-c", "redis-server & sh conf/start && sleep infinity"]
 
 #
@@ -204,9 +228,75 @@ RUN mkdir -p data/gists && chown -Rf rcloud:rcloud data
 RUN cp conf/rcloud-qap.conf.docker conf/rcloud.conf
 
 EXPOSE 8080
-ENV R_LIBS      /data/rcloud/zig-out/lib
-ENV R_LIBS_USER /data/rcloud/zig-out/lib
 
 # -d: DEBUG
-USER rcloud:rcloud
+USER rcloud
 ENTRYPOINT ["/bin/bash", "-c", "redis-server & sh conf/start-qap && sleep infinity"]
+
+#
+# runtime-redis
+#
+FROM runtime AS runtime-redis
+EXPOSE 6379
+ENTRYPOINT ["/bin/bash", "-c", "redis-server --protected-mode no" ]
+
+#
+# runtime-scripts
+#
+FROM runtime AS runtime-scripts
+WORKDIR /data/rcloud
+
+# Create mount points for shared volumes with correct permissions
+RUN mkdir -p /rcloud-run && chown -Rf rcloud:rcloud /rcloud-run
+RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
+
+# Install configuration file
+RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf
+
+ENTRYPOINT ["R", "CMD",                                    \
+    "zig-out/lib/Rserve/libs/Rserve",                      \
+    "--RS-conf", "/data/rcloud/zig-out/conf/scripts.conf", \
+    "--RS-set", "daemon=no",                               \
+    "--no-save"                                            \
+    ]
+
+#
+# runtime-forward
+#
+FROM runtime AS runtime-forward
+WORKDIR /data/rcloud
+EXPOSE 8080
+
+# Create mount points for shared volumes with correct permissions
+RUN mkdir -p /rcloud-run && chown -Rf rcloud:rcloud /rcloud-run
+RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
+
+# install configuration file
+RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf
+
+ENTRYPOINT ["R", "CMD",                  \
+    "zig-out/lib/Rserve/libs/forward",   \
+    "-p", "8080",                        \
+    "-s", "/rcloud-run/qap",             \
+    "-r", "/data/rcloud/zig-out/htdocs", \
+    "-R", "/rcloud-run/Rscripts",        \
+    "-u", "/rcloud-run/ulog.proxy"       \
+    ]
+
+#
+# runtime-rserve-proxified
+#
+FROM runtime AS runtime-rserve-proxified
+WORKDIR /data/rcloud
+
+# Create mount points for shared volumes with correct permissions
+RUN mkdir -p /rcloud-run && chown -Rf rcloud:rcloud /rcloud-run
+RUN mkdir -p /rcloud-data/gists && chown -Rf rcloud:rcloud /rcloud-data
+
+# Install configuration file
+RUN cp zig-out/conf/rcloud-qap.conf.docker zig-out/conf/rcloud.conf
+
+ENTRYPOINT ["R", "--slave", "--no-restore", "--vanilla",             \
+    "--file=/data/rcloud/zig-out/conf/run_rcloud.R",                 \
+    "--args", "/data/rcloud/zig-out/conf/rserve-proxified.conf"      \
+    ]

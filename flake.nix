@@ -1,30 +1,16 @@
 {
-  description = "RCloud development with Zig build";
+  description = "RCloud development";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
-    zig.url = "github:mitchellh/zig-overlay";
-    zig.inputs.nixpkgs.follows = "nixpkgs";
-
-    zls.url = "github:zigtools/zls";
-    zls.inputs.nixpkgs.follows = "nixpkgs";
-    zls.inputs.zig-overlay.follows = "zig";
-
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { flake-utils, nixpkgs, zig, zls, ... } @ inputs:
+  outputs = { flake-utils, nixpkgs, ... } @ inputs:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        # this overrides zls to skip checks, because their things sometimes fail
-        zlsOverlay = final: prev: {
-          zlsOverride = zls.packages.${system}.zls.overrideAttrs { doCheck = false; };
-        };
-
         overlays = [
-          zig.overlays.default
-          zlsOverlay
         ];
 
         pkgs = import nixpkgs {
@@ -39,14 +25,14 @@
           devShells.default =
             pkgs.mkShell {
               buildInputs = with pkgs; [
-                # autoconf
-                # automake
+                autoconf
+                automake
                 bashInteractive
                 cairo
                 curl
                 killall
                 git
-                # gnumake
+                gnumake
                 icu
                 libxcrypt
                 libxml2
@@ -59,7 +45,6 @@
                 rPackages.codetools
                 rPackages.Matrix
                 wget
-                zig.packages.${system}.master
               ];
 
               LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];
@@ -69,14 +54,14 @@
           devShells.dev =
             pkgs.mkShell {
               buildInputs = with pkgs; [
-                # autoconf
-                # automake
+                autoconf
+                automake
                 bashInteractive
                 cairo
                 curl
                 killall
                 git
-                # gnumake
+                gnumake
                 icu
                 libxcrypt
                 libxml2
@@ -89,9 +74,6 @@
                 rPackages.codetools
                 rPackages.Matrix
                 wget
-
-                zig.packages.${system}.master
-                zlsOverride
               ];
 
               LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];
@@ -118,8 +100,6 @@
                 rPackages.codetools
                 rPackages.Matrix
                 wget
-                pkgs.zig
-                pkgs.zls
               ];
 
               LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];

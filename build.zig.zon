@@ -4,8 +4,8 @@
     .minimum_zig_version = "0.14.0",
     .dependencies = .{
         .@"r-build-zig" = .{
-            .url = "https://github.com/mocompute/r-build-zig/archive/v0.3.3.tar.gz",
-            .hash = "122037a63faef586d79379d1112216bc28a356d122f8c091754e84efcdf6d5a15dd6",
+            .url = "https://github.com/mocompute/r-build-zig/archive/v0.4.0.tar.gz",
+            .hash = "1220f320185c6b177150b8aba3cf6b600baa0943be60369cef2a2ce2fb6f18034f0f",
         },
     },
     .paths = .{

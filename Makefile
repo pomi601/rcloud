@@ -18,7 +18,10 @@ build-no-cache:
 
 run:
 	@echo "Running ephemeral container..."
-	docker run -it --rm -p $(HOST_PORT):$(CONTAINER_PORT) $(DEBIAN_TAG)
+	docker run -it --rm -p $(HOST_PORT):$(CONTAINER_PORT) \
+	--mount source=rcloud-run,target=/rcloud-run	      \
+	--mount source=rcloud-data,target=/rcloud-data	     \
+	$(DEBIAN_TAG)
 
 create:
 	@echo "Creating container..."

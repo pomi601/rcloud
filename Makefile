@@ -21,7 +21,17 @@ run:
 	docker run -it --rm -p $(HOST_PORT):$(CONTAINER_PORT) \
 	--mount source=rcloud-run,target=/rcloud-run	      \
 	--mount source=rcloud-data,target=/rcloud-data	     \
-	$(DEBIAN_TAG)
+	--add-host=redis:127.0.0.1 $(DEBIAN_TAG)
+
+dev:
+	@echo "Building dev container..."
+	docker buildx build --build-arg BUILD_JOBS=$(BUILD_JOBS) -f $(DEBIAN_DOCKERFILE) --target dev -t runtime-dev .
+	@echo "Starting dev container..."
+	docker run -it --rm -p $(HOST_PORT):$(CONTAINER_PORT) \
+	-v "`pwd`:/src" \
+	--mount source=rcloud-run,target=/rcloud-run	      \
+	--mount source=rcloud-data,target=/rcloud-data	     \
+	--add-host=redis:127.0.0.1 --entrypoint /bin/bash runtime-dev
 
 create:
 	@echo "Creating container..."

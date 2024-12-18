@@ -2,15 +2,19 @@
   description = "RCloud development";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+
+    zig.url = "github:mitchellh/zig-overlay";
+    zig.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { flake-utils, nixpkgs, ... } @ inputs:
+  outputs = { flake-utils, nixpkgs, zig, ... } @ inputs:
     flake-utils.lib.eachDefaultSystem (system:
       let
         overlays = [
+          zig.overlays.default
         ];
 
         pkgs = import nixpkgs {
@@ -45,6 +49,7 @@
                 rPackages.codetools
                 rPackages.Matrix
                 wget
+                zig.packages.${system}.master
               ];
 
               LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];

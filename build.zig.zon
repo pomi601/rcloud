@@ -2,13 +2,13 @@
     .name = "rcloud",
 
     // track version of r-build-zig, but nothing depends on this version
-    .version = "0.6.0",
+    .version = "0.6.1",
 
     .minimum_zig_version = "0.14.0",
     .dependencies = .{
         .@"r-build-zig" = .{
-            .url = "https://github.com/mocompute/r-build-zig/archive/refs/tags/v0.6.0.tar.gz",
-            .hash = "122082e10685d45d19353724deb515e8ca3777d8261b668e0893954067ceef7d6105",
+            .url = "https://github.com/mocompute/r-build-zig/archive/refs/tags/v0.6.1.tar.gz",
+            .hash = "1220812b2675102f03584ed96b42da0d0b5dba17b15285a52f16ddec166aa2f022e4",
         },
     },
     .paths = .{

@@ -28,6 +28,7 @@ pub fn build(b: *std.Build) !void {
 
     // additional steps
     const update_step = b.step("update", "Generate R package build files");
+    const run_step = b.step("run", "Run a single-user instance of rcloud");
     const tarball_step = b.step("dist", "Make a source archive");
     const fat_tarball_step = b.step("dist-fat", "Make a source archive with all R dependencies");
 
@@ -55,6 +56,9 @@ pub fn build(b: *std.Build) !void {
         target,
         .ReleaseSafe,
     );
+
+    // declare step: run
+    try make_run_step(b, run_step);
 
     // declare step: dist
     try make_tarball(b, tarball_step);
@@ -156,6 +160,33 @@ fn generate_build_script(
     uf.addCopyFileToSource(out_dir.path(b, "build.zig"), "build-aux/generated/build.zig");
 
     update_step.dependOn(&uf.step);
+}
+
+fn make_run_step(
+    b: *Build,
+    step: *Step,
+) !void {
+    const root_path = b.getInstallPath(.prefix, "");
+    const lib_path = b.getInstallPath(.prefix, "lib");
+    const run_rcloud_path = b.getInstallPath(.{ .custom = "conf" }, "run_rcloud.R");
+    const rserve_conf_path = b.getInstallPath(.{ .custom = "conf" }, "rserve.conf");
+
+    const r_cmd = b.addSystemCommand(&.{
+        "R",
+        "--slave",
+        "--no-restore",
+        "--vanilla",
+    });
+    r_cmd.addArgs(&.{
+        b.fmt("--file={s}", .{run_rcloud_path}),
+        "--args",
+        rserve_conf_path,
+    });
+    r_cmd.setEnvironmentVariable("ROOT", root_path);
+    r_cmd.setEnvironmentVariable("R_LIBS", lib_path);
+    r_cmd.setEnvironmentVariable("R_LIBS_USER", lib_path);
+
+    step.dependOn(&r_cmd.step);
 }
 
 fn make_tarball(
@@ -367,6 +398,13 @@ fn build_conf(b: *Build) void {
     b.getInstallStep().dependOn(&b.addInstallFile(
         b.path("VERSION"),
         "VERSION",
+    ).step);
+
+    // install rcloud.conf as a copy of rcloud.dev.conf, in order to
+    // enable `zig build run` without further user intervention.
+    b.getInstallStep().dependOn(&b.addInstallFile(
+        b.path("conf/rcloud.dev.conf"),
+        "conf/rcloud.conf",
     ).step);
 }
 

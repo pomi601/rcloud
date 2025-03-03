@@ -9,7 +9,7 @@
     .dependencies = .{
         .r_build_zig = .{
             .url = "https://github.com/mocompute/r-build-zig/archive/refs/tags/v0.7.0.tar.gz",
-            .hash = "r_build_zig-0.7.0-5sLw3oAcAQDgTR6SmG8wAQmePC3PfHT61zX9MOlOnN2p",
+            .hash = "r_build_zig-0.7.0-5sLw3oAcAQB2pqqIwrRJpkj6jrRX1uNNQlCPnAOL6MC4",
         },
     },
     .paths = .{

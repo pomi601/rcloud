@@ -10,7 +10,7 @@ const ResolvedTarget = Build.ResolvedTarget;
 const OptimizeMode = std.builtin.OptimizeMode;
 
 // import build tools from r_build_zig
-const r_build_zig = @import("r-build-zig");
+const r_build_zig = @import("r_build_zig");
 
 // import generated build.zig
 const generated_build = @import("build-aux/generated/build.zig");
@@ -89,7 +89,7 @@ fn fetch_assets_and_build(
         // we are doing a standard online build
 
         // get the fetch-assets tool
-        const exe = b.dependency("r-build-zig", .{
+        const exe = b.dependency("r_build_zig", .{
             .target = target,
             .optimize = optimize,
         }).artifact("fetch-assets");
@@ -132,7 +132,7 @@ fn generate_build_script(
     target: ResolvedTarget,
     optimize: OptimizeMode,
 ) !void {
-    const exe = b.dependency("r-build-zig", .{
+    const exe = b.dependency("r_build_zig", .{
         .target = target,
         .optimize = optimize,
     }).artifact("generate-build");

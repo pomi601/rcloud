@@ -33,7 +33,13 @@ pub fn build(b: *std.Build) !void {
 
     // step dist-fat requires assets option
     if (assets == null)
-        fat_tarball_step.dependOn(&b.addFail("The dist-fat step requires -Dassets to be set.").step);
+        fat_tarball_step.dependOn(&b.addFail("The dist-fat step requires -Dassets to be set, e.g -Dassets=zig-out/assets.").step);
+
+    // check if zig/cache/p exists, otherwise give dist-fat error
+    std.fs.cwd().access("zig/cache/p", .{}) catch |e| switch (e) {
+        error.FileNotFound => fat_tarball_step.dependOn(&b.addFail("The dist-fat step requires a zig cache in zig/cache. Before running dist-fat, build with `zig build --global-cache-dir zig/cache`").step),
+        else => return e,
+    };
 
     // declare build install rules
     try fetch_assets_and_build(b, config_path, target, .ReleaseSafe, assets);

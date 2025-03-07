@@ -10,7 +10,7 @@ const ResolvedTarget = Build.ResolvedTarget;
 const OptimizeMode = std.builtin.OptimizeMode;
 
 // import build tools from r_build_zig
-const r_build_zig = @import("r-build-zig");
+const r_build_zig = @import("r_build_zig");
 
 // import generated build.zig
 const generated_build = @import("build-aux/generated/build.zig");

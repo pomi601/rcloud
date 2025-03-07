@@ -89,7 +89,7 @@ fn fetch_assets_and_build(
         // we are doing a standard online build
 
         // get the fetch-assets tool
-        const exe = b.dependency("r-build-zig", .{
+        const exe = b.dependency("r_build_zig", .{
             .target = target,
             .optimize = optimize,
         }).artifact("fetch-assets");
@@ -132,7 +132,7 @@ fn generate_build_script(
     target: ResolvedTarget,
     optimize: OptimizeMode,
 ) !void {
-    const exe = b.dependency("r-build-zig", .{
+    const exe = b.dependency("r_build_zig", .{
         .target = target,
         .optimize = optimize,
     }).artifact("generate-build");

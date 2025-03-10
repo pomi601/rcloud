@@ -148,7 +148,6 @@ COPY rcloud.packages rcloud.packages
 COPY rcloud.support  rcloud.support
 COPY scripts         scripts
 COPY services        services
-COPY vendor          vendor
 COPY Gruntfile.js    .
 COPY LICENSE         .
 COPY package-lock.json    .
@@ -197,7 +196,7 @@ COPY --from=build --chown=rcloud:rcloud /data/rcloud/zig-out /data/rcloud/
 ENV ROOT=/data/rcloud
 
 # Set R libs directories
-ENV R_LIBS      /data/rcloud/lib
+ENV R_LIBS=/data/rcloud/lib
 
 #
 # runtime-simple: the single-user local RCloud installation

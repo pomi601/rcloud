@@ -2,7 +2,7 @@
   description = "RCloud development";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
     zig.url = "github:mitchellh/zig-overlay";
     zig.inputs.nixpkgs.follows = "nixpkgs";

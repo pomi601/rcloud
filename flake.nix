@@ -49,7 +49,7 @@
                 rPackages.codetools
                 rPackages.Matrix
                 wget
-                zig.packages.${system}.master
+                zig.packages.${system}."0.14.0"
               ];
 
               LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];

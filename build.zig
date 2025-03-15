@@ -16,7 +16,6 @@ const r_build_zig = @import("r-build-zig");
 const generated_build = @import("build-aux/generated/build.zig");
 
 pub fn build(b: *std.Build) !void {
-    // const buf: [std.mem.page_size]u8 = undefined;
     const target = b.standardTargetOptions(.{});
     const config_path = "build-aux/config.json";
 
@@ -244,36 +243,37 @@ fn add_all_source_files_and_assets(b: *Build, wf: *WriteFile, dirname: []const u
     // include assets directory
     _ = add_copy_directory(b, wf, assets, dirname, options);
 
-    // include generated javascript bundles. TODO: these paths depend
-    // on the default install prefix, zig-out. It will fail otherwise.
-    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud.css", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud.css.map", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-discover.css", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-discover.css.map", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-edit.css", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-edit.css.map", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-view.css", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-view.css.map", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-viewer.css", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/css/rcloud-viewer.css.map", dirname);
+    // include generated javascript bundles.
+    // Respects the --prefix command line option to zig build.
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/css/rcloud.css" }), dirname);
 
-    _ = add_copy_file(b, wf, "zig-out/htdocs/js/merger_bundle.js", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/js/merger_bundle.js.gz", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/js/merger_bundle.js.map", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/js/merger_bundle.min.js", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/js/merger_bundle.min.js.gz", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/js/merger_bundle.min.js.map", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/js/rcloud_bundle.js", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/js/rcloud_bundle.js.gz", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/js/rcloud_bundle.js.map", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/js/rcloud_bundle.min.js", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/js/rcloud_bundle.min.js.gz", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/js/rcloud_bundle.min.js.map", dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/css/rcloud.css.map" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/css/rcloud-discover.css" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/css/rcloud-discover.css.map" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/css/rcloud-edit.css" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/css/rcloud-edit.css.map" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/css/rcloud-view.css" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/css/rcloud-view.css.map" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/css/rcloud-viewer.css" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/css/rcloud-viewer.css.map" }), dirname);
 
-    _ = add_copy_file(b, wf, "zig-out/htdocs/lib/ace_bundle.js.gz", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/lib/ace_bundle.min.js", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/lib/ace_bundle.min.js.gz", dirname);
-    _ = add_copy_file(b, wf, "zig-out/htdocs/lib/ace_bundle.min.js.map", dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/js/merger_bundle.js" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/js/merger_bundle.js.gz" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/js/merger_bundle.js.map" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/js/merger_bundle.min.js" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/js/merger_bundle.min.js.gz" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/js/merger_bundle.min.js.map" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/js/rcloud_bundle.js" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/js/rcloud_bundle.js.gz" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/js/rcloud_bundle.js.map" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/js/rcloud_bundle.min.js" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/js/rcloud_bundle.min.js.gz" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/js/rcloud_bundle.min.js.map" }), dirname);
+
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/lib/ace_bundle.js.gz" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/lib/ace_bundle.min.js" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/lib/ace_bundle.min.js.gz" }), dirname);
+    _ = add_copy_file(b, wf, b.pathJoin(&.{ b.install_prefix, "htdocs/lib/ace_bundle.min.js.map" }), dirname);
 }
 
 fn add_copy_directory(

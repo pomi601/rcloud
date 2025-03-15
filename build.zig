@@ -240,6 +240,8 @@ fn add_all_source_files_and_assets(b: *Build, wf: *WriteFile, dirname: []const u
 
     add_all_source_files(b, wf, dirname);
 
+    std.debug.print("install_prefix = {s}\n", .{b.install_prefix});
+
     // include assets directory
     _ = add_copy_directory(b, wf, assets, dirname, options);
 

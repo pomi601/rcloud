@@ -89,7 +89,7 @@ fn fetch_assets_and_build(
         // we are doing a standard online build
 
         // get the fetch-assets tool
-        const exe = b.dependency("r-build-zig", .{
+        const exe = b.dependency("r_build_zig", .{
             .target = target,
             .optimize = optimize,
         }).artifact("fetch-assets");
@@ -132,7 +132,7 @@ fn generate_build_script(
     target: ResolvedTarget,
     optimize: OptimizeMode,
 ) !void {
-    const exe = b.dependency("r-build-zig", .{
+    const exe = b.dependency("r_build_zig", .{
         .target = target,
         .optimize = optimize,
     }).artifact("generate-build");
@@ -217,7 +217,6 @@ fn add_all_source_files(b: *Build, wf: *WriteFile, dirname: []const u8) void {
     _ = add_copy_directory(b, wf, "scripts", dirname, options);
     _ = add_copy_directory(b, wf, "services", dirname, options);
     _ = add_copy_directory(b, wf, "packages", dirname, options);
-    _ = add_copy_directory(b, wf, "vendor", dirname, options);
 
     _ = add_copy_file(b, wf, "build-aux/config.json", dirname);
     _ = add_copy_file(b, wf, "build-aux/generated/build.zig", dirname);

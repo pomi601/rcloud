@@ -1,10 +1,15 @@
 .{
-    .name = "rcloud",
-    .version = "0.0.0", // TODO: we can ignore this because we don't package for Zig?
+    .name = .rcloud,
+    .fingerprint = 0x356eca021c4a042,
+
+    // track version of r-build-zig, but nothing depends on this version
+    .version = "0.8.0",
+
     .minimum_zig_version = "0.14.0",
     .dependencies = .{
-        .@"r-build-zig" = .{
-            .path = "vendor/r-build-zig-0.5.0-no-deps",
+        .r_build_zig = .{
+            .url = "https://github.com/mocompute/r-build-zig/archive/refs/tags/v0.8.0.tar.gz",
+            .hash = "r_build_zig-0.8.0-5sLw3oAcAQC3PiA1WqhNa8LV0Ebr5WWCLe3t9Fs6A2S2",
         },
     },
     .paths = .{

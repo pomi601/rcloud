@@ -4,13 +4,17 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
+    zig.url = "github:mitchellh/zig-overlay";
+    zig.inputs.nixpkgs.follows = "nixpkgs";
+
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { flake-utils, nixpkgs, ... } @ inputs:
+  outputs = { flake-utils, nixpkgs, zig, ... } @ inputs:
     flake-utils.lib.eachDefaultSystem (system:
       let
         overlays = [
+          zig.overlays.default
         ];
 
         pkgs = import nixpkgs {
@@ -45,6 +49,7 @@
                 rPackages.codetools
                 rPackages.Matrix
                 wget
+                zig.packages.${system}."0.14.0"
               ];
 
               LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];

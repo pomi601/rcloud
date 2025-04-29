@@ -2,7 +2,7 @@
   description = "RCloud development";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
 
     zig.url = "github:mitchellh/zig-overlay";
     zig.inputs.nixpkgs.follows = "nixpkgs";
@@ -29,19 +29,20 @@
           devShells.default =
             pkgs.mkShell {
               buildInputs = with pkgs; [
-                autoconf
-                automake
+                # autoconf
+                # automake
                 bashInteractive
                 cairo
                 curl
                 killall
                 git
-                gnumake
+                # gnumake
+                gettext
                 icu
                 libxcrypt
                 libxml2
-                nodejs-slim
-                nodePackages.npm
+                # nodejs-slim
+                # nodePackages.npm
                 openssl
                 pkg-config
                 redis
@@ -52,37 +53,9 @@
                 zig.packages.${system}."0.14.0"
               ];
 
-              LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];
+              LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl gettext ];
               LOCALE_ARCHIVE = if pkgs.stdenv.isLinux then "${pkgs.glibcLocales}/lib/locale/locale-archive" else "";
             };
 
-          devShells.dev =
-            pkgs.mkShell {
-              buildInputs = with pkgs; [
-                autoconf
-                automake
-                bashInteractive
-                cairo
-                curl
-                killall
-                git
-                gnumake
-                icu
-                libxcrypt
-                libxml2
-                nodejs-slim
-                nodePackages.npm
-                openssl
-                pkg-config
-                redis
-                R
-                rPackages.codetools
-                rPackages.Matrix
-                wget
-              ];
-
-              LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];
-              LOCALE_ARCHIVE = if pkgs.stdenv.isLinux then "${pkgs.glibcLocales}/lib/locale/locale-archive" else "";
-            };
         });
 }

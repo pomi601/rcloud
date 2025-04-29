@@ -60,8 +60,8 @@
         "hash": "1d6adcfbe8e2b8f7302bef80e2364ba4f186238e4e5593511908ade57eb486eb"
       },
       "curl": {
-        "url": "https://cloud.r-project.org/package=curl&version=5.2.3",
-        "hash": "bbe090fced6035fa5189a62a96cd2288067bf5bb4b2b17f1832ed287861707bf"
+        "url": "https://cloud.r-project.org/package=curl&version=6.2.1",
+        "hash": "4ab821ddc8fba46e540a1d3139935a2fcbe4dcfa4d8ec1e15874dde044459bcf"
       },
       "digest": {
         "url": "https://cloud.r-project.org/package=digest&version=0.6.37",

@@ -1021,7 +1021,7 @@ const @"curl" = b.addSystemCommand(&.{ "R" });
     "-l",
 });
 _ = @"curl".addDirectoryArg(libdir.getDirectory());
-_ = @"curl".addFileArg(asset_dir.path(b, "curl_5.2.3.tar.gz"));
+_ = @"curl".addFileArg(asset_dir.path(b, "curl_6.2.1.tar.gz"));
 @"curl".step.name = "curl";
 @"curl".addFileInput(b.path("build-aux/config.json"));
 const @"curl_out" = @"curl".captureStdOut();

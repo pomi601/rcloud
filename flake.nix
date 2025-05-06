@@ -1,88 +1,54 @@
 {
-  description = "RCloud development";
+  description = "RCloud development environment";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-
-    zig.url = "github:mitchellh/zig-overlay";
-    zig.inputs.nixpkgs.follows = "nixpkgs";
-
-    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { flake-utils, nixpkgs, zig, ... } @ inputs:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        overlays = [
-          zig.overlays.default
-        ];
+  outputs = { nixpkgs, ... }:
+    let
+      forAllSystems = function:
+        nixpkgs.lib.genAttrs [
+          "x86_64-linux"
+          "aarch64-linux"
+          "x86_64-darwin"
+          "aarch64-darwin"
+        ] (system: function nixpkgs.legacyPackages.${system});
 
-        pkgs = import nixpkgs {
-          overlays = overlays;
-          system = system;
-        };
+    in
+      {
+        devShells = forAllSystems (pkgs: {
+          default = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              bashInteractive
+              cairo
+              curl
+              icu
+              libxcrypt
+              libxml2
+              nodejs-slim
+              nodePackages.npm
+              openssl
+              pkg-config        # required to build R package Cairo
+              redis
+              R
+              rPackages.codetools
+              rPackages.Matrix
+              wget
+            ];
 
-      in
-        {
-          overlays = overlays;
+            # some R packages built by RCloud need to dynamically
+            # load openssl, so we must add it to LD_LIBRARY_PATH.
+            # This unfortunately may cause other programs not
+            # managed by this nix flake to fail if they depend on
+            # another version of openssl.
+            LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ pkgs.openssl ];
 
-          devShells.default =
-            pkgs.mkShell {
-              buildInputs = with pkgs; [
-                autoconf
-                automake
-                bashInteractive
-                cairo
-                curl
-                killall
-                git
-                gnumake
-                icu
-                libxcrypt
-                libxml2
-                nodejs-slim
-                nodePackages.npm
-                openssl
-                pkg-config
-                redis
-                R
-                rPackages.codetools
-                rPackages.Matrix
-                wget
-                zig.packages.${system}."0.14.0"
-              ];
-
-              LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];
-              LOCALE_ARCHIVE = if pkgs.stdenv.isLinux then "${pkgs.glibcLocales}/lib/locale/locale-archive" else "";
-            };
-
-          devShells.dev =
-            pkgs.mkShell {
-              buildInputs = with pkgs; [
-                autoconf
-                automake
-                bashInteractive
-                cairo
-                curl
-                killall
-                git
-                gnumake
-                icu
-                libxcrypt
-                libxml2
-                nodejs-slim
-                nodePackages.npm
-                openssl
-                pkg-config
-                redis
-                R
-                rPackages.codetools
-                rPackages.Matrix
-                wget
-              ];
-
-              LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [ openssl ];
-              LOCALE_ARCHIVE = if pkgs.stdenv.isLinux then "${pkgs.glibcLocales}/lib/locale/locale-archive" else "";
-            };
+            # locale warnings were observed on linux without this
+            LOCALE_ARCHIVE = if pkgs.stdenv.isLinux then "${pkgs.glibcLocales}/lib/locale/locale-archive" else "";
+          };
         });
+
+        overlays.default = final: prev: {};
+      };
 }

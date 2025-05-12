@@ -1,3 +1,29 @@
+## RCloud 2.4.1
+
+### Features
+ * More flexible configuration of paths:
+   - adds `RCLOUD_ROOT` to replace `ROOT` (latter is still accepted, but deprecated)
+   - `RCLOUD_DATA_DIR` replaces `DATAROOT` (`data.root` config)
+   - `RCLOUD_RUN_DIR` is introduced as `runtime.root` config for writable (non-persistent) state files
+   - `RCLOUD_TMP_DIR` and `tmp.dir` config are respected (previously, `tmp.dir`
+     would be always set to `${ROOT}/tmp`)
+   All four environment variables are set based on those settings at startup.
+
+### Improvements
+ * Better support for off-line packaging and installation
+
+## RCloud 2.4.0
+
+### Features
+ * Introduces a new zig-based build system which makes it easier to build, test and deploy.
+   It also allows full vendoring for releases (including R packages).
+
+ * Docker images and Nix based scipts for repro
+
+## Bugfixes
+ * fixes in login, non-sudo starts and compatibility with latest R
+
+
 ## RCloud 2.3
 
 Compatible with R 4.*

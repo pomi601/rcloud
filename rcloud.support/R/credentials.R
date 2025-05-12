@@ -3,7 +3,7 @@
 ## this is only used is there is no session server ... and it's a bad hack since it's not safe>
 .get.token.list <- function()
 {
-  rcloud.auth.path <- pathConf("configuration.root", "rcloud.auth")
+  rcloud.auth.path <- pathConf("runtime.root", "rcloud.auth")
   tryCatch(readRDS(rcloud.auth.path),
            error=function(e) {
              d <- new.env(parent=emptyenv())
@@ -14,7 +14,7 @@
 }
 
 .save.token.list <- function(d) {
-  rcloud.auth.path <- pathConf("configuration.root", "rcloud.auth")
+  rcloud.auth.path <- pathConf("runtime.root", "rcloud.auth")
   ## save + move to ensure that at least the content will be consitent
   ## it is still unsafe because there is no lock between read and save, so
   ## concurrent changes will be lost -- but that's why this is jsut

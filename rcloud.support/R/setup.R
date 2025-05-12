@@ -29,9 +29,10 @@ configure.rcloud <- function (mode=c("startup", "script")) {
   ## it is useful to have access to the root of your
   ## installation from R scripts -- for RCloud this is *mandatory*
   setConf("root", Sys.getenv("ROOT"))
+  if (!nzConf("root")) setConf("root", Sys.getenv("RCLOUD_ROOT"))
   if (!nzConf("root")) {
     ## some fall-back attempts
-    for (guess in c("/data/rcloud", "/var/rcloud", "/usr/local/rcloud")) {
+    for (guess in c("/data/rcloud", "/var/rcloud", "/opt/rcloud", "/usr/local/rcloud")) {
       if (file.exists(file.path(guess, "conf", "rcloud.conf"))) {
         setConf("root", guess)
         warning("ROOT is unset, falling back to `", getConf("root"), "'")
@@ -40,6 +41,7 @@ configure.rcloud <- function (mode=c("startup", "script")) {
     if (!nzConf("root"))
       stop("FATAL: ROOT not specified and cannot guess RCloud location, please set ROOT!")
   }
+  Sys.setenv(RCLOUD_ROOT=getConf("root"))
 
   ## forward our HTTP handler so Rserve can use it
   .GlobalEnv$.http.request <- .http.request
@@ -55,21 +57,43 @@ configure.rcloud <- function (mode=c("startup", "script")) {
     cat("=== NOTE: DEBUG is set, enabling debug mode at level", dl, "===\n")
   }
   if (rcloud.debug.level()) cat("Using ROOT =", getConf("root"), "\n")
+  Sys.setenv(RCLOUD_ROOT=getConf("root"))
 
   # CONFROOT/DATAROOT are purely optional
   # Whom are we kidding? Although it may be nice to abstract out all paths
   # this is far from complete (what about htdocs?) and not very practical
   # and this likely to go away (it's gone from the start script already)
   # until replaced by something more sensible (if at all)
-  setConf("configuration.root", Sys.getenv("CONFROOT"))
+  # Well, at least for 2.4.1 we need to separate writable and on-writable directories
+  # so this will do for now.
+  # NOTE: 2.4.1 changes:
+  # adds RCLOUD_ROOT for ROOT (latter is still accepted, but deprecated)
+  # RCLOUD_DATA_DIR replaces DATAROOT (data.root config)
+  # RCLOUD_RUN_DIR is introduced as runtime.root config for writable state files
+  # RCLOUD_TMP_DIR and tmp.dir config are respected (previously, tmp.dir
+  #   would always the set to ${ROOT}/tmp)
+  #
+  # The configuration options (other than configuration.root) have highest priority
+
+  setConf("configuration.root", Sys.getenv("RCLOUD_CONF_DIR"))
   if (!nzConf("configuration.root"))
     setConf("configuration.root", pathConf("root", "conf"))
-  if (rcloud.debug.level()) cat("Using CONFROOT =", getConf("configuration.root"), "\n")
+  if (rcloud.debug.level()) cat("Using RCLOUD_CONF_DIR =", getConf("configuration.root"), "\n")
+  Sys.setenv(RCLOUD_CONF_DIR=getConf("configuration.root"))
 
-  setConf("data.root", Sys.getenv("DATAROOT"))
-  if (!nzConf("data.root"))
-    setConf("data.root", pathConf("root", "data"))
-  if (rcloud.debug.level()) cat("Using DATAROOT =", getConf("data.root"), "\n")
+  if (!nzConf("data.root")) {
+    setConf("data.root", Sys.getenv("RCLOUD_DATA_DIR"))
+    if (!nzConf("data.root"))
+      setConf("data.root", pathConf("root", "data"))
+  }
+  if (rcloud.debug.level()) cat("Using RCLOUD_DATA_DIR =", getConf("data.root"), "\n")
+
+  if (!nzConf("runtime.root")) {
+    setConf("runtime.root", Sys.getenv("RCLOUD_RUN_DIR"))
+    if (!nzConf("runtime.root"))
+       setConf("runtime.root", pathConf("root", "run"))
+  }
+  if (rcloud.debug.level()) cat("Using RCLOUD_RUN_DIR =", getConf("runtime.root"), "\n")
 
   ## load any local configuration (optional)
   setConf("local.conf", pathConf("configuration.root", "local.R"))
@@ -78,10 +102,18 @@ configure.rcloud <- function (mode=c("startup", "script")) {
 
   ## run the server in the "tmp" directory of the root in
   ## case some files need to be created
-  setConf("tmp.dir", pathConf("root", "tmp"))
+  if (!nzConf("tmp.dir")) {
+    setConf("tmp.dir", Sys.getenv("RCLOUD_TMP_DIR"))
+    if (!nzConf("tmp.dir")) setConf("tmp.dir", pathConf("root", "tmp"))
+  }
   if (!validFileConf("tmp.dir"))
     dir.create(pathConf("tmp.dir"), FALSE, TRUE, "0770")
   setwd(pathConf("tmp.dir"))
+
+  ## set env vars so subprocesses also know where to find things
+  Sys.setenv(RCLOUD_DATA_DIR=getConf("data.root"))
+  Sys.setenv(RCLOUD_RUN_DIR=getConf("runtime.root"))
+  Sys.setenv(RCLOUD_TMP_DIR=getConf("tmp.dir"))
 
   ## if you have multiple servers it's good to know which machine this is
   setConf("host", tolower(system("hostname -f 2>/dev/null", TRUE)))

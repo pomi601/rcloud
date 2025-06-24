@@ -1,2 +1,10 @@
 r-base-dev
 cmake
+default-jdk
+libproj-dev
+libudunits2-dev
+libgdal-dev
+libgeos-dev
+libsqlite3-dev
+libssl-dev
+libabsl-dev
